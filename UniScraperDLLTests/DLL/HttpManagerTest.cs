@@ -14,18 +14,18 @@ namespace UniScraperDLLTests.DLL
         [TestMethod(displayName: "HTTP GET Test - No Exceptions")]
         public void GET_Exception_Test()
         {
-            Tuple<HttpAPIAsset?, Exception?> asset = HttpManager.GET("https://www.msn.com/");
-            Assert.IsNull(asset.Item2);
+            HttpAPIAsset asset = HttpManager.GET("https://www.msn.com/");
+            Assert.IsFalse(asset.Errored);
         }
 
         [TestMethod(displayName: "HTTP GET Test - Successful")]
         public void GET_Success_Test()
         {
-            Tuple<HttpAPIAsset?, Exception?> asset = HttpManager.GET("https://www.msn.com/");
-            if (asset.Item1 != null && asset.Item2 == null)
+            HttpAPIAsset asset = HttpManager.GET("https://www.msn.com/");
+            if (asset.Content != null && asset.Errored == false)
             {
                 // If asset exists and exception does not, test asset
-                Assert.IsTrue(asset.Item1.Successful);
+                Assert.IsTrue(asset.Successful);
             }
             else
             {
@@ -36,11 +36,11 @@ namespace UniScraperDLLTests.DLL
         [TestMethod(displayName: "HTTP GET Test - Unsuccessful")]
         public void GET_NonSuccess_Test()
         {
-            Tuple<HttpAPIAsset?, Exception?> asset = HttpManager.GET("http://rubenmayayo.com/"); // Should always 403
-            if (asset.Item1 != null && asset.Item2 == null)
+            HttpAPIAsset asset = HttpManager.GET("http://rubenmayayo.com/"); // Should always 403
+            if (asset.Errored == false)
             {
                 // If asset exists and exception does not, test asset
-                Assert.IsFalse(asset.Item1.Successful);
+                Assert.IsFalse(asset.Successful);
             }
             else
             {

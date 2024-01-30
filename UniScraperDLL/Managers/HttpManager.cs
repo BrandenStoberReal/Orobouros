@@ -24,33 +24,68 @@ namespace UniScraperDLL.Managers
         /// <param name="url"></param>
         /// <param name="cookies"></param>
         /// <returns></returns>
-        private static Tuple<HttpAPIAsset?, Exception?> SimpleHttpRequest(HttpMethod method, string url, string? cookies = null)
+        private static HttpAPIAsset SimpleHttpRequest(HttpMethod method, string url, string? proxy = null, string? cookies = null)
         {
             using (var requestMessage = new HttpRequestMessage(method, url))
             {
+                HttpClient reqClient;
+                if (proxy != null)
+                {
+                    // Use proxy for web request
+                    HttpClientHandler httpClientHandler = new HttpClientHandler();
+                    IWebProxy coolProxy = new WebProxy(proxy);
+                    httpClientHandler.Proxy = coolProxy;
+                    reqClient = new HttpClient(httpClientHandler);
+                }
+                else
+                {
+                    // Use default client for http if no proxies
+                    reqClient = MainClient;
+                }
+
                 // Add headers here
                 requestMessage.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
                 requestMessage.Headers.Add("Accept-Language", "en-US,en;q=0.5");
                 requestMessage.Headers.Add("User-Agent", UserAgentManager.RandomDesktopUserAgent);
+
                 if (cookies != null)
                 {
+                    // Add cookies for the request
                     requestMessage.Headers.Add("Cookie", cookies);
                 }
 
+                HttpAPIAsset apiAsset = new HttpAPIAsset();
                 try
                 {
+                    // Send HTTP request
                     HttpResponseMessage reply = MainClient.SendAsync(requestMessage).Result;
-                    HttpAPIAsset apiAsset = new HttpAPIAsset();
                     apiAsset.Response = reply;
                     apiAsset.ResponseCode = reply.StatusCode;
                     apiAsset.ResponseHeaders = reply.Headers;
                     apiAsset.Successful = reply.IsSuccessStatusCode;
-                    return Tuple.Create((HttpAPIAsset?)apiAsset, (Exception?)null);
+                    apiAsset.Errored = false;
+                    apiAsset.Content = reply.Content;
+
+                    if (proxy != null)
+                    {
+                        // Dispose of new httpclient
+                        reqClient.Dispose();
+                    }
                 }
                 catch (Exception ex)
                 {
-                    return Tuple.Create((HttpAPIAsset?)null, (Exception?)ex);
+                    if (proxy != null)
+                    {
+                        // Dispose of new httpclient
+                        reqClient.Dispose();
+                    }
+
+                    // Fill out errored api asset
+                    apiAsset.Successful = false;
+                    apiAsset.Errored = true;
+                    apiAsset.Exception = ex;
                 }
+                return apiAsset;
             }
         }
 
@@ -59,7 +94,7 @@ namespace UniScraperDLL.Managers
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public static Tuple<HttpAPIAsset?, Exception?> GET(string url, string? cookies = null)
+        public static HttpAPIAsset GET(string url, string? cookies = null)
         {
             return SimpleHttpRequest(HttpMethod.Get, url, cookies);
         }
@@ -69,7 +104,7 @@ namespace UniScraperDLL.Managers
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public static Tuple<HttpAPIAsset?, Exception?> DELETE(string url, string? cookies = null)
+        public static HttpAPIAsset DELETE(string url, string? cookies = null)
         {
             return SimpleHttpRequest(HttpMethod.Delete, url, cookies);
         }

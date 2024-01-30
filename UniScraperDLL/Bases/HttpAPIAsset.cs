@@ -18,7 +18,12 @@ namespace UniScraperDLL.Bases
         /// <summary>
         /// Indicates whether the HTTP request was successful.
         /// </summary>
-        public bool? Successful { get; set; } = null;
+        public bool Successful { get; set; }
+
+        /// <summary>
+        /// Whether the HTTP request errored or not. Separate from successful.
+        /// </summary>
+        public bool Errored { get; set; }
 
         /// <summary>
         /// A list of all response headers the HTTP request sent back.
@@ -29,5 +34,16 @@ namespace UniScraperDLL.Bases
         /// Response message from an internal HTTP call.
         /// </summary>
         public HttpResponseMessage? Response { get; set; } = null;
+
+        /// <summary>
+        /// Provided exception if request failed.
+        /// </summary>
+        public Exception? Exception { get; set; } = null;
+
+        /// <summary>
+        /// HTTP response content, if applicable.
+        /// </summary>
+
+        public HttpContent? Content { get; set; } = null;
     }
 }

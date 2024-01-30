@@ -9,7 +9,7 @@ namespace UniScraperDLL.Managers
 {
     public static class ModuleManager
     {
-        public static List<Assembly> modules = new List<Assembly>();
+        public static List<Assembly> scraperModules = new List<Assembly>();
 
         /// <summary>
         /// Ensures the modules folder exists. This acts as a default modules path.
@@ -31,8 +31,11 @@ namespace UniScraperDLL.Managers
         {
             foreach (var mod in Directory.GetFiles(folder != null ? folder : "./modules"))
             {
-                Assembly DLL = Assembly.LoadFile(mod);
-                modules.Add(DLL);
+                if (mod.EndsWith(".dll"))
+                {
+                    Assembly DLL = Assembly.LoadFile(mod);
+                    scraperModules.Add(DLL);
+                }
             }
         }
     }
