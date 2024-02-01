@@ -9,10 +9,10 @@ namespace UniScraperDLL.Bases
 {
     public class ScraperInfo
     {
-        public string Name { get; set; } = String.Empty;
-        public string Description { get; set; } = String.Empty;
-        public string ModuleVersion { get; set; } = String.Empty;
-        public List<string> SupportedWebsites { get; set; } = new List<string>();
-        public List<ScraperContent> SupportedContent { get; set; } = new List<ScraperContent>();
+        public virtual string Name { get; set; } = String.Empty;
+        public virtual string Description { get; set; } = String.Empty;
+        public virtual string ModuleVersion { get; set; } = String.Empty;
+        public virtual List<string> SupportedWebsites { get; set; } = new List<string>();
+        public virtual List<ScraperContent> SupportedContent { get; set; } = new List<ScraperContent>();
     }
 }
