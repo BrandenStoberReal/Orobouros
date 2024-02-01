@@ -4,12 +4,22 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using UniScraperDLL.Bases;
+using static UniScraperDLL.UniAssemblyInfo;
 
 namespace UniScraperDLL.Managers
 {
     public static class ModuleManager
     {
-        public static List<Assembly> scraperModules = new List<Assembly>();
+        /// <summary>
+        /// A list of all reflected module main classes as types.
+        /// </summary>
+        public static List<Type> scraperModuleTypes = new List<Type>();
+
+        /// <summary>
+        /// A list of all loaded modules, casted to a class
+        /// </summary>
+        public static List<ScraperModule> scraperModules = new List<ScraperModule>();
 
         /// <summary>
         /// Ensures the modules folder exists. This acts as a default modules path.
@@ -34,7 +44,39 @@ namespace UniScraperDLL.Managers
                 if (mod.EndsWith(".dll"))
                 {
                     Assembly DLL = Assembly.LoadFile(mod);
-                    scraperModules.Add(DLL);
+                    Type[] types = DLL.GetTypes();
+
+                    // Scan for the scraper information class
+                    foreach (Type t in types)
+                    {
+                        if (t.IsClass && t.GetField("ModuleVersion") != null)
+                        {
+                            scraperModuleTypes.Add(t);
+
+                            // Fetch fields
+                            FieldInfo? moduleName = t.GetField("Name");
+                            FieldInfo? moduleDescription = t.GetField("Description");
+                            FieldInfo? moduleVersion = t.GetField("ModuleVersion");
+                            FieldInfo? moduleSupportedSites = t.GetField("SupportedWebsites");
+                            FieldInfo? moduleSupportedContent = t.GetField("SupportedContent");
+
+                            // Initiate module
+                            ScraperModule module = new ScraperModule();
+
+                            // Assign values
+                            module.Module = DLL;
+                            module.Name = (string)moduleName.GetValue(null);
+                            module.Description = (string)moduleDescription.GetValue(null);
+                            module.ModuleVersion = (string)moduleVersion.GetValue(null);
+                            module.SupportedWebsites = (List<string>)moduleSupportedSites.GetValue(null);
+                            module.SupportedContent = (List<ScraperContent>)moduleSupportedContent.GetValue(null);
+                            scraperModules.Add(module);
+                        }
+                    }
+                }
+                else
+                {
+                    File.Delete(mod);
                 }
             }
         }

@@ -9,5 +9,16 @@ namespace UniScraperDLL
     public static class UniAssemblyInfo
     {
         public static string Version = "1.0.0";
+
+        public enum ScraperContent
+        {
+            Text,
+            Files,
+            Images,
+            Videos,
+            Comments,
+            Links,
+            Other
+        }
     }
 }
