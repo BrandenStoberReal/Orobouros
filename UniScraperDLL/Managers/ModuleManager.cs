@@ -89,14 +89,14 @@ namespace UniScraperDLL.Managers
                                 module.ModuleVersion = (string)moduleVersion.GetValue(psuedoClass, null);
                                 module.SupportedWebsites = (List<string>)moduleSupportedSites.GetValue(psuedoClass, null);
                                 module.SupportedContent = (List<ScraperContent>)moduleSupportedContent.GetValue(psuedoClass, null);
+
+                                // Push module to the array
+                                scraperModules.Add(module);
                             }
                             catch (Exception ex)
                             {
                                 System.Diagnostics.Trace.WriteLine($"FATAL: {ex.Message}");
                             }
-
-                            // Push module to the array
-                            scraperModules.Add(module);
                         }
                     }
                 }
