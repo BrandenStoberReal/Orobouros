@@ -36,7 +36,8 @@ namespace UniScraperDLL.Managers
         {
             foreach (var mod in Directory.GetFiles(folder != null ? folder : Path.GetFullPath("./modules")))
             {
-                if (mod.EndsWith(".dll"))
+                // Only attempt to load DLL files, obviously
+                if (mod.EndsWith(".dll") && NetAssemblyManager.IsDotNetAssembly(mod))
                 {
                     System.Diagnostics.Trace.WriteLine($"DLL found: {Path.GetFileName(mod)}");
                     Assembly DLL = Assembly.LoadFrom(mod); // Load DLL
