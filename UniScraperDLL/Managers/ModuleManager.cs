@@ -44,6 +44,7 @@ namespace UniScraperDLL.Managers
                     System.Diagnostics.Trace.WriteLine($"DLL found: {Path.GetFileName(mod)}");
                     Assembly DLL = Assembly.LoadFrom(mod); // Load DLL
                     Type[] types = DLL.GetTypes(); // Fetch types so we can parse them below
+                    bool mainClassFound = false;
 
                     // Scan for the scraper information class
                     foreach (Type t in types)
@@ -54,6 +55,9 @@ namespace UniScraperDLL.Managers
                         // Ensure the class is the main module by finding the version number
                         if (t.IsClass && t.GetProperty("ModuleVersion") != null)
                         {
+                            // Change boolean due to finding main class
+                            mainClassFound = true;
+
                             // Cast to a psuedo-class for property fetching
                             object? psuedoClass = Activator.CreateInstance(t);
 
@@ -77,6 +81,12 @@ namespace UniScraperDLL.Managers
                             System.Diagnostics.Trace.WriteLine($"Building ScraperModule...");
                             try
                             {
+                                // Prevent further processing if module does not contain proper information.
+                                if (moduleName == null || moduleDescription == null || moduleVersion == null || moduleSupportedSites == null || moduleSupportedContent == null)
+                                {
+                                    System.Diagnostics.Trace.WriteLine($"WARNING: Module \"{Path.GetFileName(mod)}\" has malformed information and has been skipped. Please report this to the module's author.");
+                                }
+
                                 // Debug module importing
                                 System.Diagnostics.Trace.WriteLine($"Name: {(string)moduleName.GetValue(psuedoClass, null)}");
                                 System.Diagnostics.Trace.WriteLine($"Description: {(string)moduleDescription.GetValue(psuedoClass, null)}");
@@ -118,9 +128,16 @@ namespace UniScraperDLL.Managers
                             }
                             catch (Exception ex)
                             {
+                                // This means an error occurred loading module values and module
+                                // processing cannot continue.
                                 System.Diagnostics.Trace.WriteLine($"FATAL: {ex.Message}");
                             }
                         }
+                    }
+
+                    if (!mainClassFound)
+                    {
+                        System.Diagnostics.Trace.WriteLine($"WARNING: Module \"{Path.GetFileName(mod)}\" does not have a valid information class and has been skipped. Please report this to the module's author.");
                     }
                 }
                 else
