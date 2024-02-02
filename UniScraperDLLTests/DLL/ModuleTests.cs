@@ -14,7 +14,6 @@ namespace UniScraperDLLTests.DLL
         [TestMethod(displayName: "Module Handler - Import Modules")]
         public void Import_Modules()
         {
-            ModuleManager.VerifyModulesFolderIntegrity();
             ModuleManager.LoadAssemblies();
             foreach (ScraperModule module in ModuleManager.scraperModules)
             {

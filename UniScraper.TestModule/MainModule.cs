@@ -23,5 +23,13 @@ namespace UniScraper.TestModule
         {
             ScraperContent.Text
         };
+
+        // Module methods. Must follow specific naming guides
+
+        // Initializer method. Must have no parameters and must return void.
+        public void Initialize()
+        {
+            System.Diagnostics.Trace.WriteLine($"Hello from TestModule init!");
+        }
     }
 }

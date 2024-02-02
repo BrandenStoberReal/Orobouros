@@ -29,11 +29,13 @@ namespace UniScraperDLL.Managers
         }
 
         /// <summary>
-        /// Loads assemblies. Can optionally provide a custom folder to load modules from.
+        /// Loads module assemblies. Can optionally provide a custom folder to load modules from.
         /// </summary>
-        /// <param name="folder"></param>
-        public static void LoadAssemblies(string? folder = null)
+        /// <param name="folder">Folder path that contains modules to load.</param>
+        /// <param name="aggressive">Whether to aggressively delete non-module files in the directory.</param>
+        public static void LoadAssemblies(string? folder = null, bool aggressive = false)
         {
+            VerifyModulesFolderIntegrity();
             foreach (var mod in Directory.GetFiles(folder != null ? folder : Path.GetFullPath("./modules")))
             {
                 // Only attempt to load valid DLL files, obviously
@@ -60,7 +62,7 @@ namespace UniScraperDLL.Managers
                             System.Diagnostics.Trace.WriteLine($"Nested Types: {t.GetNestedTypes().Length}");
                             System.Diagnostics.Trace.WriteLine($"Fields: {t.GetFields().Length}");
                             System.Diagnostics.Trace.WriteLine($"Properties: {t.GetProperties().Length}");
-                            System.Diagnostics.Trace.WriteLine($"Public Methods: {t.GetMethods(BindingFlags.Public).Length}");
+                            System.Diagnostics.Trace.WriteLine($"Public Methods: {t.GetMethods(BindingFlags.Instance | BindingFlags.Public).Length}");
 
                             // Fetch fields
                             PropertyInfo? moduleName = t.GetProperty("Name");
@@ -89,9 +91,30 @@ namespace UniScraperDLL.Managers
                                 module.ModuleVersion = (string)moduleVersion.GetValue(psuedoClass, null);
                                 module.SupportedWebsites = (List<string>)moduleSupportedSites.GetValue(psuedoClass, null);
                                 module.SupportedContent = (List<ScraperContent>)moduleSupportedContent.GetValue(psuedoClass, null);
+                                module.PsuedoClass = psuedoClass;
+
+                                // Import methods
+                                if (t.GetMethod("Initialize") != null)
+                                {
+                                    System.Diagnostics.Trace.WriteLine($"Methods: Initializer method found and processed!");
+                                    module.InitMethod = t.GetMethod("Initialize");
+                                }
 
                                 // Push module to the array
                                 scraperModules.Add(module);
+                                System.Diagnostics.Trace.WriteLine($"Methods: Invoking initializer method of module \"{module.Name}\" in a new thread!");
+
+                                // Start module initializer thread
+                                new Thread(() =>
+                                {
+                                    // Run thread in background (obviously)
+                                    Thread.CurrentThread.IsBackground = true;
+                                    if (module.InitMethod != null)
+                                    {
+                                        // Invoke the initializer on the psuedoclass
+                                        module.InitMethod.Invoke(psuedoClass, null);
+                                    }
+                                }).Start();
                             }
                             catch (Exception ex)
                             {
@@ -102,7 +125,10 @@ namespace UniScraperDLL.Managers
                 }
                 else
                 {
-                    File.Delete(mod);
+                    if (aggressive)
+                    {
+                        File.Delete(mod);
+                    }
                 }
             }
         }
