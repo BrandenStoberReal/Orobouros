@@ -85,6 +85,7 @@ namespace UniScraperDLL.Managers
                                 if (moduleName == null || moduleDescription == null || moduleVersion == null || moduleSupportedSites == null || moduleSupportedContent == null)
                                 {
                                     System.Diagnostics.Trace.WriteLine($"WARNING: Module \"{Path.GetFileName(mod)}\" has malformed information and has been skipped. Please report this to the module's author.");
+                                    continue;
                                 }
 
                                 // Debug module importing
@@ -103,11 +104,23 @@ namespace UniScraperDLL.Managers
                                 module.SupportedContent = (List<ScraperContent>)moduleSupportedContent.GetValue(psuedoClass, null);
                                 module.PsuedoClass = psuedoClass;
 
-                                // Import methods
+                                // Import initializer
                                 if (t.GetMethod("Initialize") != null)
                                 {
                                     System.Diagnostics.Trace.WriteLine($"Methods: Initializer method found and processed!");
                                     module.InitMethod = t.GetMethod("Initialize");
+                                }
+
+                                // Import scrape method
+                                if (t.GetMethod("Scrape") != null)
+                                {
+                                    System.Diagnostics.Trace.WriteLine($"Methods: Scrape method found and processed!");
+                                    module.ScrapeMethod = t.GetMethod("Scrape");
+                                }
+                                else
+                                {
+                                    System.Diagnostics.Trace.WriteLine($"WARNING: Module \"{Path.GetFileName(mod)}\" has no scrape method and has been skipped. Please report this to the module's author.");
+                                    continue;
                                 }
 
                                 // Push module to the array

@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34408.163
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniScraperDLL", "UniScraperDLL\UniScraperDLL.csproj", "{453C49E1-2183-4919-8E83-AA6EEF918B93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlyingSubmarineDLL", "UniScraperDLL\FlyingSubmarineDLL.csproj", "{453C49E1-2183-4919-8E83-AA6EEF918B93}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniScraperDLLTests", "UniScraperDLLTests\UniScraperDLLTests.csproj", "{1B5616E8-12A1-4FD6-9583-0C297CA8D264}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlyingSubmarineDLLTests", "UniScraperDLLTests\FlyingSubmarineDLLTests.csproj", "{1B5616E8-12A1-4FD6-9583-0C297CA8D264}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniScraper.TestModule", "UniScraper.TestModule\UniScraper.TestModule.csproj", "{BD3359E8-B879-40CA-91C5-15ABE48C8231}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlyingSubmarine.TestModule", "UniScraper.TestModule\FlyingSubmarine.TestModule.csproj", "{BD3359E8-B879-40CA-91C5-15ABE48C8231}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

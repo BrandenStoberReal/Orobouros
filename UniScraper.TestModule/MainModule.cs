@@ -31,5 +31,20 @@ namespace UniScraper.TestModule
         {
             System.Diagnostics.Trace.WriteLine($"Hello from TestModule init!");
         }
+
+        // Scrape method. MUST have only 2 parameters of the below types. Return type MUST be ScraperModuleData.
+        public ScraperModuleData Scrape(string website, int numberOfContentInstances)
+        {
+            ScraperModuleData data = new ScraperModuleData();
+            data.Website = website;
+            data.RequestedDataAmount = numberOfContentInstances;
+            data.ContentType = ScraperContent.Text;
+
+            // Scrape data here
+            data.Content.Add("Hello World!");
+
+            // Return class
+            return data;
+        }
     }
 }

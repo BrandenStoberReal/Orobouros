@@ -25,5 +25,10 @@ namespace UniScraperDLL.Bases
         /// Module's initialization method, if the author programmed one.
         /// </summary>
         public MethodInfo? InitMethod { get; set; }
+
+        /// <summary>
+        /// Module's scrape method. Must exist and has parameter restrictions.
+        /// </summary>
+        public MethodInfo ScrapeMethod { get; set; }
     }
 }

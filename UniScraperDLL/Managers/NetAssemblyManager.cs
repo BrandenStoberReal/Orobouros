@@ -29,7 +29,7 @@ namespace UniScraperDLL.Managers
             uint[] dataDictionaryRVA = new uint[16];
             uint[] dataDictionarySize = new uint[16];
 
-            Stream fs = new FileStream(peFile, FileMode.Open, FileAccess.Read);
+            using Stream fs = new FileStream(peFile, FileMode.Open, FileAccess.Read);
             BinaryReader reader = new BinaryReader(fs);
 
             //PE Header starts @ 0x3C (60). Its a 4 byte header.
@@ -75,12 +75,10 @@ namespace UniScraperDLL.Managers
             }
             if (dataDictionaryRVA[14] == 0)
             {
-                fs.Close();
                 return false;
             }
             else
             {
-                fs.Close();
                 return true;
             }
         }
