@@ -10,7 +10,7 @@ namespace UniScraperDLL
     {
         public static string Version = "1.0.0";
 
-        public enum ScraperContent
+        public enum ModuleContent
         {
             Text,
             Files,

@@ -15,7 +15,7 @@ namespace UniScraperDLLTests.DLL
         public void Import_Modules()
         {
             ModuleManager.LoadAssemblies();
-            foreach (ScraperModule module in ModuleManager.scraperModules)
+            foreach (Module module in ModuleManager.scraperModules)
             {
                 System.Diagnostics.Trace.WriteLine($"{module.Name} | {module.ModuleVersion}");
             }

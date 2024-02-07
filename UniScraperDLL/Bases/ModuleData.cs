@@ -7,11 +7,11 @@ using static UniScraperDLL.UniAssemblyInfo;
 
 namespace UniScraperDLL.Bases
 {
-    public class ScraperModuleData
+    public class ModuleData
     {
-        public ScraperModule Module { get; set; }
+        public Module Module { get; set; }
 
-        public ScraperContent ContentType { get; set; }
+        public ModuleContent ContentType { get; set; }
 
         public List<object> Content { get; set; } = new List<object>();
 

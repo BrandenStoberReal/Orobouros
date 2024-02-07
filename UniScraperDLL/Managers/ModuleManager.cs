@@ -14,7 +14,7 @@ namespace UniScraperDLL.Managers
         /// <summary>
         /// A list of all loaded modules, casted to a class
         /// </summary>
-        public static List<ScraperModule> scraperModules = new List<ScraperModule>();
+        public static List<Bases.Module> scraperModules = new List<Bases.Module>();
 
         /// <summary>
         /// Ensures the modules folder exists. This acts as a default modules path.
@@ -53,13 +53,18 @@ namespace UniScraperDLL.Managers
                         System.Diagnostics.Trace.WriteLine($"Enumerating type \"{t.Name}\"...");
 
                         // Ensure the class is the main module by finding the version number
-                        if (t.IsClass && t.GetProperty("ModuleVersion") != null)
+                        object[] attributes = t.GetCustomAttributes(false);
+                        if (attributes.Length > 0 && attributes.Where(x => x.GetType().Name == "FlyingSubmarineModule").ToList().Count > 0)
                         {
+                            // Do attribute stuff
+                            Type moduleInfoAttribute = attributes[0].GetType();
+
                             // Change boolean due to finding main class
                             mainClassFound = true;
 
                             // Cast to a psuedo-class for property fetching
                             object? psuedoClass = Activator.CreateInstance(t);
+                            object? psuedoAttribute = Activator.CreateInstance(moduleInfoAttribute);
 
                             // Fancy debugging statements
                             System.Diagnostics.Trace.WriteLine($"Main DLL class found: {t.Name} | {t.Namespace}");
@@ -69,14 +74,14 @@ namespace UniScraperDLL.Managers
                             System.Diagnostics.Trace.WriteLine($"Public Methods: {t.GetMethods(BindingFlags.Instance | BindingFlags.Public).Length}");
 
                             // Fetch fields
-                            PropertyInfo? moduleName = t.GetProperty("Name");
-                            PropertyInfo? moduleDescription = t.GetProperty("Description");
-                            PropertyInfo? moduleVersion = t.GetProperty("ModuleVersion");
+                            PropertyInfo? moduleName = moduleInfoAttribute.GetProperty("ModuleName");
+                            PropertyInfo? moduleDescription = moduleInfoAttribute.GetProperty("ModuleDescription");
+                            PropertyInfo? moduleVersion = moduleInfoAttribute.GetProperty("ModuleVersion");
                             PropertyInfo? moduleSupportedSites = t.GetProperty("SupportedWebsites");
                             PropertyInfo? moduleSupportedContent = t.GetProperty("SupportedContent");
 
                             // Initiate module
-                            ScraperModule module = new ScraperModule();
+                            Bases.Module module = new Bases.Module();
 
                             System.Diagnostics.Trace.WriteLine($"Building ScraperModule...");
                             try
@@ -89,38 +94,37 @@ namespace UniScraperDLL.Managers
                                 }
 
                                 // Debug module importing
-                                System.Diagnostics.Trace.WriteLine($"Name: {(string)moduleName.GetValue(psuedoClass, null)}");
-                                System.Diagnostics.Trace.WriteLine($"Description: {(string)moduleDescription.GetValue(psuedoClass, null)}");
-                                System.Diagnostics.Trace.WriteLine($"Version: {(string)moduleVersion.GetValue(psuedoClass, null)}");
+                                System.Diagnostics.Trace.WriteLine($"Name: {(string)moduleName.GetValue(psuedoAttribute, null)}");
+                                System.Diagnostics.Trace.WriteLine($"Description: {(string)moduleDescription.GetValue(psuedoAttribute, null)}");
+                                System.Diagnostics.Trace.WriteLine($"Version: {(string)moduleVersion.GetValue(psuedoAttribute, null)}");
                                 System.Diagnostics.Trace.WriteLine($"Supported Sites Count: {((List<string>)moduleSupportedSites.GetValue(psuedoClass, null)).Count}");
-                                System.Diagnostics.Trace.WriteLine($"Supported Content Count: {((List<ScraperContent>)moduleSupportedContent.GetValue(psuedoClass, null)).Count}");
+                                System.Diagnostics.Trace.WriteLine($"Supported Content Count: {((List<ModuleContent>)moduleSupportedContent.GetValue(psuedoClass, null)).Count}");
 
                                 // Assign values
-                                module.Module = DLL;
-                                module.Name = (string)moduleName.GetValue(psuedoClass, null);
-                                module.Description = (string)moduleDescription.GetValue(psuedoClass, null);
-                                module.ModuleVersion = (string)moduleVersion.GetValue(psuedoClass, null);
+                                module.ModuleAsm = DLL;
+                                module.Name = (string)moduleName.GetValue(psuedoAttribute, null);
+                                module.Description = (string)moduleDescription.GetValue(psuedoAttribute, null);
+                                module.Version = (string)moduleVersion.GetValue(psuedoAttribute, null);
                                 module.SupportedWebsites = (List<string>)moduleSupportedSites.GetValue(psuedoClass, null);
-                                module.SupportedContent = (List<ScraperContent>)moduleSupportedContent.GetValue(psuedoClass, null);
+                                module.SupportedContent = (List<ModuleContent>)moduleSupportedContent.GetValue(psuedoClass, null);
                                 module.PsuedoClass = psuedoClass;
 
-                                // Import initializer
-                                if (t.GetMethod("Initialize") != null)
+                                // Method scrapings
+                                foreach (MethodInfo method in t.GetMethods())
                                 {
-                                    System.Diagnostics.Trace.WriteLine($"Methods: Initializer method found and processed!");
-                                    module.InitMethod = t.GetMethod("Initialize");
-                                }
-
-                                // Import scrape method
-                                if (t.GetMethod("Scrape") != null)
-                                {
-                                    System.Diagnostics.Trace.WriteLine($"Methods: Scrape method found and processed!");
-                                    module.ScrapeMethod = t.GetMethod("Scrape");
-                                }
-                                else
-                                {
-                                    System.Diagnostics.Trace.WriteLine($"WARNING: Module \"{Path.GetFileName(mod)}\" has no scrape method and has been skipped. Please report this to the module's author.");
-                                    continue;
+                                    object[] attrs = method.GetCustomAttributes(false);
+                                    if (attrs.Where(x => x.GetType().Name == "ModuleInit").ToList().Count > 0)
+                                    {
+                                        module.InitMethod = method;
+                                    }
+                                    if (attrs.Where(x => x.GetType().Name == "ModuleScrape").ToList().Count > 0)
+                                    {
+                                        module.ScrapeMethod = method;
+                                    }
+                                    if (attrs.Where(x => x.GetType().Name == "ModuleSupplementary").ToList().Count > 0)
+                                    {
+                                        module.SupplementaryMethods.Add(method);
+                                    }
                                 }
 
                                 // Push module to the array
