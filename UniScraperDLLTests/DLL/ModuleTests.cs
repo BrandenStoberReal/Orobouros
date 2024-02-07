@@ -17,7 +17,7 @@ namespace UniScraperDLLTests.DLL
             ModuleManager.LoadAssemblies();
             foreach (Module module in ModuleManager.scraperModules)
             {
-                System.Diagnostics.Trace.WriteLine($"{module.Name} | {module.ModuleVersion}");
+                System.Diagnostics.Trace.WriteLine($"{module.Name} | {module.Version}");
             }
             Assert.IsTrue(ModuleManager.scraperModules.Count > 0);
         }

@@ -37,6 +37,6 @@ namespace UniScraperDLL.Bases
 
         /// <summary>
         /// </summary>
-        public List<MethodInfo> SupplementaryMethods { get; set; }
+        public List<MethodInfo> SupplementaryMethods { get; set; } = new List<MethodInfo>();
     }
 }

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using FlyingSubmarineDLL.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using UniScraperDLL.Bases;
@@ -53,18 +55,24 @@ namespace UniScraperDLL.Managers
                         System.Diagnostics.Trace.WriteLine($"Enumerating type \"{t.Name}\"...");
 
                         // Ensure the class is the main module by finding the version number
-                        object[] attributes = t.GetCustomAttributes(false);
-                        if (attributes.Length > 0 && attributes.Where(x => x.GetType().Name == "FlyingSubmarineModule").ToList().Count > 0)
+                        TypeInfo tInfo = t.GetTypeInfo();
+                        object[] attributes = tInfo.GetCustomAttributes(true);
+                        System.Diagnostics.Trace.WriteLine($"Found {attributes.Length} custom attributes!");
+                        foreach (var attribute in attributes)
+                        {
+                            System.Diagnostics.Trace.WriteLine($"Attribute: {attribute.GetType().Name}");
+                        }
+                        if (attributes.Where(x => x.GetType().Name == "FlyingSubmarineModule").ToList().Count > 0)
                         {
                             // Do attribute stuff
-                            Type moduleInfoAttribute = attributes[0].GetType();
+                            Type moduleInfoAttribute = attributes.FirstOrDefault(x => x.GetType().Name == "FlyingSubmarineModule").GetType();
 
                             // Change boolean due to finding main class
                             mainClassFound = true;
 
                             // Cast to a psuedo-class for property fetching
                             object? psuedoClass = Activator.CreateInstance(t);
-                            object? psuedoAttribute = Activator.CreateInstance(moduleInfoAttribute);
+                            object? psuedoAttribute = attributes.FirstOrDefault(x => x.GetType().Name == "FlyingSubmarineModule");
 
                             // Fancy debugging statements
                             System.Diagnostics.Trace.WriteLine($"Main DLL class found: {t.Name} | {t.Namespace}");
@@ -110,18 +118,19 @@ namespace UniScraperDLL.Managers
                                 module.PsuedoClass = psuedoClass;
 
                                 // Method scrapings
-                                foreach (MethodInfo method in t.GetMethods())
+                                foreach (MethodInfo method in t.GetMethods(BindingFlags.Instance | BindingFlags.Public))
                                 {
-                                    object[] attrs = method.GetCustomAttributes(false);
-                                    if (attrs.Where(x => x.GetType().Name == "ModuleInit").ToList().Count > 0)
+                                    System.Diagnostics.Trace.WriteLine($"Scanning Method: {method.Name}");
+                                    object[] attrs = method.GetCustomAttributes(true);
+                                    if (attrs.Any(x => x.GetType().Name == "ModuleInit"))
                                     {
                                         module.InitMethod = method;
                                     }
-                                    if (attrs.Where(x => x.GetType().Name == "ModuleScrape").ToList().Count > 0)
+                                    if (attrs.Any(x => x.GetType().Name == "ModuleScrape"))
                                     {
                                         module.ScrapeMethod = method;
                                     }
-                                    if (attrs.Where(x => x.GetType().Name == "ModuleSupplementary").ToList().Count > 0)
+                                    if (attrs.Any(x => x.GetType().Name == "ModuleSupplementary"))
                                     {
                                         module.SupplementaryMethods.Add(method);
                                     }

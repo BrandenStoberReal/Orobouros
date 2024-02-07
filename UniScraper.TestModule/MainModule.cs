@@ -1,10 +1,12 @@
 ﻿using FlyingSubmarineDLL.Attributes;
+using System.Runtime.InteropServices;
 using UniScraperDLL.Bases;
 using static UniScraperDLL.UniAssemblyInfo;
 
 namespace UniScraper.TestModule
 {
     // Module must inherit ScraperInfo.
+    [ComVisibleAttribute(true)]
     [FlyingSubmarineModule("Test Module", "A simple test module", "v1.0.0.0")]
     public class MainModule : ModuleInfo
     {
