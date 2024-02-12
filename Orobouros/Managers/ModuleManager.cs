@@ -60,17 +60,17 @@ namespace Orobouros.Managers
                         // Fetch attributes for the type to determine if its flagged as the main class
                         object[] attributes = tInfo.GetCustomAttributes(true);
                         System.Diagnostics.Trace.WriteLine($"Found {attributes.Length} custom attributes!");
-                        if (attributes.Any(x => x.GetType().Name == "OrobourosModule"))
+                        if (attributes.Any(x => x.GetType().Name == typeof(OrobourosModule).Name))
                         {
                             // Fetch the attribute for the main module class
-                            Type moduleInfoAttribute = attributes.FirstOrDefault(x => x.GetType().Name == "OrobourosModule").GetType();
+                            Type moduleInfoAttribute = attributes.FirstOrDefault(x => x.GetType().Name == typeof(OrobourosModule).Name).GetType();
 
                             // Change boolean due to finding main class
                             mainClassFound = true;
 
                             // Cast to a psuedo-class for property fetching
                             object? psuedoClass = Activator.CreateInstance(t);
-                            object? psuedoAttribute = attributes.FirstOrDefault(x => x.GetType().Name == "OrobourosModule");
+                            object? psuedoAttribute = attributes.FirstOrDefault(x => x.GetType().Name == typeof(OrobourosModule).Name);
 
                             // Fancy debugging statements
                             System.Diagnostics.Trace.WriteLine($"Main DLL class found: {t.Name} | {t.Namespace}");
