@@ -6,8 +6,7 @@ using static UniScraperDLL.UniAssemblyInfo;
 namespace UniScraper.TestModule
 {
     // Module must inherit ScraperInfo.
-    [ComVisibleAttribute(true)]
-    [FlyingSubmarineModule("Test Module", "A simple test module", "v1.0.0.0")]
+    [OrobourosModule("Test Module", "A simple test module", "v1.0.0.0")]
     public class MainModule : ModuleInfo
     {
         // Module information.
@@ -45,7 +44,9 @@ namespace UniScraper.TestModule
             return data;
         }
 
-        // Supplementary method. This is run every framework execution cycle in a separate thread.
+        // Supplementary method. This is run every framework execution cycle in a separate thread
+        // collectively with all other loaded module's background work. If you want concurrency,
+        // declare a new thread here yourself.
         [ModuleSupplementary]
         public void DoBackgroundWork()
         {

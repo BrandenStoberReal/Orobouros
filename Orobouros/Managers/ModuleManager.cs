@@ -48,23 +48,21 @@ namespace UniScraperDLL.Managers
                     Type[] types = DLL.GetTypes(); // Fetch types so we can parse them below
                     bool mainClassFound = false;
 
-                    // Scan for the scraper information class
+                    // Enumerate through all types in the imported assembly
                     foreach (Type t in types)
                     {
                         // Fancy debug statement
                         System.Diagnostics.Trace.WriteLine($"Enumerating type \"{t.Name}\"...");
 
-                        // Ensure the class is the main module by finding the version number
+                        // Fetch the type's TypeInfo
                         TypeInfo tInfo = t.GetTypeInfo();
+
+                        // Fetch attributes for the type to determine if its flagged as the main class
                         object[] attributes = tInfo.GetCustomAttributes(true);
                         System.Diagnostics.Trace.WriteLine($"Found {attributes.Length} custom attributes!");
-                        foreach (var attribute in attributes)
+                        if (attributes.Any(x => x.GetType().Name == "FlyingSubmarineModule"))
                         {
-                            System.Diagnostics.Trace.WriteLine($"Attribute: {attribute.GetType().Name}");
-                        }
-                        if (attributes.Where(x => x.GetType().Name == "FlyingSubmarineModule").ToList().Count > 0)
-                        {
-                            // Do attribute stuff
+                            // Fetch the attribute for the main module class
                             Type moduleInfoAttribute = attributes.FirstOrDefault(x => x.GetType().Name == "FlyingSubmarineModule").GetType();
 
                             // Change boolean due to finding main class
@@ -157,6 +155,7 @@ namespace UniScraperDLL.Managers
                                 // This means an error occurred loading module values and module
                                 // processing cannot continue.
                                 System.Diagnostics.Trace.WriteLine($"FATAL: {ex.Message}");
+                                System.Diagnostics.Trace.WriteLine($"Module \"{Path.GetFileName(mod)}\" encountered an exception loading and has been skipped. Please report this to the module developer.");
                             }
                         }
                     }
