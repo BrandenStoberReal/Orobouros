@@ -10,8 +10,12 @@ namespace Orobouros.TestModule
     [OrobourosModule("Test Module", "A simple test module", "v1.0.0.0")]
     public class MainModule : ModuleInfo
     {
-        // Module information.
+        // Module information. You can either override these or create your own, although override
+        // is strongly encouraged.
 
+        // Websites supported by this module. You can either use loose domains ("google.com") or
+        // full URLs ("https://google.com/search?q=test") depending on your code. Website URL to be
+        // scraped will be checked if the URL includes this URL at all.
         [ModuleSites]
         public override List<string> SupportedWebsites { get; set; } = new List<string>
         {
@@ -19,6 +23,8 @@ namespace Orobouros.TestModule
             "https://www.test2.com"
         };
 
+        // Returned content supported by this module. Anything not explicitly listed should be
+        // classified as "Other" enum type.
         [ModuleContents]
         public override List<ModuleContent> SupportedContent { get; set; } = new List<ModuleContent>
         {
@@ -37,13 +43,13 @@ namespace Orobouros.TestModule
         // Scrape method. Called whenever the framework recieves a scrape request and this module
         // matches the requested content.
         [ModuleScrape]
-        public ModuleData Scrape(string scrapeUrl, int requestedObjs)
+        public ModuleData Scrape(ScrapeParameters parameters)
         {
             ModuleData data = new ModuleData();
             data.ContentType = ModuleContent.Text;
             data.Content.Add("Hello World!");
-            data.RequestedDataAmount = requestedObjs;
-            data.Website = scrapeUrl;
+            data.RequestedDataAmount = parameters.RequestedData;
+            data.Website = parameters.URL;
             return data;
         }
 
