@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UniScraperDLL.Bases;
-using UniScraperDLL.Managers;
+using Orobouros.Bases;
+using Orobouros.Managers;
 
-namespace UniScraperDLLTests.DLL
+namespace OrobourosTests.DLL
 {
     [TestClass]
     public class ModuleTests

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UniScraperDLL
+namespace Orobouros
 {
     public static class UniAssemblyInfo
     {

@@ -6,9 +6,9 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using UniScraperDLL.Bases;
+using Orobouros.Bases;
 
-namespace UniScraperDLL.Managers
+namespace Orobouros.Managers
 {
     public static class HttpManager
     {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static UniScraperDLL.UniAssemblyInfo;
+using static Orobouros.UniAssemblyInfo;
 
-namespace UniScraperDLL.Bases
+namespace Orobouros.Bases
 {
     public class ModuleData
     {

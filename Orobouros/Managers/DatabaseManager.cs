@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using UniScraperDLL.Bases;
+using Orobouros.Bases;
 
-namespace UniScraperDLL.Managers
+namespace Orobouros.Managers
 {
     public static class DatabaseManager
     {

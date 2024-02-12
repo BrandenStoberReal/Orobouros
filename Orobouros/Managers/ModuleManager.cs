@@ -6,10 +6,10 @@ using System.Reflection;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
-using UniScraperDLL.Bases;
-using static UniScraperDLL.UniAssemblyInfo;
+using Orobouros.Bases;
+using static Orobouros.UniAssemblyInfo;
 
-namespace UniScraperDLL.Managers
+namespace Orobouros.Managers
 {
     public static class ModuleManager
     {
@@ -60,17 +60,17 @@ namespace UniScraperDLL.Managers
                         // Fetch attributes for the type to determine if its flagged as the main class
                         object[] attributes = tInfo.GetCustomAttributes(true);
                         System.Diagnostics.Trace.WriteLine($"Found {attributes.Length} custom attributes!");
-                        if (attributes.Any(x => x.GetType().Name == "FlyingSubmarineModule"))
+                        if (attributes.Any(x => x.GetType().Name == "OrobourosModule"))
                         {
                             // Fetch the attribute for the main module class
-                            Type moduleInfoAttribute = attributes.FirstOrDefault(x => x.GetType().Name == "FlyingSubmarineModule").GetType();
+                            Type moduleInfoAttribute = attributes.FirstOrDefault(x => x.GetType().Name == "OrobourosModule").GetType();
 
                             // Change boolean due to finding main class
                             mainClassFound = true;
 
                             // Cast to a psuedo-class for property fetching
                             object? psuedoClass = Activator.CreateInstance(t);
-                            object? psuedoAttribute = attributes.FirstOrDefault(x => x.GetType().Name == "FlyingSubmarineModule");
+                            object? psuedoAttribute = attributes.FirstOrDefault(x => x.GetType().Name == "OrobourosModule");
 
                             // Fancy debugging statements
                             System.Diagnostics.Trace.WriteLine($"Main DLL class found: {t.Name} | {t.Namespace}");
@@ -167,6 +167,7 @@ namespace UniScraperDLL.Managers
                 }
                 else
                 {
+                    // Handle invalid files here
                     if (aggressive)
                     {
                         File.Delete(mod);

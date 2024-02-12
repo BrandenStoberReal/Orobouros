@@ -1,1 +1,1 @@
-# FlyingSubmarine Project
+# The Orobouros Framework

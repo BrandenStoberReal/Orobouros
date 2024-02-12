@@ -1,9 +1,9 @@
 ﻿using FlyingSubmarineDLL.Attributes;
 using System.Runtime.InteropServices;
-using UniScraperDLL.Bases;
-using static UniScraperDLL.UniAssemblyInfo;
+using Orobouros.Bases;
+using static Orobouros.UniAssemblyInfo;
 
-namespace UniScraper.TestModule
+namespace Orobouros.TestModule
 {
     // Module must inherit ScraperInfo.
     [OrobourosModule("Test Module", "A simple test module", "v1.0.0.0")]

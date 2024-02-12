@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UniScraperDLL.Managers
+namespace Orobouros.Managers
 {
     public static class HtmlManager
     {
