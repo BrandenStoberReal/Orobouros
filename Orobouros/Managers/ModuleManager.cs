@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Orobouros.Bases;
 using static Orobouros.UniAssemblyInfo;
+using Orobouros.Attributes;
 
 namespace Orobouros.Managers
 {
@@ -43,7 +44,7 @@ namespace Orobouros.Managers
                 // Only attempt to load valid DLL files, obviously
                 if (mod.EndsWith(".dll") && NetAssemblyManager.IsDotNetAssembly(mod))
                 {
-                    System.Diagnostics.Trace.WriteLine($"DLL found: {Path.GetFileName(mod)}");
+                    DebugManager.WriteToDebugLog($"DLL found: {Path.GetFileName(mod)}");
                     Assembly DLL = Assembly.LoadFrom(mod); // Load DLL
                     Type[] types = DLL.GetTypes(); // Fetch types so we can parse them below
                     bool mainClassFound = false;
@@ -52,17 +53,17 @@ namespace Orobouros.Managers
                     foreach (Type t in types)
                     {
                         // Fancy debug statement
-                        System.Diagnostics.Trace.WriteLine($"Enumerating type \"{t.Name}\"...");
+                        DebugManager.WriteToDebugLog($"Enumerating type \"{t.Name}\"...");
 
                         // Fetch the type's TypeInfo
                         TypeInfo tInfo = t.GetTypeInfo();
 
                         // Fetch attributes for the type to determine if its flagged as the main class
                         object[] attributes = tInfo.GetCustomAttributes(true);
-                        System.Diagnostics.Trace.WriteLine($"Found {attributes.Length} custom attributes!");
+                        DebugManager.WriteToDebugLog($"Found {attributes.Length} custom attributes!");
                         if (attributes.Any(x => x.GetType().Name == typeof(OrobourosModule).Name))
                         {
-                            // Fetch the attribute for the main module class
+                            // Fetch the attribute type for the main module class
                             Type moduleInfoAttribute = attributes.FirstOrDefault(x => x.GetType().Name == typeof(OrobourosModule).Name).GetType();
 
                             // Change boolean due to finding main class
@@ -73,44 +74,65 @@ namespace Orobouros.Managers
                             object? psuedoAttribute = attributes.FirstOrDefault(x => x.GetType().Name == typeof(OrobourosModule).Name);
 
                             // Fancy debugging statements
-                            System.Diagnostics.Trace.WriteLine($"Main DLL class found: {t.Name} | {t.Namespace}");
-                            System.Diagnostics.Trace.WriteLine($"Nested Types: {t.GetNestedTypes().Length}");
-                            System.Diagnostics.Trace.WriteLine($"Fields: {t.GetFields().Length}");
-                            System.Diagnostics.Trace.WriteLine($"Properties: {t.GetProperties().Length}");
-                            System.Diagnostics.Trace.WriteLine($"Public Methods: {t.GetMethods(BindingFlags.Instance | BindingFlags.Public).Length}");
+                            DebugManager.WriteToDebugLog($"Main DLL class found: {t.Name} | {t.Namespace}");
+                            DebugManager.WriteToDebugLog($"Nested Types: {t.GetNestedTypes().Length}");
+                            DebugManager.WriteToDebugLog($"Fields: {t.GetFields().Length}");
+                            DebugManager.WriteToDebugLog($"Properties: {t.GetProperties().Length}");
+                            DebugManager.WriteToDebugLog($"Public Methods: {t.GetMethods(BindingFlags.Instance | BindingFlags.Public).Length}");
 
                             // Fetch fields
                             PropertyInfo? moduleName = moduleInfoAttribute.GetProperty("ModuleName");
                             PropertyInfo? moduleDescription = moduleInfoAttribute.GetProperty("ModuleDescription");
                             PropertyInfo? moduleVersion = moduleInfoAttribute.GetProperty("ModuleVersion");
-                            PropertyInfo? moduleSupportedSites = t.GetProperty("SupportedWebsites");
-                            PropertyInfo? moduleSupportedContent = t.GetProperty("SupportedContent");
+
+                            // Placeholder attribute fields
+                            PropertyInfo? moduleSupportedSites = null;
+                            PropertyInfo? moduleSupportedContent = null;
+
+                            // Fill placeholder fields
+                            foreach (PropertyInfo prop in t.GetProperties(BindingFlags.Instance | BindingFlags.Public))
+                            {
+                                DebugManager.WriteToDebugLog($"Scanning Property: " + prop.Name);
+                                object[] attrs = prop.GetCustomAttributes(true);
+                                if (attrs.Any(x => x.GetType().Name == typeof(ModuleSites).Name))
+                                {
+                                    moduleSupportedSites = prop;
+                                }
+                                if (attrs.Any(x => x.GetType().Name == typeof(ModuleContents).Name))
+                                {
+                                    moduleSupportedContent = prop;
+                                }
+                            }
 
                             // Initiate module
                             Bases.Module module = new Bases.Module();
 
-                            System.Diagnostics.Trace.WriteLine($"Building ScraperModule...");
+                            DebugManager.WriteToDebugLog($"Building ScraperModule...");
                             try
                             {
                                 // Prevent further processing if module does not contain proper information.
-                                if (moduleName == null || moduleDescription == null || moduleVersion == null || moduleSupportedSites == null || moduleSupportedContent == null)
+                                if (moduleName == null || moduleDescription == null || moduleVersion == null || moduleSupportedSites == null || moduleSupportedContent == null || moduleSupportedSites == null || moduleSupportedContent == null)
                                 {
-                                    System.Diagnostics.Trace.WriteLine($"WARNING: Module \"{Path.GetFileName(mod)}\" has malformed information and has been skipped. Please report this to the module's author.");
+                                    DebugManager.WriteToDebugLog($"WARNING: Module \"{Path.GetFileName(mod)}\" has malformed information and has been skipped. Please report this to the module's author.");
                                     continue;
                                 }
 
                                 // Debug module importing
-                                System.Diagnostics.Trace.WriteLine($"Name: {(string)moduleName.GetValue(psuedoAttribute, null)}");
-                                System.Diagnostics.Trace.WriteLine($"Description: {(string)moduleDescription.GetValue(psuedoAttribute, null)}");
-                                System.Diagnostics.Trace.WriteLine($"Version: {(string)moduleVersion.GetValue(psuedoAttribute, null)}");
-                                System.Diagnostics.Trace.WriteLine($"Supported Sites Count: {((List<string>)moduleSupportedSites.GetValue(psuedoClass, null)).Count}");
-                                System.Diagnostics.Trace.WriteLine($"Supported Content Count: {((List<ModuleContent>)moduleSupportedContent.GetValue(psuedoClass, null)).Count}");
+                                DebugManager.WriteToDebugLog($"Name: {(string)moduleName.GetValue(psuedoAttribute, null)}");
+                                DebugManager.WriteToDebugLog($"Description: {(string)moduleDescription.GetValue(psuedoAttribute, null)}");
+                                DebugManager.WriteToDebugLog($"Version: {(string)moduleVersion.GetValue(psuedoAttribute, null)}");
+                                DebugManager.WriteToDebugLog($"Supported Sites Count: {((List<string>)moduleSupportedSites.GetValue(psuedoClass, null)).Count}");
+                                DebugManager.WriteToDebugLog($"Supported Content Count: {((List<ModuleContent>)moduleSupportedContent.GetValue(psuedoClass, null)).Count}");
 
                                 // Assign values
                                 module.ModuleAsm = DLL;
+
+                                // Assign attribute-based values
                                 module.Name = (string)moduleName.GetValue(psuedoAttribute, null);
                                 module.Description = (string)moduleDescription.GetValue(psuedoAttribute, null);
                                 module.Version = (string)moduleVersion.GetValue(psuedoAttribute, null);
+
+                                // Assign statically-based values
                                 module.SupportedWebsites = (List<string>)moduleSupportedSites.GetValue(psuedoClass, null);
                                 module.SupportedContent = (List<ModuleContent>)moduleSupportedContent.GetValue(psuedoClass, null);
                                 module.PsuedoClass = psuedoClass;
@@ -118,17 +140,17 @@ namespace Orobouros.Managers
                                 // Method scrapings
                                 foreach (MethodInfo method in t.GetMethods(BindingFlags.Instance | BindingFlags.Public))
                                 {
-                                    System.Diagnostics.Trace.WriteLine($"Scanning Method: {method.Name}");
+                                    DebugManager.WriteToDebugLog($"Scanning Method: {method.Name}");
                                     object[] attrs = method.GetCustomAttributes(true);
-                                    if (attrs.Any(x => x.GetType().Name == "ModuleInit"))
+                                    if (attrs.Any(x => x.GetType().Name == typeof(ModuleInit).Name))
                                     {
                                         module.InitMethod = method;
                                     }
-                                    if (attrs.Any(x => x.GetType().Name == "ModuleScrape"))
+                                    if (attrs.Any(x => x.GetType().Name == typeof(ModuleScrape).Name))
                                     {
                                         module.ScrapeMethod = method;
                                     }
-                                    if (attrs.Any(x => x.GetType().Name == "ModuleSupplementary"))
+                                    if (attrs.Any(x => x.GetType().Name == typeof(ModuleSupplementary).Name))
                                     {
                                         module.SupplementaryMethods.Add(method);
                                     }
@@ -136,7 +158,7 @@ namespace Orobouros.Managers
 
                                 // Push module to the array
                                 scraperModules.Add(module);
-                                System.Diagnostics.Trace.WriteLine($"Methods: Invoking initializer method of module \"{module.Name}\" in a new thread!");
+                                DebugManager.WriteToDebugLog($"Methods: Invoking initializer method of module \"{module.Name}\" in a new thread!");
 
                                 // Start module initializer thread
                                 new Thread(() =>
@@ -154,15 +176,15 @@ namespace Orobouros.Managers
                             {
                                 // This means an error occurred loading module values and module
                                 // processing cannot continue.
-                                System.Diagnostics.Trace.WriteLine($"FATAL: {ex.Message}");
-                                System.Diagnostics.Trace.WriteLine($"Module \"{Path.GetFileName(mod)}\" encountered an exception loading and has been skipped. Please report this to the module developer.");
+                                DebugManager.WriteToDebugLog($"FATAL: {ex.Message}");
+                                DebugManager.WriteToDebugLog($"Module \"{Path.GetFileName(mod)}\" encountered an exception loading and has been skipped. Please report this to the module developer.");
                             }
                         }
                     }
 
                     if (!mainClassFound)
                     {
-                        System.Diagnostics.Trace.WriteLine($"WARNING: Module \"{Path.GetFileName(mod)}\" does not have a valid information class and has been skipped. Please report this to the module's author.");
+                        DebugManager.WriteToDebugLog($"WARNING: Module \"{Path.GetFileName(mod)}\" does not have a valid information class and has been skipped. Please report this to the module's author.");
                     }
                 }
                 else

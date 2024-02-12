@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using Orobouros.Bases;
 using static Orobouros.UniAssemblyInfo;
+using Orobouros.Attributes;
 
 namespace Orobouros.TestModule
 {
@@ -11,12 +12,14 @@ namespace Orobouros.TestModule
     {
         // Module information.
 
+        [ModuleSites]
         public override List<string> SupportedWebsites { get; set; } = new List<string>
         {
             "https://www.test.com",
             "https://www.test2.com"
         };
 
+        [ModuleContents]
         public override List<ModuleContent> SupportedContent { get; set; } = new List<ModuleContent>
         {
             ModuleContent.Text
