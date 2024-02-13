@@ -21,6 +21,12 @@ namespace Orobouros.Bases
         public object? PsuedoClass { get; set; }
 
         /// <summary>
+        /// Instantiated primary module attribute. This is attached to the main module class and
+        /// provides module information.
+        /// </summary>
+        public object? PsuedoAttribute { get; set; }
+
+        /// <summary>
         /// Raw assembly of the module.
         /// </summary>
         public Assembly? ModuleAsm { get; set; }

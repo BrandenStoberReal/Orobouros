@@ -64,14 +64,15 @@ namespace Orobouros.Managers
                         if (attributes.Any(x => x.GetType().Name == typeof(OrobourosModule).Name))
                         {
                             // Fetch the attribute type for the main module class
-                            Type moduleInfoAttribute = attributes.FirstOrDefault(x => x.GetType().Name == typeof(OrobourosModule).Name).GetType();
+                            object? rawInfoAttribute = attributes.FirstOrDefault(x => x.GetType().Name == typeof(OrobourosModule).Name);
+                            Type moduleInfoAttribute = rawInfoAttribute.GetType();
 
                             // Change boolean due to finding main class
                             mainClassFound = true;
 
                             // Cast to a psuedo-class for property fetching
                             object? psuedoClass = Activator.CreateInstance(t);
-                            object? psuedoAttribute = attributes.FirstOrDefault(x => x.GetType().Name == typeof(OrobourosModule).Name);
+                            object? psuedoAttribute = rawInfoAttribute;
 
                             // Fancy debugging statements
                             DebugManager.WriteToDebugLog($"Main DLL class found: {t.Name} | {t.Namespace}");
@@ -136,6 +137,7 @@ namespace Orobouros.Managers
                                 module.SupportedWebsites = (List<string>)moduleSupportedSites.GetValue(psuedoClass, null);
                                 module.SupportedContent = (List<ModuleContent>)moduleSupportedContent.GetValue(psuedoClass, null);
                                 module.PsuedoClass = psuedoClass;
+                                module.PsuedoAttribute = psuedoAttribute;
 
                                 // Method scrapings
                                 foreach (MethodInfo method in t.GetMethods(BindingFlags.Instance | BindingFlags.Public))
