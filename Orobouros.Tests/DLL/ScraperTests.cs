@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Orobouros.UniAssemblyInfo;
 
 namespace Orobouros.Tests.DLL
 {
@@ -15,7 +16,8 @@ namespace Orobouros.Tests.DLL
         public void Test_Basic_Scrape()
         {
             ScrapingManager.InitializeModules();
-            ModuleData? data = ScrapingManager.ScrapeURL("test.com", "https://www.test.com/posts/posthere", new List<UniAssemblyInfo.ModuleContent> { UniAssemblyInfo.ModuleContent.Text }, 1);
+            List<ModuleContent> requestedInfo = new List<ModuleContent> { ModuleContent.Text };
+            ModuleData? data = ScrapingManager.ScrapeURL("test.com", "https://www.test.com/posts/posthere", requestedInfo, 1);
             ScrapingManager.SupplementaryCancelToken.Cancel(); // Stop background methods
             Assert.IsNotNull(data);
         }
