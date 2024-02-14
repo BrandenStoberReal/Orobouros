@@ -13,7 +13,7 @@ TBA
 - [x] Attribute scanning
 - [x] Custom attributes
 - [x] Module init method
-- [ ] Module supplementary methods
+- [x] Module supplementary methods
 - [ ] Module scrape method
 - [ ] Module options
 - [ ] Custom library support

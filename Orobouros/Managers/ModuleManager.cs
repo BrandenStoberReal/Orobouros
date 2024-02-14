@@ -17,7 +17,7 @@ namespace Orobouros.Managers
         /// <summary>
         /// A list of all loaded modules, casted to a class
         /// </summary>
-        public static List<Bases.Module> scraperModules = new List<Bases.Module>();
+        public static List<Bases.Module> LoadedOrobourosModules = new List<Bases.Module>();
 
         /// <summary>
         /// Ensures the modules folder exists. This acts as a default modules path.
@@ -159,7 +159,7 @@ namespace Orobouros.Managers
                                 }
 
                                 // Push module to the array
-                                scraperModules.Add(module);
+                                LoadedOrobourosModules.Add(module);
                                 DebugManager.WriteToDebugLog($"Methods: Invoking initializer method of module \"{module.Name}\" in a new thread!");
 
                                 // Start module initializer thread

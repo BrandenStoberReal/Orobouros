@@ -15,11 +15,11 @@ namespace OrobourosTests.DLL
         public void Import_Modules()
         {
             ModuleManager.LoadAssemblies();
-            foreach (Module module in ModuleManager.scraperModules)
+            foreach (Module module in ModuleManager.LoadedOrobourosModules)
             {
                 System.Diagnostics.Trace.WriteLine($"{module.Name} | {module.Version}");
             }
-            Assert.IsTrue(ModuleManager.scraperModules.Count > 0);
+            Assert.IsTrue(ModuleManager.LoadedOrobourosModules.Count > 0);
         }
     }
 }
