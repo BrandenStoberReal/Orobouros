@@ -16,7 +16,7 @@ namespace Orobouros.Managers
         /// <summary>
         /// Token to cancel supplementary tasks
         /// </summary>
-        public static CancellationToken SupplementaryCancelToken { get; set; }
+        public static CancellationTokenSource SupplementaryCancelToken { get; set; }
 
         /// <summary> Initializes scraper modules & runs startup logic. ONLY CALL THIS ONCE UNLESS
         /// YOU KNOW WHAT YOU'RE DOING!</summary> <param name="modulesPath">Optional custom modules
@@ -37,12 +37,12 @@ namespace Orobouros.Managers
                 CancellationTokenSource CancellationTokenSource = new CancellationTokenSource();
 
                 // Assign new token to parent class
-                SupplementaryCancelToken = CancellationTokenSource.Token;
+                SupplementaryCancelToken = CancellationTokenSource;
 
                 while (true)
                 {
                     // Handle cancellations
-                    if (SupplementaryCancelToken.IsCancellationRequested)
+                    if (SupplementaryCancelToken.Token.IsCancellationRequested)
                     {
                         break;
                     }
