@@ -14,7 +14,7 @@ TBA
 - [x] Custom attributes
 - [x] Module init method
 - [x] Module supplementary methods
-- [ ] Module scrape method
+- [x] Module scrape method
 - [ ] Module options
 - [ ] Custom library support
 - [ ] SQLite support
