@@ -21,7 +21,7 @@ TBA
 - [ ] Website API support (separate from raw HTTP)
 - [ ] Selenium support
 - [ ] Cross-module support
-- [ ] XML annotations
+- [x] XML annotations
 - [ ] Module security checks
 
 # Credits

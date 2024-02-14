@@ -14,7 +14,7 @@ namespace Orobouros.Managers
     public static class ScrapingManager
     {
         /// <summary>
-        /// Token to cancel supplementary tasks
+        /// Token to cancel supplementary tasks. Tasks should be cancelled on application shutdown.
         /// </summary>
         public static CancellationTokenSource SupplementaryCancelToken { get; set; }
 
