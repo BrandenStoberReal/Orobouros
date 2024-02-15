@@ -112,24 +112,31 @@ namespace Orobouros.Managers
                                     continue;
                                 }
 
+                                // Fetch initial values
+                                string ModName = (string)ReflectionManager.GetValueOfProperty(moduleName, psuedoAttribute);
+                                string ModDesc = (string)ReflectionManager.GetValueOfProperty(moduleDescription, psuedoAttribute);
+                                string ModVersion = (string)ReflectionManager.GetValueOfProperty(moduleVersion, psuedoAttribute);
+                                List<string> ModWebsites = (List<string>)ReflectionManager.GetValueOfProperty(moduleSupportedSites, psuedoClass);
+                                List<ModuleContent> ModContents = (List<ModuleContent>)ReflectionManager.GetValueOfProperty(moduleSupportedContent, psuedoClass);
+
                                 // Debug module importing
-                                DebugManager.WriteToDebugLog($"Name: {(string)moduleName.GetValue(psuedoAttribute, null)}");
-                                DebugManager.WriteToDebugLog($"Description: {(string)moduleDescription.GetValue(psuedoAttribute, null)}");
-                                DebugManager.WriteToDebugLog($"Version: {(string)moduleVersion.GetValue(psuedoAttribute, null)}");
-                                DebugManager.WriteToDebugLog($"Supported Sites Count: {((List<string>)moduleSupportedSites.GetValue(psuedoClass, null)).Count}");
-                                DebugManager.WriteToDebugLog($"Supported Content Count: {((List<ModuleContent>)moduleSupportedContent.GetValue(psuedoClass, null)).Count}");
+                                DebugManager.WriteToDebugLog($"Name: {ModName}");
+                                DebugManager.WriteToDebugLog($"Description: {ModDesc}");
+                                DebugManager.WriteToDebugLog($"Version: {ModVersion}");
+                                DebugManager.WriteToDebugLog($"Supported Sites Count: {ModWebsites.Count}");
+                                DebugManager.WriteToDebugLog($"Supported Content Count: {ModContents.Count}");
 
                                 // Assign values
                                 module.ModuleAsm = DLL;
 
                                 // Assign attribute-based values
-                                module.Name = (string)ReflectionManager.GetValueOfProperty(moduleName, psuedoAttribute);
-                                module.Description = (string)ReflectionManager.GetValueOfProperty(moduleDescription, psuedoAttribute);
-                                module.Version = (string)ReflectionManager.GetValueOfProperty(moduleVersion, psuedoAttribute);
+                                module.Name = ModName;
+                                module.Description = ModDesc;
+                                module.Version = ModVersion;
 
                                 // Assign statically-based values
-                                module.SupportedWebsites = (List<string>)ReflectionManager.GetValueOfProperty(moduleSupportedSites, psuedoClass);
-                                module.SupportedContent = (List<ModuleContent>)ReflectionManager.GetValueOfProperty(moduleSupportedContent, psuedoClass);
+                                module.SupportedWebsites = ModWebsites;
+                                module.SupportedContent = ModContents;
                                 module.PsuedoClass = psuedoClass;
                                 module.PsuedoAttribute = psuedoAttribute;
 
