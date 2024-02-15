@@ -43,13 +43,11 @@ namespace Orobouros.TestModule
         // Scrape method. Called whenever the framework recieves a scrape request and this module
         // matches the requested content.
         [ModuleScrape]
-        public ModuleData Scrape(ScrapeParameters parameters)
+        public ModuleData? Scrape(ScrapeParameters parameters)
         {
             ModuleData data = new ModuleData();
-            data.ContentType = ModuleContent.Text;
-            data.Content.Add("Hello World!");
-            data.RequestedDataAmount = parameters.RequestedData;
-            data.Website = parameters.URL;
+            ProcessedScrapeData exampleInstance = new ProcessedScrapeData(ModuleContent.Text, parameters.URL, "Hello World!");
+            data.Content.Add(exampleInstance);
             return data;
         }
 

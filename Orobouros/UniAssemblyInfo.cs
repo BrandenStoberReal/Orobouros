@@ -18,6 +18,7 @@ namespace Orobouros
             Videos,
             Comments,
             Links,
+            Subposts,
             Other
         }
     }

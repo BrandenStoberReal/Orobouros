@@ -62,14 +62,24 @@ namespace Orobouros.Managers
         /// <summary>
         /// Performs a scrape request against all loaded modules.
         /// </summary>
-        /// <param name="baseDomain"></param>
-        /// <param name="url"></param>
-        /// <param name="contentToFetch"></param>
-        /// <param name="numberOfObjectsToFetch"></param>
+        /// <param name="url">
+        /// Specific URL to scrape. This should be a URL that points to a page with scrapable data.
+        /// </param>
+        /// <param name="contentToFetch">
+        /// List of content to fetch from supported modules. Keep in mind the module may not support
+        /// the data types you request.
+        /// </param>
+        /// <param name="numofinstances">
+        /// (Optional) Number of instances to scrape. Defaults to 1 and is rarely changed.
+        /// </param>
         /// <returns></returns>
-        public static ModuleData? ScrapeURL(string baseDomain, string url, List<ModuleContent> contentToFetch, int numberOfObjectsToFetch)
+        public static ModuleData? ScrapeURL(string url, List<ModuleContent> contentToFetch, int numofinstances = 1)
         {
             Module? usedModule = null;
+
+            // Fetch base domain for compatibility checks
+            Uri myUri = new Uri(url);
+            string baseDomain = myUri.Host;
 
             // Find module with supported website
             foreach (Module mod in ModuleManager.LoadedOrobourosModules)
@@ -85,6 +95,7 @@ namespace Orobouros.Managers
 
             if (usedModule == null)
             {
+                // Compatible module not found
                 DebugManager.WriteToDebugLog($"No module found with URL \"{url}\"! Ensure you have a supported module installed.");
                 return null;
             }
@@ -111,10 +122,10 @@ namespace Orobouros.Managers
                 ScrapeParameters parms = new ScrapeParameters();
                 parms.URL = url;
                 parms.RequestedContent = parms.RequestedContent.Concat(contentToFetch).ToList();
-                parms.RequestedData = numberOfObjectsToFetch;
+                parms.ScrapeInstances = numofinstances;
 
                 // Run method & cast return
-                return (ModuleData)ReflectionManager.InvokeReflectedMethod(usedModule.ScrapeMethod, usedModule.PsuedoClass, new object[] { parms });
+                return (ModuleData?)ReflectionManager.InvokeReflectedMethod(usedModule.ScrapeMethod, usedModule.PsuedoClass, new object[] { parms });
             }
         }
     }

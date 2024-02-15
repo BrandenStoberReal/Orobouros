@@ -7,16 +7,19 @@ using static Orobouros.UniAssemblyInfo;
 
 namespace Orobouros.Bases
 {
+    /// <summary>
+    /// Primary returned data class for any Orobouros Modules.
+    /// </summary>
     public class ModuleData
     {
+        /// <summary>
+        /// Module associated with the returned data.
+        /// </summary>
         public Module Module { get; set; }
 
-        public ModuleContent ContentType { get; set; }
-
-        public List<object> Content { get; set; } = new List<object>();
-
-        public int RequestedDataAmount { get; set; } = 0;
-
-        public string Website { get; set; } = String.Empty;
+        /// <summary>
+        /// An array of data returned by the module.
+        /// </summary>
+        public List<ProcessedScrapeData> Content { get; set; } = new List<ProcessedScrapeData>();
     }
 }

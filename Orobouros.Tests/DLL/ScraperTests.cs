@@ -20,7 +20,6 @@ namespace Orobouros.Tests.DLL
             ModuleData? data = ScrapingManager.ScrapeURL("test.com", "https://www.test.com/posts/posthere", requestedInfo, 1);
             ScrapingManager.SupplementaryCancelToken.Cancel(); // Stop background methods
             DebugManager.WriteToDebugLog($"Data Length: {data.Content.Count}");
-            DebugManager.WriteToDebugLog($"Content Type: {data.ContentType}");
             Assert.IsNotNull(data);
         }
     }
