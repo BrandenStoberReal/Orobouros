@@ -52,7 +52,7 @@ namespace Orobouros.Managers
                     {
                         foreach (MethodInfo method in mod.SupplementaryMethods)
                         {
-                            method.Invoke(mod.PsuedoClass, null);
+                            ReflectionManager.InvokeReflectedMethod(method, mod.PsuedoClass);
                         }
                     }
                 }
@@ -114,7 +114,7 @@ namespace Orobouros.Managers
                 parms.RequestedData = numberOfObjectsToFetch;
 
                 // Run method & cast return
-                return (ModuleData)usedModule.ScrapeMethod.Invoke(usedModule.PsuedoClass, new object[] { parms });
+                return (ModuleData)ReflectionManager.InvokeReflectedMethod(usedModule.ScrapeMethod, usedModule.PsuedoClass, new object[] { parms });
             }
         }
     }

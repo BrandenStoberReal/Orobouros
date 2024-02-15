@@ -50,36 +50,31 @@ namespace Orobouros.Managers
                     bool mainClassFound = false;
 
                     // Enumerate through all types in the imported assembly
-                    foreach (Type t in types)
+                    foreach (Type type in types)
                     {
                         // Fancy debug statement
-                        DebugManager.WriteToDebugLog($"Enumerating type \"{t.Name}\"...");
+                        DebugManager.WriteToDebugLog($"Enumerating type \"{type.Name}\"...");
 
-                        // Fetch the type's TypeInfo
-                        TypeInfo tInfo = t.GetTypeInfo();
-
-                        // Fetch attributes for the type to determine if its flagged as the main class
-                        object[] attributes = tInfo.GetCustomAttributes(true);
-                        DebugManager.WriteToDebugLog($"Found {attributes.Length} custom attributes!");
-                        if (attributes.Any(x => x.GetType().Name == typeof(OrobourosModule).Name))
+                        // Determine if class has the attribute we need
+                        if (ReflectionManager.TypeHasAttribute(type, typeof(OrobourosModule)))
                         {
                             // Fetch the attribute type for the main module class
-                            object? rawInfoAttribute = attributes.FirstOrDefault(x => x.GetType().Name == typeof(OrobourosModule).Name);
+                            object? rawInfoAttribute = ReflectionManager.FetchAttributeFromType(type, typeof(OrobourosModule));
                             Type moduleInfoAttribute = rawInfoAttribute.GetType();
 
                             // Change boolean due to finding main class
                             mainClassFound = true;
 
                             // Cast to a psuedo-class for property fetching
-                            object? psuedoClass = Activator.CreateInstance(t);
+                            object? psuedoClass = ReflectionManager.CreateSkeletonClass(type);
                             object? psuedoAttribute = rawInfoAttribute;
 
                             // Fancy debugging statements
-                            DebugManager.WriteToDebugLog($"Main DLL class found: {t.Name} | {t.Namespace}");
-                            DebugManager.WriteToDebugLog($"Nested Types: {t.GetNestedTypes().Length}");
-                            DebugManager.WriteToDebugLog($"Fields: {t.GetFields().Length}");
-                            DebugManager.WriteToDebugLog($"Properties: {t.GetProperties().Length}");
-                            DebugManager.WriteToDebugLog($"Public Methods: {t.GetMethods(BindingFlags.Instance | BindingFlags.Public).Length}");
+                            DebugManager.WriteToDebugLog($"Main DLL class found: {type.Name} | {type.Namespace}");
+                            DebugManager.WriteToDebugLog($"Nested Types: {type.GetNestedTypes().Length}");
+                            DebugManager.WriteToDebugLog($"Fields: {type.GetFields().Length}");
+                            DebugManager.WriteToDebugLog($"Properties: {type.GetProperties().Length}");
+                            DebugManager.WriteToDebugLog($"Public Methods: {type.GetMethods(BindingFlags.Instance | BindingFlags.Public).Length}");
 
                             // Fetch fields
                             PropertyInfo? moduleName = moduleInfoAttribute.GetProperty("ModuleName");
@@ -91,15 +86,14 @@ namespace Orobouros.Managers
                             PropertyInfo? moduleSupportedContent = null;
 
                             // Fill placeholder fields
-                            foreach (PropertyInfo prop in t.GetProperties(BindingFlags.Instance | BindingFlags.Public))
+                            foreach (PropertyInfo prop in type.GetProperties(BindingFlags.Instance | BindingFlags.Public))
                             {
                                 DebugManager.WriteToDebugLog($"Scanning Property: " + prop.Name);
-                                object[] attrs = prop.GetCustomAttributes(true);
-                                if (attrs.Any(x => x.GetType().Name == typeof(ModuleSites).Name))
+                                if (ReflectionManager.PropertyHasAttribute(prop, typeof(ModuleSites)))
                                 {
                                     moduleSupportedSites = prop;
                                 }
-                                if (attrs.Any(x => x.GetType().Name == typeof(ModuleContents).Name))
+                                if (ReflectionManager.PropertyHasAttribute(prop, typeof(ModuleContents)))
                                 {
                                     moduleSupportedContent = prop;
                                 }
@@ -129,30 +123,29 @@ namespace Orobouros.Managers
                                 module.ModuleAsm = DLL;
 
                                 // Assign attribute-based values
-                                module.Name = (string)moduleName.GetValue(psuedoAttribute, null);
-                                module.Description = (string)moduleDescription.GetValue(psuedoAttribute, null);
-                                module.Version = (string)moduleVersion.GetValue(psuedoAttribute, null);
+                                module.Name = (string)ReflectionManager.GetValueOfProperty(moduleName, psuedoAttribute);
+                                module.Description = (string)ReflectionManager.GetValueOfProperty(moduleDescription, psuedoAttribute);
+                                module.Version = (string)ReflectionManager.GetValueOfProperty(moduleVersion, psuedoAttribute);
 
                                 // Assign statically-based values
-                                module.SupportedWebsites = (List<string>)moduleSupportedSites.GetValue(psuedoClass, null);
-                                module.SupportedContent = (List<ModuleContent>)moduleSupportedContent.GetValue(psuedoClass, null);
+                                module.SupportedWebsites = (List<string>)ReflectionManager.GetValueOfProperty(moduleSupportedSites, psuedoClass);
+                                module.SupportedContent = (List<ModuleContent>)ReflectionManager.GetValueOfProperty(moduleSupportedContent, psuedoClass);
                                 module.PsuedoClass = psuedoClass;
                                 module.PsuedoAttribute = psuedoAttribute;
 
                                 // Method scrapings
-                                foreach (MethodInfo method in t.GetMethods(BindingFlags.Instance | BindingFlags.Public))
+                                foreach (MethodInfo method in type.GetMethods(BindingFlags.Instance | BindingFlags.Public))
                                 {
                                     DebugManager.WriteToDebugLog($"Scanning Method: {method.Name}");
-                                    object[] attrs = method.GetCustomAttributes(true);
-                                    if (attrs.Any(x => x.GetType().Name == typeof(ModuleInit).Name))
+                                    if (ReflectionManager.MethodHasAttribute(method, typeof(ModuleInit)))
                                     {
                                         module.InitMethod = method;
                                     }
-                                    if (attrs.Any(x => x.GetType().Name == typeof(ModuleScrape).Name))
+                                    if (ReflectionManager.MethodHasAttribute(method, typeof(ModuleScrape)))
                                     {
                                         module.ScrapeMethod = method;
                                     }
-                                    if (attrs.Any(x => x.GetType().Name == typeof(ModuleSupplementary).Name))
+                                    if (ReflectionManager.MethodHasAttribute(method, typeof(ModuleSupplementary)))
                                     {
                                         module.SupplementaryMethods.Add(method);
                                     }
