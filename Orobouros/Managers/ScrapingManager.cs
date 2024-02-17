@@ -132,8 +132,8 @@ namespace Orobouros.Managers
                 if (foundModules.Count > 1)
                 {
                     DebugManager.WriteToDebugLog($"Multiple modules for the same website supporting the same content found. A random one will be selected. Please avoid this behavior in the future.");
-                    Random rnd = new Random();
-                    int randInt = rnd.Next(foundModules.Count);
+                    Random rng = new Random();
+                    int randInt = rng.Next(foundModules.Count);
                     return (ModuleData?)ReflectionManager.InvokeReflectedMethod(foundModules[randInt].ScrapeMethod, foundModules[randInt].PsuedoClass, new object[] { parms });
                 }
                 else
