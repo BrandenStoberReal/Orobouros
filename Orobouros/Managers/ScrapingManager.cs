@@ -1,6 +1,7 @@
 ﻿using Orobouros.Attributes;
 using Orobouros.Bases;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -75,7 +76,8 @@ namespace Orobouros.Managers
         /// <returns></returns>
         public static ModuleData? ScrapeURL(string url, List<ModuleContent> contentToFetch, int numofinstances = 1)
         {
-            Module? usedModule = null;
+            // Placeholder for discovered module
+            List<Module> foundModules = new List<Module>();
 
             // Fetch base domain for compatibility checks
             Uri myUri = new Uri(url);
@@ -88,12 +90,12 @@ namespace Orobouros.Managers
                 {
                     if (Website.Contains(baseDomain))
                     {
-                        usedModule = mod;
+                        foundModules.Add(mod);
                     }
                 }
             }
 
-            if (usedModule == null)
+            if (foundModules == null)
             {
                 // Compatible module not found
                 DebugManager.WriteToDebugLog($"No module found with URL \"{url}\"! Ensure you have a supported module installed.");
@@ -102,19 +104,21 @@ namespace Orobouros.Managers
             else
             {
                 // Check if module supports content we want
-                bool invalidContent = false;
                 foreach (ModuleContent content in contentToFetch)
                 {
-                    if (!usedModule.SupportedContent.Contains(content))
+                    foreach (Module mod in foundModules)
                     {
-                        invalidContent = true;
+                        if (!mod.SupportedContent.Contains(content))
+                        {
+                            foundModules.Remove(mod);
+                        }
                     }
                 }
 
                 // Bad content was requested
-                if (invalidContent)
+                if (foundModules.Count == 0)
                 {
-                    DebugManager.WriteToDebugLog($"Content has been requested that the discovered module does not support! Please ensure you have the correct module installed.");
+                    DebugManager.WriteToDebugLog($"Content has been requested that the discovered module(s) does not support! Please ensure you have the correct module(s) installed.");
                     return null;
                 }
 
@@ -124,8 +128,19 @@ namespace Orobouros.Managers
                 parms.RequestedContent = parms.RequestedContent.Concat(contentToFetch).ToList();
                 parms.ScrapeInstances = numofinstances;
 
-                // Run method & cast return
-                return (ModuleData?)ReflectionManager.InvokeReflectedMethod(usedModule.ScrapeMethod, usedModule.PsuedoClass, new object[] { parms });
+                // Multiple supported modules found
+                if (foundModules.Count > 1)
+                {
+                    DebugManager.WriteToDebugLog($"Multiple modules for the same website supporting the same content found. A random one will be selected. Please avoid this behavior in the future.");
+                    Random rnd = new Random();
+                    int randInt = rnd.Next(foundModules.Count);
+                    return (ModuleData?)ReflectionManager.InvokeReflectedMethod(foundModules[randInt].ScrapeMethod, foundModules[randInt].PsuedoClass, new object[] { parms });
+                }
+                else
+                {
+                    // Only 1 module found, should be default behavior
+                    return (ModuleData?)ReflectionManager.InvokeReflectedMethod(foundModules.FirstOrDefault().ScrapeMethod, foundModules.FirstOrDefault().PsuedoClass, new object[] { parms });
+                }
             }
         }
     }

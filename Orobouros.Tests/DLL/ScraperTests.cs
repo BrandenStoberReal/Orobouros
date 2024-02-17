@@ -17,7 +17,7 @@ namespace Orobouros.Tests.DLL
         {
             ScrapingManager.InitializeModules();
             List<ModuleContent> requestedInfo = new List<ModuleContent> { ModuleContent.Text };
-            ModuleData? data = ScrapingManager.ScrapeURL("test.com", "https://www.test.com/posts/posthere", requestedInfo, 1);
+            ModuleData? data = ScrapingManager.ScrapeURL("https://www.test.com/posts/posthere", requestedInfo);
             ScrapingManager.SupplementaryCancelToken.Cancel(); // Stop background methods
             DebugManager.WriteToDebugLog($"Data Length: {data.Content.Count}");
             Assert.IsNotNull(data);
