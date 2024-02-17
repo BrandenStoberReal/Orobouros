@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Orobouros\Orobouros.csproj" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy &quot;$(ProjectDir)..\Orobouros.TestModule\bin\Debug\net8.0\Orobouros.TestModule.dll&quot; &quot;$(ProjectDir)..\Orobouros.Tests\bin\x64\Debug\net8.0\modules\Orobouros.TestModule.dll&quot;" />
+  </Target>
+
 </Project>

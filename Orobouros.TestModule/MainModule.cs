@@ -7,8 +7,8 @@ using Orobouros.Attributes;
 namespace Orobouros.TestModule
 {
     // Module must inherit ScraperInfo.
-    [OrobourosModule("Test Module", "A simple test module", "v1.0.0.0")]
-    public class MainModule : ModuleInfo
+    [OrobourosModule("Test Module", "A simple test module.", "1.0.0.0")]
+    public class MainModule
     {
         // Module information. You can either override these or create your own, although override
         // is strongly encouraged.
@@ -17,7 +17,7 @@ namespace Orobouros.TestModule
         // full URLs ("https://google.com/search?q=test") depending on your code. Website URL to be
         // scraped will be checked if the URL includes this URL at all.
         [ModuleSites]
-        public override List<string> SupportedWebsites { get; set; } = new List<string>
+        public List<string> SupportedWebsites { get; set; } = new List<string>
         {
             "https://www.test.com",
             "https://www.test2.com"
@@ -26,7 +26,7 @@ namespace Orobouros.TestModule
         // Returned content supported by this module. Anything not explicitly listed should be
         // classified as "Other" enum type.
         [ModuleContents]
-        public override List<ModuleContent> SupportedContent { get; set; } = new List<ModuleContent>
+        public List<ModuleContent> SupportedContent { get; set; } = new List<ModuleContent>
         {
             ModuleContent.Text
         };
@@ -52,8 +52,8 @@ namespace Orobouros.TestModule
         }
 
         // Supplementary method. This is run every framework execution cycle in a separate thread
-        // collectively with all other loaded module's background work. If you want concurrency,
-        // declare a new thread here yourself.
+        // collectively with all other loaded module's background work. Essentially works as a
+        // "tick" system.
         [ModuleSupplementary]
         public void DoBackgroundWork()
         {

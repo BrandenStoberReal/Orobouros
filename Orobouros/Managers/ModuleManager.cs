@@ -38,6 +38,7 @@ namespace Orobouros.Managers
         /// <param name="aggressive">Whether to aggressively delete non-module files in the directory.</param>
         public static void LoadAssemblies(string? folder = null, bool aggressive = false)
         {
+            LoadedOrobourosModules.Clear();
             VerifyModulesFolderIntegrity();
             foreach (var mod in Directory.GetFiles(folder != null ? folder : Path.GetFullPath("./modules")))
             {

@@ -17,7 +17,12 @@ namespace Orobouros.Managers
         /// <summary>
         /// Token to cancel supplementary tasks. Tasks should be cancelled on application shutdown.
         /// </summary>
-        public static CancellationTokenSource SupplementaryCancelToken { get; set; }
+        public static CancellationTokenSource SupplementaryCancelToken { get; private set; }
+
+        /// <summary>
+        /// Thread assigned to supplementary methods.
+        /// </summary>
+        public static Thread SupplementaryThread { get; private set; }
 
         /// <summary> Initializes scraper modules & runs startup logic. ONLY CALL THIS ONCE UNLESS
         /// YOU KNOW WHAT YOU'RE DOING!</summary> <param name="modulesPath">Optional custom modules
@@ -28,7 +33,7 @@ namespace Orobouros.Managers
             ModuleManager.LoadAssemblies(modulesPath);
 
             // Start supplementary methods
-            new Thread(() =>
+            Thread thready = new Thread(() =>
             {
                 // Run thread in background (obviously)
                 Thread.CurrentThread.IsBackground = true;
@@ -57,7 +62,21 @@ namespace Orobouros.Managers
                         }
                     }
                 }
-            }).Start();
+            });
+            SupplementaryThread = thready;
+            thready.Start();
+        }
+
+        /// <summary>
+        /// Forcibly stops the supplementary modules thread. InitializeModules will need to be run
+        /// again after this if the application will continue.
+        /// </summary>
+        public static void FlushSupplementaryMethods()
+        {
+            if (SupplementaryCancelToken != null)
+            {
+                SupplementaryCancelToken.Cancel();
+            }
         }
 
         /// <summary>
@@ -128,9 +147,9 @@ namespace Orobouros.Managers
                 parms.RequestedContent = parms.RequestedContent.Concat(contentToFetch).ToList();
                 parms.ScrapeInstances = numofinstances;
 
-                // Multiple supported modules found
                 if (foundModules.Count > 1)
                 {
+                    // Multiple supported modules found
                     DebugManager.WriteToDebugLog($"Multiple modules for the same website supporting the same content found. A random one will be selected. Please avoid this behavior in the future.");
                     Random rng = new Random();
                     int randInt = rng.Next(foundModules.Count);

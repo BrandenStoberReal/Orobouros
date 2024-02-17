@@ -8,7 +8,7 @@ using static Orobouros.UniAssemblyInfo;
 
 namespace Orobouros.Bases
 {
-    public class Module : ModuleInfo
+    public class Module
     {
         public string Name { get; set; }
         public string Description { get; set; }
@@ -25,6 +25,16 @@ namespace Orobouros.Bases
         /// provides module information.
         /// </summary>
         public object? PsuedoAttribute { get; set; }
+
+        /// <summary>
+        /// List of content supported by the module.
+        /// </summary>
+        public List<ModuleContent> SupportedContent { get; set; } = new List<ModuleContent>();
+
+        /// <summary>
+        /// List of websites supported by the module.
+        /// </summary>
+        public List<string> SupportedWebsites { get; set; } = new List<string>();
 
         /// <summary>
         /// Raw assembly of the module.
