@@ -118,7 +118,7 @@ namespace Orobouros.Managers
                 // Bad content was requested
                 if (foundModules.Count == 0)
                 {
-                    DebugManager.WriteToDebugLog($"Content has been requested that the discovered module(s) does not support! Please ensure you have the correct module(s) installed.");
+                    DebugManager.WriteToDebugLog($"Content has been requested that the discovered module(s) do not support! Please ensure you have the correct module(s) installed.");
                     return null;
                 }
 
