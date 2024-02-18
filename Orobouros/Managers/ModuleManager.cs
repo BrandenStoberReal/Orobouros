@@ -171,30 +171,9 @@ namespace Orobouros.Managers
                                 Type scrapeMethodReturnType = module.ScrapeMethod.ReturnType;
 
                                 // Check for valid return type
-                                if (scrapeMethodReturnType.IsGenericType && scrapeMethodReturnType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                                if (scrapeMethodReturnType != typeof(ModuleData))
                                 {
-                                    // Return type is nullable
-                                    Type? underlyingType = Nullable.GetUnderlyingType(scrapeMethodReturnType);
-
-                                    // Edge case error handling
-                                    if (underlyingType == null)
-                                    {
-                                        DebugManager.WriteToDebugLog($"ERROR: Module \"{module.Name}\" encountered an unexpected error while verifying scraper method return types. Please report this to Orobouros's issue tracker. This module will be skipped.");
-                                        continue;
-                                    }
-
-                                    // Check if return type is correct
-                                    if (underlyingType != typeof(ModuleData))
-                                    {
-                                        DebugManager.WriteToDebugLog($"ERROR: Module \"{module.Name}\"'s scraper method IS nullable but does NOT return ModuleData! Please report this to the module's developer. This module will be skipped.");
-                                        continue;
-                                    }
-                                }
-                                else
-                                {
-                                    // Return type is not nullable. Return types must be nullable
-                                    // for error handling.
-                                    DebugManager.WriteToDebugLog($"ERROR: Module \"{module.Name}\"'s scraper method is not nullable! The return type for the scraper module MUST be nullable. Please report this to the module's developer. This module will be skipped.");
+                                    DebugManager.WriteToDebugLog($"ERROR: Module \"{module.Name}\"'s scraper method does NOT return ModuleData! Please report this to the module's developer. This module will be skipped.");
                                     continue;
                                 }
 
