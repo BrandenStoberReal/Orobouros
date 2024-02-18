@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Orobouros.Bases;
 using static Orobouros.UniAssemblyInfo;
 using Orobouros.Attributes;
+using Orobouros.Tools;
 
 namespace Orobouros.Managers
 {
@@ -17,7 +18,7 @@ namespace Orobouros.Managers
         /// <summary>
         /// A list of all loaded modules, casted to a class
         /// </summary>
-        public static List<Bases.Module> LoadedOrobourosModules = new List<Bases.Module>();
+        public static ModuleContainer Container = new ModuleContainer("ModuleManager Module Container", "Primary container for holding loaded Orobouros modules.");
 
         /// <summary>
         /// Ensures the modules folder exists. This acts as a default modules path.
@@ -38,7 +39,7 @@ namespace Orobouros.Managers
         /// <param name="aggressive">Whether to aggressively delete non-module files in the directory.</param>
         public static void LoadAssemblies(string? folder = null, bool aggressive = false)
         {
-            LoadedOrobourosModules.Clear();
+            Container.Modules.Clear();
             VerifyModulesFolderIntegrity();
             foreach (var mod in Directory.GetFiles(folder != null ? folder : Path.GetFullPath("./modules")))
             {
@@ -160,7 +161,7 @@ namespace Orobouros.Managers
                                 }
 
                                 // Push module to the array
-                                LoadedOrobourosModules.Add(module);
+                                Container.Modules.Add(module);
                                 DebugManager.WriteToDebugLog($"Methods: Invoking initializer method of module \"{module.Name}\" in a new thread!");
 
                                 // Start module initializer thread

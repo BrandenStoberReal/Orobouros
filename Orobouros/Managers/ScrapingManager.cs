@@ -54,7 +54,7 @@ namespace Orobouros.Managers
                     }
 
                     // Run all supplementary methods
-                    foreach (Module mod in ModuleManager.LoadedOrobourosModules)
+                    foreach (Module mod in ModuleManager.Container.Modules)
                     {
                         foreach (MethodInfo method in mod.SupplementaryMethods)
                         {
@@ -103,7 +103,7 @@ namespace Orobouros.Managers
             string baseDomain = myUri.Host;
 
             // Find module with supported website
-            foreach (Module mod in ModuleManager.LoadedOrobourosModules)
+            foreach (Module mod in ModuleManager.Container.Modules)
             {
                 foreach (string Website in mod.SupportedWebsites)
                 {
