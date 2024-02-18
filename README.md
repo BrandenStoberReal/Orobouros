@@ -1,5 +1,5 @@
 # The Orobouros Framework
-Orobouros is a C# framework for scraping the web. Many attempts to do this have been created in various languages, but a different approach is taken with Orobouros due to the patented OrobourosModule™ system that allows any person to write their own plugin for any website.
+Orobouros is a C# framework for scraping the web. Many attempts to do this have been created in various languages, but a different approach is taken with Orobouros due to the patented OrobourosModuleâ„¢ system that allows any person to write their own plugin for any website.
 
 # Usage
 TBA
@@ -28,4 +28,5 @@ TBA
 
 # Credits
 - Branden Stober - Main Project Lead
-- ImSoupp - Reflection Help & Module Help
+- ImSoupp - Reflection Help & Database Help
+- CTAG - Database Help
