@@ -24,6 +24,7 @@ TBA
 - [ ] Cross-module support
 - [x] XML annotations
 - [ ] Module security checks
+- [x] Module sanity checks
 - [x] Multiple modules for same website support
 
 # Credits
