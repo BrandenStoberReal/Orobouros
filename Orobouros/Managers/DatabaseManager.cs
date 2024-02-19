@@ -86,7 +86,7 @@ namespace Orobouros.Managers
         /// Executes a SQL query against an SQLite database. Returns the result set for SELECT
         /// queries, or null for INSERT, UPDATE, DELETE queries if they execute successfully.
         /// </summary>
-        /// <param name="databaseFile">The path to the SQLite database file.</param>
+        /// <param name="connection">An SqliteConnection object reference..</param>
         /// <param name="sqlQuery">The SQL query to execute.</param>
         /// <param name="parameters">Optional parameters for the SQL query.</param>
         /// <returns>
