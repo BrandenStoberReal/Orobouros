@@ -148,11 +148,17 @@ namespace Orobouros.Managers
                                     DebugManager.WriteToDebugLog($"Scanning Method: {method.Name}");
                                     if (ReflectionManager.MethodHasAttribute(method, typeof(ModuleInit)))
                                     {
-                                        module.InitMethod = method;
+                                        if (module.InitMethod == null)
+                                        {
+                                            module.InitMethod = method;
+                                        }
                                     }
                                     if (ReflectionManager.MethodHasAttribute(method, typeof(ModuleScrape)))
                                     {
-                                        module.ScrapeMethod = method;
+                                        if (module.ScrapeMethod == null)
+                                        {
+                                            module.ScrapeMethod = method;
+                                        }
                                     }
                                     if (ReflectionManager.MethodHasAttribute(method, typeof(ModuleSupplementary)))
                                     {

@@ -34,6 +34,22 @@ namespace Orobouros.Managers
         }
 
         /// <summary>
+        /// Creates an empty database file.
+        /// </summary>
+        /// <param name="parentFolder"></param>
+        /// <param name="databaseName"></param>
+        /// <returns></returns>
+        public static string CreateDatabase(string parentFolder, string databaseName)
+        {
+            string fullPath = Path.Combine(parentFolder, $"{databaseName}.sqlite");
+            if (!File.Exists(fullPath))
+            {
+                File.WriteAllBytes(fullPath, new byte[0]);
+            }
+            return fullPath;
+        }
+
+        /// <summary>
         /// Executes a SQL query against an SQLite database. Returns the result set for SELECT
         /// queries, or null for INSERT, UPDATE, DELETE queries if they execute successfully.
         /// </summary>
@@ -74,13 +90,13 @@ namespace Orobouros.Managers
                 // For INSERT, UPDATE, DELETE, execute the command without returning data
                 long? affectedRows = command.ExecuteNonQuery();
 
-            long? insertId = null;
+                long? insertId = null;
 
-            if (sqlQuery.Trim().StartsWith("INSERT", StringComparison.OrdinalIgnoreCase))
-            {
-                command.CommandText = "SELECT last_insert_rowid()";
-                insertId = (long?)command.ExecuteScalar();
-            }
+                if (sqlQuery.Trim().StartsWith("INSERT", StringComparison.OrdinalIgnoreCase))
+                {
+                    command.CommandText = "SELECT last_insert_rowid()";
+                    insertId = (long?)command.ExecuteScalar();
+                }
                 return (null, insertId ?? affectedRows);
             }
         }
