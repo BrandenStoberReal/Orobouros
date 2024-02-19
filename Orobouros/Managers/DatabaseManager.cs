@@ -50,6 +50,39 @@ namespace Orobouros.Managers
         }
 
         /// <summary>
+        /// Creates a table with an optional list of columns.
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <param name="tableName"></param>
+        /// <param name="columns"></param>
+        public static void CreateTable(SqliteConnection connection, string tableName, List<SqliteColumn> columns = null)
+        {
+            List<string> keyValuePairs = new List<string>();
+            if (columns == null)
+            {
+                ExecuteQuery(connection, $"CREATE TABLE IF NOT EXISTS {tableName} ();");
+            }
+            else
+            {
+                foreach (SqliteColumn column in columns)
+                {
+                    keyValuePairs.Add($"{column.Name} {column.ValueType}");
+                }
+                ExecuteQuery(connection, $"CREATE TABLE IF NOT EXISTS {tableName} ({String.Join(",\n", keyValuePairs)});");
+            }
+        }
+
+        /// <summary>
+        /// Drops a table registered in the database.
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <param name="tableName"></param>
+        public static void DeleteTable(SqliteConnection connection, string tableName)
+        {
+            ExecuteQuery(connection, $"DROP TABLE IF EXISTS {tableName};");
+        }
+
+        /// <summary>
         /// Executes a SQL query against an SQLite database. Returns the result set for SELECT
         /// queries, or null for INSERT, UPDATE, DELETE queries if they execute successfully.
         /// </summary>
@@ -59,12 +92,8 @@ namespace Orobouros.Managers
         /// <returns>
         /// A DataTable containing the result set for SELECT queries, or null for other query types.
         /// </returns>
-        public static (DataTable? dataTable, long? affectedRowsOrInsertId) ExecuteQuery(string databaseFile, string sqlQuery, Dictionary<string, object> parameters = null)
+        public static (DataTable? dataTable, long? affectedRowsOrInsertId) ExecuteQuery(SqliteConnection connection, string sqlQuery, Dictionary<string, object> parameters = null)
         {
-            var connectionString = $"Data Source={databaseFile}";
-            using var connection = new SqliteConnection(connectionString);
-            connection.Open();
-
             using var command = new SqliteCommand(sqlQuery, connection);
 
             // Add parameters to the command if any
