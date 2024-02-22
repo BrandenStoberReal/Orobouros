@@ -12,7 +12,7 @@ namespace Orobouros.Managers
         /// <summary>
         /// Verifies a module's storage directory exists.
         /// </summary>
-        /// <param name="mod"></param>
+        /// <param name="mod">Specified module to check</param>
         public static void VerifyStorageLocation(Module mod)
         {
             if (!Directory.Exists("./moduledb"))
@@ -34,7 +34,7 @@ namespace Orobouros.Managers
         /// <summary>
         /// Fetches the absolute path for a module's database file.
         /// </summary>
-        /// <param name="mod"></param>
+        /// <param name="mod">Specified module to fetch</param>
         /// <returns></returns>
         public static string FetchModuleDatabasePath(Module mod)
         {
