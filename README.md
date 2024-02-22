@@ -17,7 +17,7 @@ TBA
 - [x] Module scrape method
 - [ ] Module options
 - [x] Module return data
-- [ ] Custom library support
+- [x] Custom library support
 - [x] SQLite support
 - [x] Dynamic database support
 - [ ] Website API support (separate from raw HTTP)

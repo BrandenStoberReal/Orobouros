@@ -192,6 +192,20 @@ namespace Orobouros.Managers
                                 Container.Modules.Add(module);
                                 DebugManager.WriteToDebugLog($"Methods: Invoking initializer method of module \"{module.Name}\" in a new thread!");
 
+                                // Push module to appdomain
+                                AppDomain.CurrentDomain.Load(DLL.GetName());
+
+                                // Load dependencies
+                                foreach (AssemblyName assembly in DLL.GetReferencedAssemblies())
+                                {
+                                    if (AppDomain.CurrentDomain.GetAssemblies().Any(x => x.GetName() == assembly))
+                                    {
+                                        // Ensure we dont load dependencies twice.
+                                        continue;
+                                    }
+                                    AppDomain.CurrentDomain.Load(assembly);
+                                }
+
                                 // Start module initializer thread
                                 new Thread(() =>
                                 {
