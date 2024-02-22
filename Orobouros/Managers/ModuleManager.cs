@@ -138,6 +138,7 @@ namespace Orobouros.Managers
                                 module.Description = ModDesc;
                                 module.Version = ModVersion;
                                 module.GUID = ModGuid;
+                                module.DatabaseFile = DynamicDatabaseManager.FetchModuleDatabasePath(module);
 
                                 // Assign statically-based values
                                 module.SupportedWebsites = ModWebsites;

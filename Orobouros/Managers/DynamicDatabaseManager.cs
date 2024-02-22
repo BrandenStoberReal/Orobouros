@@ -9,6 +9,10 @@ namespace Orobouros.Managers
 {
     public class DynamicDatabaseManager
     {
+        /// <summary>
+        /// Verifies a module's storage directory exists.
+        /// </summary>
+        /// <param name="mod"></param>
         public static void VerifyStorageLocation(Module mod)
         {
             if (!Directory.Exists("./moduledb"))
@@ -27,10 +31,15 @@ namespace Orobouros.Managers
             }
         }
 
+        /// <summary>
+        /// Fetches the absolute path for a module's database file.
+        /// </summary>
+        /// <param name="mod"></param>
+        /// <returns></returns>
         public static string FetchModuleDatabasePath(Module mod)
         {
             VerifyStorageLocation(mod);
-            return $"./moduledb/{mod.GUID}/{mod.GUID}.sqlite";
+            return Path.GetFullPath($"./moduledb/{mod.GUID}/{mod.GUID}.sqlite");
         }
     }
 }

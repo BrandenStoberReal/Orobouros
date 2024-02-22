@@ -14,6 +14,7 @@ namespace Orobouros.Bases
         public string Description { get; set; }
         public string Version { get; set; }
         public string GUID { get; set; }
+        public string DatabaseFile { get; set; }
 
         /// <summary>
         /// Instantiated primary module class. This class represents the module's exported
