@@ -34,8 +34,8 @@ namespace FlyingSubmarineDLL.Attributes
         /// <param name="moduleName">Human-readable module name (Required)</param>
         /// <param name="guid">Module unique GUID (Required)</param>
         /// <param name="moduleDescription">Human-readable module description (Optional)</param>
-        /// <param name="moduleVersion">Module version (Optional)</param>
-        public OrobourosModule(string moduleName, string guid, string moduleDescription = "Default Description", string moduleVersion = "1.0.0")
+        /// <param name="moduleVersion">Module version (Required)</param>
+        public OrobourosModule(string moduleName, string guid, string moduleVersion, string moduleDescription = "Default Description")
         {
             ModuleName = moduleName;
             ModuleDescription = moduleDescription;
