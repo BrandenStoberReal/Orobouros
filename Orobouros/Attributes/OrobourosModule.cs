@@ -11,12 +11,14 @@ namespace FlyingSubmarineDLL.Attributes
         public string ModuleName { get; private set; }
         public string ModuleDescription { get; private set; }
         public string ModuleVersion { get; private set; }
+        public string ModuleGUID { get; private set; }
 
-        public OrobourosModule(string moduleName, string moduleDescription, string moduleVersion)
+        public OrobourosModule(string moduleName, string guid, string moduleDescription = "Default Description", string moduleVersion = "1.0.0")
         {
             ModuleName = moduleName;
             ModuleDescription = moduleDescription;
             ModuleVersion = moduleVersion;
+            ModuleGUID = guid;
         }
     }
 }

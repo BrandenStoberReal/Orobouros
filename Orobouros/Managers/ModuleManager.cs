@@ -82,6 +82,7 @@ namespace Orobouros.Managers
                             PropertyInfo? moduleName = moduleInfoAttribute.GetProperty("ModuleName");
                             PropertyInfo? moduleDescription = moduleInfoAttribute.GetProperty("ModuleDescription");
                             PropertyInfo? moduleVersion = moduleInfoAttribute.GetProperty("ModuleVersion");
+                            PropertyInfo? moduleGUID = moduleInfoAttribute.GetProperty("ModuleGUID");
 
                             // Placeholder attribute fields
                             PropertyInfo? moduleSupportedSites = null;
@@ -108,7 +109,7 @@ namespace Orobouros.Managers
                             try
                             {
                                 // Prevent further processing if module does not contain proper information.
-                                if (moduleName == null || moduleDescription == null || moduleVersion == null || moduleSupportedSites == null || moduleSupportedContent == null || moduleSupportedSites == null || moduleSupportedContent == null)
+                                if (moduleName == null || moduleGUID == null || moduleSupportedSites == null || moduleSupportedContent == null || moduleSupportedSites == null || moduleSupportedContent == null)
                                 {
                                     DebugManager.WriteToDebugLog($"WARNING: Module \"{Path.GetFileName(mod)}\" has malformed information and has been skipped. Please report this to the module's author.");
                                     continue;
@@ -118,6 +119,7 @@ namespace Orobouros.Managers
                                 string ModName = (string)ReflectionManager.GetValueOfProperty(moduleName, psuedoAttribute);
                                 string ModDesc = (string)ReflectionManager.GetValueOfProperty(moduleDescription, psuedoAttribute);
                                 string ModVersion = (string)ReflectionManager.GetValueOfProperty(moduleVersion, psuedoAttribute);
+                                string ModGuid = (string)ReflectionManager.GetValueOfProperty(moduleGUID, psuedoAttribute);
                                 List<string> ModWebsites = (List<string>)ReflectionManager.GetValueOfProperty(moduleSupportedSites, psuedoClass);
                                 List<ModuleContent> ModContents = (List<ModuleContent>)ReflectionManager.GetValueOfProperty(moduleSupportedContent, psuedoClass);
 
@@ -135,6 +137,7 @@ namespace Orobouros.Managers
                                 module.Name = ModName;
                                 module.Description = ModDesc;
                                 module.Version = ModVersion;
+                                module.GUID = ModGuid;
 
                                 // Assign statically-based values
                                 module.SupportedWebsites = ModWebsites;

@@ -7,7 +7,7 @@ using Orobouros.Attributes;
 namespace Orobouros.TestModule
 {
     // Module must inherit ScraperInfo.
-    [OrobourosModule("Test Module", "A simple test module.", "1.0.0.0")]
+    [OrobourosModule("Test Module", "8ff30f03-3446-493c-800f-67b47c83e216", "A simple test module.", "1.0.0.0")]
     public class MainModule
     {
         // Module information. You can either override these or create your own, although override

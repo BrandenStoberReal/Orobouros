@@ -17,7 +17,7 @@ namespace OrobourosTests.DLL
             ModuleManager.LoadAssemblies();
             foreach (Module module in ModuleManager.Container.Modules)
             {
-                System.Diagnostics.Trace.WriteLine($"{module.Name} | {module.Version}");
+                DebugManager.WriteToDebugLog($"{module.Name} | {module.Version}");
             }
             Assert.IsTrue(ModuleManager.Container.Modules.Count > 0);
         }

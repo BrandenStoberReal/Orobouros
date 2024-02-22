@@ -1,5 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using Orobouros.Managers;
+using Orobouros.Attributes;
+using Orobouros.Bases;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +41,17 @@ namespace OrobourosTests.DLL
             {
                 SqliteConnection con = DatabaseManager.ConnectToDatabase(fullPath);
                 Assert.IsNotNull(con);
+            }
+        }
+
+        [TestMethod(displayName: "Database Tests - Test Dynamic Database Directory")]
+        public void Test_Database_DynDir()
+        {
+            ModuleManager.LoadAssemblies();
+            foreach (Module module in ModuleManager.Container.Modules)
+            {
+                string path = DynamicDatabaseManager.FetchModuleDatabasePath(module);
+                Assert.IsTrue(Path.Exists(path));
             }
         }
     }
