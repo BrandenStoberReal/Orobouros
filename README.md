@@ -18,7 +18,8 @@ TBA
 - [ ] Module options
 - [x] Module return data
 - [ ] Custom library support
-- [ ] SQLite support
+- [x] SQLite support
+- [x] Dynamic database support
 - [ ] Website API support (separate from raw HTTP)
 - [ ] Selenium support
 - [ ] Cross-module support
