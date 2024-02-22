@@ -193,7 +193,11 @@ namespace Orobouros.Managers
                                 DebugManager.WriteToDebugLog($"Methods: Invoking initializer method of module \"{module.Name}\" in a new thread!");
 
                                 // Push module to appdomain
-                                AppDomain.CurrentDomain.Load(DLL.GetName());
+                                if (!AppDomain.CurrentDomain.GetAssemblies().Any(x => x.GetName() == DLL.GetName()))
+                                {
+                                    // Load module into appdomain
+                                    AppDomain.CurrentDomain.Load(DLL.GetName());
+                                }
 
                                 // Load dependencies
                                 foreach (AssemblyName assembly in DLL.GetReferencedAssemblies())
