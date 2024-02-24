@@ -1,5 +1,4 @@
-﻿using PartyLib.Helpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -13,7 +12,7 @@ namespace Orobouros.Managers
     public static class HttpManager
     {
         /// <summary>
-        /// HTTP Client used for all HTTP requests.
+        /// HTTP Client used for all HTTP requests. A new client is created if a proxy is used however.
         /// </summary>
         public static HttpClient MainClient = new HttpClient();
 
@@ -53,7 +52,7 @@ namespace Orobouros.Managers
         /// <param name="httpVersion"></param>
         /// <param name="httpPolicy"></param>
         /// <returns></returns>
-        private static HttpAPIAsset SimpleHttpRequest(HttpMethod method, string url, string? proxy = null, List<Tuple<string, string>>? cookies = null, bool useDefaultHeaders = true, List<Tuple<string, string>>? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_2, HttpVersionPolicy httpPolicy = HttpVersionPolicy.RequestVersionOrHigher)
+        private static HttpAPIAsset SimpleHttpRequest(HttpMethod method, string url, string? proxy = null, List<Tuple<string, string>>? cookies = null, bool useDefaultHeaders = true, WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_2, HttpVersionPolicy httpPolicy = HttpVersionPolicy.RequestVersionOrHigher)
         {
             using (var requestMessage = new HttpRequestMessage(method, url))
             {
@@ -86,9 +85,13 @@ namespace Orobouros.Managers
                 // Add custom headers here
                 if (headers != null)
                 {
-                    foreach (Tuple<string, string> header in headers)
+                    for (int i = 0; i < headers.Count; ++i)
                     {
-                        requestMessage.Headers.Add(header.Item1, header.Item2);
+                        string header = headers.GetKey(i);
+                        foreach (string value in headers.GetValues(i))
+                        {
+                            requestMessage.Headers.Add(header, value);
+                        }
                     }
                 }
 
@@ -168,7 +171,7 @@ namespace Orobouros.Managers
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public static HttpAPIAsset GET(string url, string? proxy = null, List<Tuple<string, string>>? cookies = null, bool useDefaultHeaders = true, List<Tuple<string, string>>? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_2, HttpVersionPolicy httpPolicy = HttpVersionPolicy.RequestVersionOrHigher)
+        public static HttpAPIAsset GET(string url, string? proxy = null, List<Tuple<string, string>>? cookies = null, bool useDefaultHeaders = true, WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_2, HttpVersionPolicy httpPolicy = HttpVersionPolicy.RequestVersionOrHigher)
         {
             return SimpleHttpRequest(HttpMethod.Get, url, proxy, cookies, useDefaultHeaders, headers, httpVersion, httpPolicy);
         }
@@ -178,7 +181,7 @@ namespace Orobouros.Managers
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public static HttpAPIAsset DELETE(string url, string? proxy = null, List<Tuple<string, string>>? cookies = null, bool useDefaultHeaders = true, List<Tuple<string, string>>? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_2, HttpVersionPolicy httpPolicy = HttpVersionPolicy.RequestVersionOrHigher)
+        public static HttpAPIAsset DELETE(string url, string? proxy = null, List<Tuple<string, string>>? cookies = null, bool useDefaultHeaders = true, WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_2, HttpVersionPolicy httpPolicy = HttpVersionPolicy.RequestVersionOrHigher)
         {
             return SimpleHttpRequest(HttpMethod.Delete, url, proxy, cookies, useDefaultHeaders, headers, httpVersion, httpPolicy);
         }

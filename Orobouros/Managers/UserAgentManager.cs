@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PartyLib.Helpers
+namespace Orobouros.Managers
 {
     public static class UserAgentManager
     {
