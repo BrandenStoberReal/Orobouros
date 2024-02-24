@@ -10,6 +10,7 @@ TBA
 # TODO:
 - [x] Dynamic module loading
 - [x] Raw HTTP support
+- [ ] Downloader service
 - [x] Attribute scanning
 - [x] Custom attributes
 - [x] Module init method
