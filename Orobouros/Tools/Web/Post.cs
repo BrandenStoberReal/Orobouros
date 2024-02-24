@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Orobouros.Tools
+namespace Orobouros.Tools.Web
 {
     /// <summary>
     /// Generic post class that modules can freely use. This allows modules to return subposts
@@ -17,5 +17,8 @@ namespace Orobouros.Tools
         public string Description { get; set; }
         public string Author { get; set; }
         public string URL { get; set; }
+        public DateTime UploadDate { get; set; }
+        public DateTime LastEditedDate { get; set; }
+        public List<Attachment> Attachments { get; set; }
     }
 }

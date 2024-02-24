@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Orobouros.Tools.Web;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,5 +25,10 @@ namespace Orobouros.Bases
         /// modules which use the Subposts content type.
         /// </summary>
         public int ScrapeInstances { get; set; }
+
+        /// <summary>
+        /// List of subposts that can be passed from a previous step.
+        /// </summary>
+        public List<Post> Subposts { get; set; }
     }
 }

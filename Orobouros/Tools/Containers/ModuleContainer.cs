@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Orobouros.Tools
+namespace Orobouros.Tools.Containers
 {
     /// <summary>
     /// Class designed to hold a list of modules.

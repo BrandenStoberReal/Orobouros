@@ -1,6 +1,7 @@
 ﻿using Orobouros.Attributes;
 using Orobouros.Bases;
-using Orobouros.Tools;
+using Orobouros.Tools.Containers;
+using Orobouros.Tools.Web;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -94,13 +95,14 @@ namespace Orobouros.Managers
         /// (Optional) Number of instances to scrape. Defaults to 1 and is rarely changed.
         /// </param>
         /// <returns></returns>
-        public static ModuleData? ScrapeURL(string url, List<ModuleContent> contentToFetch, int numofinstances = 1)
+        public static ModuleData? ScrapeURL(string url, List<ModuleContent> contentToFetch, int numofinstances = -1, List<Post> posts = null)
         {
             // Placeholder for discovered module
             ModuleContainer foundModules = new ModuleContainer();
 
             // Fetch base domain for compatibility checks
             Uri myUri = new Uri(url);
+
             string baseDomain = myUri.Host;
 
             // Find module with supported website
@@ -147,6 +149,7 @@ namespace Orobouros.Managers
                 parms.URL = url;
                 parms.RequestedContent = parms.RequestedContent.Concat(contentToFetch).ToList();
                 parms.ScrapeInstances = numofinstances;
+                parms.Subposts = posts;
 
                 if (foundModules.Modules.Count > 1)
                 {

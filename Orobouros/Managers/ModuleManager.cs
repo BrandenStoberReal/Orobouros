@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Orobouros.Bases;
 using static Orobouros.UniAssemblyInfo;
 using Orobouros.Attributes;
-using Orobouros.Tools;
+using Orobouros.Tools.Containers;
 
 namespace Orobouros.Managers
 {
@@ -41,6 +41,7 @@ namespace Orobouros.Managers
         {
             Container.Modules.Clear();
             VerifyModulesFolderIntegrity();
+            LibraryManager.LoadLibraries();
             foreach (var mod in Directory.GetFiles(folder != null ? folder : Path.GetFullPath("./modules")))
             {
                 // Only attempt to load valid DLL files, obviously
@@ -60,6 +61,9 @@ namespace Orobouros.Managers
                         // Determine if class has the attribute we need
                         if (ReflectionManager.TypeHasAttribute(type, typeof(OrobourosModule)))
                         {
+                            // Load libraries
+                            LibraryManager.LoadReferencedAssemblies(DLL);
+
                             // Fetch the attribute type for the main module class
                             object? rawInfoAttribute = ReflectionManager.FetchAttributeFromType(type, typeof(OrobourosModule));
                             Type moduleInfoAttribute = rawInfoAttribute.GetType();
@@ -197,17 +201,6 @@ namespace Orobouros.Managers
                                 {
                                     // Load module into appdomain
                                     AppDomain.CurrentDomain.Load(DLL.GetName());
-                                }
-
-                                // Load dependencies
-                                foreach (AssemblyName assembly in DLL.GetReferencedAssemblies())
-                                {
-                                    if (AppDomain.CurrentDomain.GetAssemblies().Any(x => x.GetName() == assembly))
-                                    {
-                                        // Ensure we dont load dependencies twice.
-                                        continue;
-                                    }
-                                    AppDomain.CurrentDomain.Load(assembly);
                                 }
 
                                 // Start module initializer thread

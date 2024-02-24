@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using Orobouros.Tools.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -118,6 +119,24 @@ namespace Orobouros.Managers
         public static List<HtmlNode> FetchJavascriptNodes(HtmlDocument document)
         {
             return SelectNodesByType(document, "script");
+        }
+
+        public static HtmlNode? FetchNodeByXPath(HtmlDocument document, string xpath)
+        {
+            return document.DocumentNode.SelectSingleNode(xpath);
+        }
+
+        public static List<HtmlNode> FetchChildNodes(HtmlNode parent)
+        {
+            List<HtmlNode> nodes = new List<HtmlNode>();
+            foreach (var post in parent.ChildNodes)
+            {
+                if (post.NodeType == HtmlNodeType.Element)
+                {
+                    nodes.Add(post);
+                }
+            }
+            return nodes;
         }
     }
 }

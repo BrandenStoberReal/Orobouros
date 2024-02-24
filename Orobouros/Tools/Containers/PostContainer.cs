@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Orobouros.Tools.Web;
 
-namespace Orobouros.Tools
+namespace Orobouros.Tools.Containers
 {
     /// <summary>
     /// Class designed to hold posts.
