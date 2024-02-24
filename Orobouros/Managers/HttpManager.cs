@@ -18,17 +18,49 @@ namespace Orobouros.Managers
         public static HttpClient MainClient = new HttpClient();
 
         /// <summary>
+        /// </summary>
+        public enum HttpVersionNumber
+        {
+            /// <summary>
+            /// Specifies HTTP Version 1.0
+            /// </summary>
+            HTTP_1,
+
+            /// <summary>
+            /// Specifies HTTP Version 1.1
+            /// </summary>
+            HTTP_11,
+
+            /// <summary>
+            /// Specifies HTTP Version 2.0
+            /// </summary>
+            HTTP_2,
+
+            /// <summary>
+            /// Specifies HTTP Version 3.0 (tcp/udp dual support)
+            /// </summary>
+            HTTP_3
+        }
+
+        /// <summary>
         /// Private simple HTTP request builder.
         /// </summary>
         /// <param name="method"></param>
         /// <param name="url"></param>
         /// <param name="cookies"></param>
+        /// <param name="useDefaultHeaders"></param>
+        /// <param name="headers"></param>
+        /// <param name="httpVersion"></param>
+        /// <param name="httpPolicy"></param>
         /// <returns></returns>
-        private static HttpAPIAsset SimpleHttpRequest(HttpMethod method, string url, string? proxy = null, string? cookies = null)
+        private static HttpAPIAsset SimpleHttpRequest(HttpMethod method, string url, string? proxy = null, string? cookies = null, bool useDefaultHeaders = true, List<Tuple<string, string>>? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_2, HttpVersionPolicy httpPolicy = HttpVersionPolicy.RequestVersionOrHigher)
         {
             using (var requestMessage = new HttpRequestMessage(method, url))
             {
+                // Initiate client
                 HttpClient reqClient;
+
+                // Handle proxy (if specified)
                 if (proxy != null)
                 {
                     // Use proxy for web request
@@ -43,17 +75,54 @@ namespace Orobouros.Managers
                     reqClient = MainClient;
                 }
 
-                // Add headers here
-                requestMessage.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
-                requestMessage.Headers.Add("Accept-Language", "en-US,en;q=0.5");
-                requestMessage.Headers.Add("User-Agent", UserAgentManager.RandomDesktopUserAgent);
+                // Add default headers here
+                if (useDefaultHeaders)
+                {
+                    requestMessage.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
+                    requestMessage.Headers.Add("Accept-Language", "en-US,en;q=0.5");
+                    requestMessage.Headers.Add("User-Agent", UserAgentManager.RandomDesktopUserAgent);
+                }
 
+                // Add custom headers here
+                if (headers != null)
+                {
+                    foreach (Tuple<string, string> header in headers)
+                    {
+                        requestMessage.Headers.Add(header.Item1, header.Item2);
+                    }
+                }
+
+                // Add cookies (if any)
                 if (cookies != null)
                 {
                     // Add cookies for the request
                     requestMessage.Headers.Add("Cookie", cookies);
                 }
 
+                // Specify HTTP protocol version
+                switch (httpVersion)
+                {
+                    case HttpVersionNumber.HTTP_1:
+                        requestMessage.Version = HttpVersion.Version10;
+                        break;
+
+                    case HttpVersionNumber.HTTP_11:
+                        requestMessage.Version = HttpVersion.Version11;
+                        break;
+
+                    case HttpVersionNumber.HTTP_2:
+                        requestMessage.Version = HttpVersion.Version20;
+                        break;
+
+                    case HttpVersionNumber.HTTP_3:
+                        requestMessage.Version = HttpVersion.Version30;
+                        break;
+                }
+
+                // Specify protocol policy
+                requestMessage.VersionPolicy = httpPolicy;
+
+                // Delcare API asset
                 HttpAPIAsset apiAsset = new HttpAPIAsset();
                 try
                 {
