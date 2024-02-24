@@ -23,7 +23,7 @@ namespace OrobourosTests.DLL
             Assert.IsNotNull(data);
         }
 
-        [TestMethod(displayName: "Module Scrape Handler - 10 Kemono Posts")]
+        [TestMethod(displayName: "PartyModule - 10 Kemono Posts")]
         public void Test_Kemono_Scrape_10()
         {
             ScrapingManager.InitializeModules();
@@ -34,7 +34,7 @@ namespace OrobourosTests.DLL
             Assert.IsTrue(data.Content.Count == 10);
         }
 
-        [TestMethod(displayName: "Module Scrape Handler - 10 Coomer Posts")]
+        [TestMethod(displayName: "PartyModule - 10 Coomer Posts")]
         public void Test_Coomer_Scrape_10()
         {
             ScrapingManager.InitializeModules();
