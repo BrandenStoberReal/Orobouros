@@ -53,7 +53,7 @@ namespace Orobouros.Managers
         /// <param name="httpVersion"></param>
         /// <param name="httpPolicy"></param>
         /// <returns></returns>
-        private static HttpAPIAsset SimpleHttpRequest(HttpMethod method, string url, string? proxy = null, string? cookies = null, bool useDefaultHeaders = true, List<Tuple<string, string>>? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_2, HttpVersionPolicy httpPolicy = HttpVersionPolicy.RequestVersionOrHigher)
+        private static HttpAPIAsset SimpleHttpRequest(HttpMethod method, string url, string? proxy = null, List<Tuple<string, string>>? cookies = null, bool useDefaultHeaders = true, List<Tuple<string, string>>? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_2, HttpVersionPolicy httpPolicy = HttpVersionPolicy.RequestVersionOrHigher)
         {
             using (var requestMessage = new HttpRequestMessage(method, url))
             {
@@ -96,7 +96,12 @@ namespace Orobouros.Managers
                 if (cookies != null)
                 {
                     // Add cookies for the request
-                    requestMessage.Headers.Add("Cookie", cookies);
+                    string finalCookieString = String.Empty;
+                    foreach (Tuple<string, string> cookie in cookies)
+                    {
+                        finalCookieString += $"{cookie.Item1}={cookie.Item2};";
+                    }
+                    requestMessage.Headers.Add("Cookie", finalCookieString);
                 }
 
                 // Specify HTTP protocol version
