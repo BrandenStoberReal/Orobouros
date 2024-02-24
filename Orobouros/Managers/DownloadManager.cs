@@ -17,6 +17,9 @@ using System.Net.Cache;
 
 namespace Orobouros.Managers
 {
+    /// <summary>
+    /// Web content downloader class
+    /// </summary>
     public class DownloadManager
     {
         /// <summary>
@@ -207,7 +210,7 @@ namespace Orobouros.Managers
             // Sanitize file name
             string sanitizedFileName = StringManager.SanitizeFile(fileName);
 
-            // Make parent folder
+            // Make parent folder if it doesn't exist
             if (!Directory.Exists(parentFolder))
             {
                 Directory.CreateDirectory(parentFolder);
@@ -216,6 +219,7 @@ namespace Orobouros.Managers
             DownloadStatus status;
             try
             {
+                // If file with same name exists, append random digits
                 if (File.Exists(parentFolder + "/" + sanitizedFileName))
                 {
                     status = RawDownloadBuilder(url, parentFolder, new Random().Next(1, 999) + "-" + sanitizedFileName);
