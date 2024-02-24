@@ -170,6 +170,12 @@ namespace Orobouros.Managers
         /// Simple HTTP GET request
         /// </summary>
         /// <param name="url"></param>
+        /// <param name="proxy"></param>
+        /// <param name="cookies"></param>
+        /// <param name="useDefaultHeaders"></param>
+        /// <param name="headers"></param>
+        /// <param name="httpVersion"></param>
+        /// <param name="httpPolicy"></param>
         /// <returns></returns>
         public static HttpAPIAsset GET(string url, string? proxy = null, List<Tuple<string, string>>? cookies = null, bool useDefaultHeaders = true, WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_2, HttpVersionPolicy httpPolicy = HttpVersionPolicy.RequestVersionOrHigher)
         {
@@ -180,6 +186,12 @@ namespace Orobouros.Managers
         /// Simple HTTP DELETE request
         /// </summary>
         /// <param name="url"></param>
+        /// <param name="proxy"></param>
+        /// <param name="cookies"></param>
+        /// <param name="useDefaultHeaders"></param>
+        /// <param name="headers"></param>
+        /// <param name="httpVersion"></param>
+        /// <param name="httpPolicy"></param>
         /// <returns></returns>
         public static HttpAPIAsset DELETE(string url, string? proxy = null, List<Tuple<string, string>>? cookies = null, bool useDefaultHeaders = true, WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_2, HttpVersionPolicy httpPolicy = HttpVersionPolicy.RequestVersionOrHigher)
         {
