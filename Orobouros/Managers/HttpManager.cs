@@ -99,7 +99,7 @@ namespace Orobouros.Managers
                     string finalCookieString = String.Empty;
                     foreach (Tuple<string, string> cookie in cookies)
                     {
-                        finalCookieString += $"{cookie.Item1}={cookie.Item2};";
+                        finalCookieString += $"{cookie.Item1}={cookie.Item2}; ";
                     }
                     requestMessage.Headers.Add("Cookie", finalCookieString);
                 }
