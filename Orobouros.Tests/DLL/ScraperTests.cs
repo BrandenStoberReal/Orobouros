@@ -12,6 +12,9 @@ namespace OrobourosTests.DLL
     [TestClass]
     public class ScraperTests
     {
+        public string KemonoTestCreator = "https://kemono.su/fanbox/user/3316400";
+        public string CoomerTestCreator = "https://coomer.su/onlyfans/user/belledelphine";
+
         [TestMethod(displayName: "Scrape Handler - Standard Scrape")]
         public void Test_Basic_Scrape()
         {
@@ -28,7 +31,7 @@ namespace OrobourosTests.DLL
         {
             ScrapingManager.InitializeModules();
             List<ModuleContent> requestedInfo = new List<ModuleContent> { ModuleContent.Subposts };
-            ModuleData? data = ScrapingManager.ScrapeURL("https://kemono.su/fantia/user/3959", requestedInfo, 10);
+            ModuleData? data = ScrapingManager.ScrapeURL(KemonoTestCreator, requestedInfo, 10);
             ScrapingManager.FlushSupplementaryMethods(); // Stop background methods
             DebugManager.WriteToDebugLog($"Kemono Data Length: {data.Content.Count}");
             Assert.IsTrue(data.Content.Count == 10);
@@ -39,10 +42,54 @@ namespace OrobourosTests.DLL
         {
             ScrapingManager.InitializeModules();
             List<ModuleContent> requestedInfo = new List<ModuleContent> { ModuleContent.Subposts };
-            ModuleData? data = ScrapingManager.ScrapeURL("https://coomer.su/onlyfans/user/belledelphine", requestedInfo, 10);
+            ModuleData? data = ScrapingManager.ScrapeURL(CoomerTestCreator, requestedInfo, 10);
             ScrapingManager.FlushSupplementaryMethods(); // Stop background methods
             DebugManager.WriteToDebugLog($"Coomer Data Length: {data.Content.Count}");
             Assert.IsTrue(data.Content.Count == 10);
+        }
+
+        [TestMethod(displayName: "PartyModule - 50 Kemono Posts (1 page)")]
+        public void Test_Kemono_Scrape_50()
+        {
+            ScrapingManager.InitializeModules();
+            List<ModuleContent> requestedInfo = new List<ModuleContent> { ModuleContent.Subposts };
+            ModuleData? data = ScrapingManager.ScrapeURL(KemonoTestCreator, requestedInfo, 50);
+            ScrapingManager.FlushSupplementaryMethods(); // Stop background methods
+            DebugManager.WriteToDebugLog($"Kemono Data Length: {data.Content.Count}");
+            Assert.IsTrue(data.Content.Count == 50);
+        }
+
+        [TestMethod(displayName: "PartyModule - 50 Coomer Posts (1 page)")]
+        public void Test_Coomer_Scrape_50()
+        {
+            ScrapingManager.InitializeModules();
+            List<ModuleContent> requestedInfo = new List<ModuleContent> { ModuleContent.Subposts };
+            ModuleData? data = ScrapingManager.ScrapeURL(CoomerTestCreator, requestedInfo, 50);
+            ScrapingManager.FlushSupplementaryMethods(); // Stop background methods
+            DebugManager.WriteToDebugLog($"Coomer Data Length: {data.Content.Count}");
+            Assert.IsTrue(data.Content.Count == 50);
+        }
+
+        [TestMethod(displayName: "PartyModule - 70 Kemono Posts (1.5 pages)")]
+        public void Test_Kemono_Scrape_70()
+        {
+            ScrapingManager.InitializeModules();
+            List<ModuleContent> requestedInfo = new List<ModuleContent> { ModuleContent.Subposts };
+            ModuleData? data = ScrapingManager.ScrapeURL(KemonoTestCreator, requestedInfo, 70);
+            ScrapingManager.FlushSupplementaryMethods(); // Stop background methods
+            DebugManager.WriteToDebugLog($"Kemono Data Length: {data.Content.Count}");
+            Assert.IsTrue(data.Content.Count == 70);
+        }
+
+        [TestMethod(displayName: "PartyModule - 70 Coomer Posts (1.5 pages)")]
+        public void Test_Coomer_Scrape_70()
+        {
+            ScrapingManager.InitializeModules();
+            List<ModuleContent> requestedInfo = new List<ModuleContent> { ModuleContent.Subposts };
+            ModuleData? data = ScrapingManager.ScrapeURL(CoomerTestCreator, requestedInfo, 70);
+            ScrapingManager.FlushSupplementaryMethods(); // Stop background methods
+            DebugManager.WriteToDebugLog($"Coomer Data Length: {data.Content.Count}");
+            Assert.IsTrue(data.Content.Count == 70);
         }
     }
 }
