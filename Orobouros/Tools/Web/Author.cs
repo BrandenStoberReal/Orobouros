@@ -15,7 +15,7 @@ namespace Orobouros.Tools.Web
         public string? LastName { get; set; }
         public string? Region { get; set; }
         public string? Language { get; set; }
-        public Image? ProfilePicture { get; set; }
+        public string? ProfilePicture { get; set; }
         public DateTime? AccountCreationDate { get; set; }
         public DateTime? LastOnline { get; set; }
     }

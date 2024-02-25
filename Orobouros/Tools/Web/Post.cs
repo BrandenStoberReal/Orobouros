@@ -12,13 +12,49 @@ namespace Orobouros.Tools.Web
     /// </summary>
     public class Post
     {
-        public string Id { get; set; }
+        /// <summary>
+        /// Unique ID of the post. Every site typically handles this differently.
+        /// </summary>
+        public string? Id { get; set; }
+
+        /// <summary>
+        /// Post title.
+        /// </summary>
         public string Title { get; set; }
-        public string Description { get; set; }
-        public string Author { get; set; }
+
+        /// <summary>
+        /// Post description.
+        /// </summary>
+        public string? Description { get; set; }
+
+        /// <summary>
+        /// Post author.
+        /// </summary>
+        public Author? Author { get; set; }
+
+        /// <summary>
+        /// Post URL.
+        /// </summary>
         public string URL { get; set; }
-        public DateTime UploadDate { get; set; }
-        public DateTime LastEditedDate { get; set; }
-        public List<Attachment> Attachments { get; set; }
+
+        /// <summary>
+        /// Date the post was first uploaded.
+        /// </summary>
+        public DateTime? UploadDate { get; set; }
+
+        /// <summary>
+        /// Date the post was most recently edited.
+        /// </summary>
+        public DateTime? LastEditedDate { get; set; }
+
+        /// <summary>
+        /// Any attachments associated with the post.
+        /// </summary>
+        public List<Attachment>? Attachments { get; set; }
+
+        /// <summary>
+        /// Any replies/comments to the post.
+        /// </summary>
+        public List<Comment>? Comments { get; set; }
     }
 }

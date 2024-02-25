@@ -10,7 +10,7 @@ namespace Orobouros.Tools.Web
     {
         public Post ParentPost { get; set; }
         public string URL { get; set; }
-        public string Author { get; set; }
+        public Author Author { get; set; }
         public DateTime PostTime { get; set; }
         public DateTime LastEdited { get; set; }
         public string Content { get; set; }
