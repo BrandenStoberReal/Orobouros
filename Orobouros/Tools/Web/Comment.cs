@@ -14,6 +14,6 @@ namespace Orobouros.Tools.Web
         public DateTime PostTime { get; set; }
         public DateTime LastEdited { get; set; }
         public string Content { get; set; }
-        public List<Comment> Replies { get; set; }
+        public List<Comment> Replies { get; set; } = new List<Comment>();
     }
 }

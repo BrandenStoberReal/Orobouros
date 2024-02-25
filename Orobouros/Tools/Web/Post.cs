@@ -50,11 +50,11 @@ namespace Orobouros.Tools.Web
         /// <summary>
         /// Any attachments associated with the post.
         /// </summary>
-        public List<Attachment>? Attachments { get; set; }
+        public List<Attachment>? Attachments { get; set; } = new List<Attachment>();
 
         /// <summary>
         /// Any replies/comments to the post.
         /// </summary>
-        public List<Comment>? Comments { get; set; }
+        public List<Comment>? Comments { get; set; } = new List<Comment>();
     }
 }

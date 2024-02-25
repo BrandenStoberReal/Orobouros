@@ -1,5 +1,6 @@
 ﻿using Orobouros.Bases;
 using Orobouros.Managers;
+using Orobouros.Tools.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,45 @@ namespace OrobourosTests.DLL
             ScrapingManager.FlushSupplementaryMethods(); // Stop background methods
             DebugManager.WriteToDebugLog($"Data Length: {data.Content.Count}");
             Assert.IsNotNull(data);
+        }
+
+        [TestMethod(displayName: "PartyModule - 1 Kemono Post")]
+        public void Test_Kemono_Scrape_1()
+        {
+            ScrapingManager.InitializeModules();
+            List<ModuleContent> requestedInfo = new List<ModuleContent> { ModuleContent.Subposts };
+            ModuleData? data = ScrapingManager.ScrapeURL(KemonoTestCreator, requestedInfo, 1);
+            ScrapingManager.FlushSupplementaryMethods(); // Stop background methods
+            Post fetchedPost = (Post)data.Content.First().Value;
+            DebugManager.WriteToDebugLog($"Post Author: {fetchedPost.Author.Username}");
+            DebugManager.WriteToDebugLog($"Post Title: {fetchedPost.Title}");
+            DebugManager.WriteToDebugLog($"Post Description: {fetchedPost.Description}");
+            DebugManager.WriteToDebugLog($"Post Comments: {fetchedPost.Comments.Count}");
+            foreach (Attachment attach in fetchedPost.Attachments)
+            {
+                DebugManager.WriteToDebugLog($"Post Attachment: {attach.AttachmentType} | {attach.Name}");
+            }
+            DebugManager.WriteToDebugLog($"Upload Date: {fetchedPost.UploadDate.ToString()}");
+            Assert.IsTrue(data.Content.Count == 1);
+        }
+
+        [TestMethod(displayName: "PartyModule - 1 Coomer Post")]
+        public void Test_Coomer_Scrape_1()
+        {
+            ScrapingManager.InitializeModules();
+            List<ModuleContent> requestedInfo = new List<ModuleContent> { ModuleContent.Subposts };
+            ModuleData? data = ScrapingManager.ScrapeURL(CoomerTestCreator, requestedInfo, 1);
+            ScrapingManager.FlushSupplementaryMethods(); // Stop background methods
+            Post fetchedPost = (Post)data.Content.First().Value;
+            DebugManager.WriteToDebugLog($"Post Author: {fetchedPost.Author.Username}");
+            DebugManager.WriteToDebugLog($"Post Description: {fetchedPost.Description}");
+            DebugManager.WriteToDebugLog($"Post Comments: {fetchedPost.Comments.Count}");
+            foreach (Attachment attach in fetchedPost.Attachments)
+            {
+                DebugManager.WriteToDebugLog($"Post Attachment: {attach.AttachmentType} | {attach.Name}");
+            }
+            DebugManager.WriteToDebugLog($"Upload Date: {fetchedPost.UploadDate.ToString()}");
+            Assert.IsTrue(data.Content.Count == 1);
         }
 
         [TestMethod(displayName: "PartyModule - 10 Kemono Posts")]
