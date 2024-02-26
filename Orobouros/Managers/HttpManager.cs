@@ -9,6 +9,9 @@ using Orobouros.Bases;
 
 namespace Orobouros.Managers
 {
+    /// <summary>
+    /// Manages all HTTP operations for the framework and essentially acts as the core of the entire project.
+    /// </summary>
     public static class HttpManager
     {
         /// <summary>

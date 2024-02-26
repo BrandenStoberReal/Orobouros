@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Orobouros.Managers
 {
+    /// <summary>
+    /// Utility class that stores user agents to be used for HTTP requests.
+    /// </summary>
     public static class UserAgentManager
     {
         /// <summary>

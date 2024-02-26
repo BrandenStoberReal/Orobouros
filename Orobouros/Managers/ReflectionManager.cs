@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace Orobouros.Managers
 {
+    /// <summary>
+    /// Manages any and all reflection tasks delegated by the framework. This is most used by the
+    /// module manager.
+    /// </summary>
     public static class ReflectionManager
     {
         /// <summary>

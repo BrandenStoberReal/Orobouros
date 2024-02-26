@@ -23,6 +23,11 @@ namespace Orobouros.Tools.Web
         public string URL { get; set; }
 
         /// <summary>
+        /// Attachment's parent post.
+        /// </summary>
+        public Post ParentPost { get; set; }
+
+        /// <summary>
         /// Type of content this attachment encapsulates.
         /// </summary>
         public AttachmentContent AttachmentType { get; set; }
@@ -30,6 +35,6 @@ namespace Orobouros.Tools.Web
         /// <summary>
         /// Raw attachment data.
         /// </summary>
-        public Stream Binary { get; set; }
+        public Stream? Binary { get; set; }
     }
 }

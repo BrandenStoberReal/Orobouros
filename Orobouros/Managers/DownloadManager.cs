@@ -18,7 +18,7 @@ using System.Net.Cache;
 namespace Orobouros.Managers
 {
     /// <summary>
-    /// Web content downloader class
+    /// Handles all of the framework's various downloading tasks, either from the web or other resources.
     /// </summary>
     public class DownloadManager
     {

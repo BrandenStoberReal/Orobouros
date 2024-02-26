@@ -18,8 +18,21 @@ namespace Orobouros.Bases
         public Module Module { get; set; }
 
         /// <summary>
+        /// Date this data was requsted.
+        /// </summary>
+        public DateTime RequestDate { get; set; }
+
+        /// <summary>
         /// An array of data returned by the module.
         /// </summary>
         public List<ProcessedScrapeData> Content { get; set; } = new List<ProcessedScrapeData>();
+
+        /// <summary>
+        /// Class constructor.
+        /// </summary>
+        public ModuleData()
+        {
+            RequestDate = DateTime.Now;
+        }
     }
 }

@@ -32,7 +32,7 @@ namespace Orobouros.Managers
                 // Load dependencies
                 if (file.EndsWith(".dll") && NetAssemblyManager.IsDotNetAssembly(file))
                 {
-                    Assembly assembly = Assembly.Load(file);
+                    Assembly assembly = Assembly.LoadFrom(file);
                     if (AppDomain.CurrentDomain.GetAssemblies().Any(x => x.GetName() == assembly.GetName()))
                     {
                         // Ensure we dont load dependencies twice.
@@ -45,7 +45,8 @@ namespace Orobouros.Managers
         }
 
         /// <summary>
-        /// Loads referenced libraries inside DLLs.
+        /// Loads referenced libraries inside DLLs. Typically doesn't work unless the module bundles
+        /// their libraries strangely.
         /// </summary>
         /// <param name="assembly"></param>
         public static void LoadReferencedAssemblies(Assembly assembly)

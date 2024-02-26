@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Orobouros.Managers
 {
+    /// <summary>
+    /// Controls various aspects of differentiating and managing compiled .NET assemblies.
+    /// </summary>
     public static class NetAssemblyManager
     {
         /// <summary>

@@ -10,6 +10,9 @@ using Orobouros.Bases;
 
 namespace Orobouros.Managers
 {
+    /// <summary>
+    /// Handles all of the framework's database operations.
+    /// </summary>
     public static class DatabaseManager
     {
         /// <summary>

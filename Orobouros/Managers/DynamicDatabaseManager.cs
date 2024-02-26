@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace Orobouros.Managers
 {
-    public class DynamicDatabaseManager
+    /// <summary>
+    /// Manages an abstraction layer between the modules and the database manager.
+    /// </summary>
+    public static class DynamicDatabaseManager
     {
         /// <summary>
         /// Verifies a module's storage directory exists.

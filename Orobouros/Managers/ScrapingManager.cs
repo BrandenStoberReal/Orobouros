@@ -14,6 +14,9 @@ using Module = Orobouros.Bases.Module;
 
 namespace Orobouros.Managers
 {
+    /// <summary>
+    /// Handles all scraping-related tasks on behalf of the framework.
+    /// </summary>
     public static class ScrapingManager
     {
         /// <summary>

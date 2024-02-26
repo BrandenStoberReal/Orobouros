@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Orobouros.Managers
 {
+    /// <summary>
+    /// Utility class that mainly provides string sanitization.
+    /// </summary>
     public static class StringManager
     {
         /// <summary>

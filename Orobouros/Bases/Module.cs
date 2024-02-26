@@ -10,10 +10,29 @@ namespace Orobouros.Bases
 {
     public class Module
     {
+        /// <summary>
+        /// Module name.
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Module description.
+        /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// Module version.
+        /// </summary>
         public string Version { get; set; }
+
+        /// <summary>
+        /// Unique identifier for the module. Used primarily for the database system.
+        /// </summary>
         public string GUID { get; set; }
+
+        /// <summary>
+        /// Module database file path.
+        /// </summary>
         public string DatabaseFile { get; set; }
 
         /// <summary>

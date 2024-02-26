@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace Orobouros.Managers
 {
+    /// <summary>
+    /// Manages HTML parsing tasks for the framework and modules. Modules are highly encouraged to
+    /// use this class instead of implementing logic themselves, unless specific usage is needed.
+    /// </summary>
     public static class HtmlManager
     {
         /// <summary>

@@ -16,6 +16,11 @@ namespace Orobouros.Bases
         public ModuleContent ContentType { get; private set; }
 
         /// <summary>
+        /// Exact time and date this resource was created.
+        /// </summary>
+        public DateTime RequestDate { get; private set; }
+
+        /// <summary>
         /// URL the data payload was scraped from.
         /// </summary>
         public string URL { get; private set; }
@@ -30,7 +35,7 @@ namespace Orobouros.Bases
         /// Human-friendly name of the data payload's class type. Useful in reflection for
         /// determining what class to cast the value to.
         /// </summary>
-        public string ValueClassType { get; private set; }
+        public string ValueClassName { get; private set; }
 
         /// <summary>
         /// Processed scrape data constructor. Multiple instances of this class can have the same
@@ -44,7 +49,8 @@ namespace Orobouros.Bases
             ContentType = type;
             URL = url;
             Value = value;
-            ValueClassType = value.GetType().Name;
+            ValueClassName = value.GetType().Name;
+            RequestDate = DateTime.Now;
         }
     }
 }

@@ -13,6 +13,9 @@ using Orobouros.Tools.Containers;
 
 namespace Orobouros.Managers
 {
+    /// <summary>
+    /// Manages everything related to modules and allows the framework to interpret the module's data.
+    /// </summary>
     public static class ModuleManager
     {
         /// <summary>
