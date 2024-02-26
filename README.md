@@ -10,7 +10,7 @@ Bleeding edge builds can be found in the ``Actions`` tab pre-compiled. If you in
 # TODO:
 - [x] Dynamic module loading
 - [x] Raw HTTP support
-- [ ] Downloader service
+- [x] Downloader service
 - [x] Attribute scanning
 - [x] Custom attributes
 - [x] Module init method
@@ -29,7 +29,7 @@ Bleeding edge builds can be found in the ``Actions`` tab pre-compiled. If you in
 - [x] Module sanity checks
 - [x] Multiple modules for same website support
 - [ ] Improved module error handling
-- [ ] SQlite module integration
+- [x] SQlite module integration
 - [ ] Public module downloader tool
 - [ ] Better data sanitizing & JSON storage
 - [ ] General framework configuration class
