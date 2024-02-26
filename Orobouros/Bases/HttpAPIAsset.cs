@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Orobouros.Bases
 {
+    /// <summary>
+    /// An asset fetched through an HTTP request. Contains various helpful variables and functions.
+    /// </summary>
     public class HttpAPIAsset
     {
         /// <summary>

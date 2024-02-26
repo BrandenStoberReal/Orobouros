@@ -8,6 +8,9 @@ using static Orobouros.UniAssemblyInfo;
 
 namespace Orobouros.Bases
 {
+    /// <summary>
+    /// An individual instance of data. Can represent many things depending on what the module desires.
+    /// </summary>
     public class ProcessedScrapeData
     {
         /// <summary>

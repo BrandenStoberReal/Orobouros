@@ -8,6 +8,9 @@ using static Orobouros.UniAssemblyInfo;
 
 namespace Orobouros.Bases
 {
+    /// <summary>
+    /// Instantiated module class. Represents a loaded assembly from disk.
+    /// </summary>
     public class Module
     {
         /// <summary>

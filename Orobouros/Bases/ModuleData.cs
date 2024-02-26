@@ -8,7 +8,7 @@ using static Orobouros.UniAssemblyInfo;
 namespace Orobouros.Bases
 {
     /// <summary>
-    /// Primary returned data class for any Orobouros Modules.
+    /// Primary returned data class for any modules.
     /// </summary>
     public class ModuleData
     {

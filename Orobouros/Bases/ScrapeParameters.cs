@@ -8,6 +8,9 @@ using static Orobouros.UniAssemblyInfo;
 
 namespace Orobouros.Bases
 {
+    /// <summary>
+    /// Parameters passed to each module's scrape method.
+    /// </summary>
     public class ScrapeParameters
     {
         /// <summary>
