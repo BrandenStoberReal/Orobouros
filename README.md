@@ -5,7 +5,7 @@ Orobouros is a C# framework for scraping the web. Many attempts to do this have 
 This is a ``.NET 8`` library and can be freely imported into any project with the same .NET version. Please keep in mind Linux support is entirely unknown at this time due to SQLite binaries, but it should be compatible in theory.
 
 # Building
-TBA
+Bleeding edge builds can be found in the ``Actions`` tab pre-compiled. If you insist on compiling this yourself, all you need is the ``.NET 8 Core`` framework. I would not recommend taking advantage of the tests, as they require specific configurations I use in debugging.
 
 # TODO:
 - [x] Dynamic module loading
