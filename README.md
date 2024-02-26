@@ -28,6 +28,17 @@ TBA
 - [ ] Module security checks
 - [x] Module sanity checks
 - [x] Multiple modules for same website support
+- [ ] Improved module error handling
+- [ ] SQlite module integration
+- [ ] Public module downloader tool
+- [ ] Better data sanitizing & JSON storage
+- [ ] General framework configuration class
+- [ ] Cross-language support (extremely advanced)
+- [ ] Data language translation toolkit
+- [ ] Overhaul download class & integrate better
+- [ ] Logging overhaul
+- [x] Module developer web toolkit
+- [ ] Framework-level exception handling
 
 # Credits
 - Branden Stober - Main Project Lead
