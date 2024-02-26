@@ -2,7 +2,7 @@
 Orobouros is a C# framework for scraping the web. Many attempts to do this have been created in various languages, but a different approach is taken with Orobouros due to the patented OrobourosModule™ system that allows any person to write their own plugin for any website.
 
 # Usage
-This is a ``.NET 8`` library and can be freely imported into any project with the same .NET version. Please keep in mind Linux support is entirely unknown at this time due to SQLite binaries, but it should be compatible in theory.
+This is a ``.NET 8 Core`` library and can be freely imported into any project with the same .NET version. Please keep in mind Linux support is entirely unknown at this time due to SQLite binaries, but it should be compatible in theory.
 
 # Building
 Bleeding edge builds can be found in the ``Actions`` tab pre-compiled. If you insist on compiling this yourself, all you need is the ``.NET 8 Core`` framework. I would not recommend taking advantage of the tests, as they require specific configurations I use in debugging.
