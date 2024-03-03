@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Orobouros.Tools.Web
+﻿namespace Orobouros.Tools.Web
 {
     /// <summary>
     /// An individual or group. This class is designed for anything that digitally represents a user online.

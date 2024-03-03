@@ -1,19 +1,9 @@
 ﻿using Downloader;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-
-using Downloader;
-
-using DownloadProgressChangedEventArgs = Downloader.DownloadProgressChangedEventArgs;
-
-using Orobouros;
-using static Orobouros.Managers.HttpManager;
 using System.Net.Cache;
+using static Orobouros.Managers.HttpManager;
+using DownloadProgressChangedEventArgs = Downloader.DownloadProgressChangedEventArgs;
 
 namespace Orobouros.Managers
 {

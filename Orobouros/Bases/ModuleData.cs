@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Orobouros.UniAssemblyInfo;
-
-namespace Orobouros.Bases
+﻿namespace Orobouros.Bases
 {
     /// <summary>
     /// Primary returned data class for any modules.

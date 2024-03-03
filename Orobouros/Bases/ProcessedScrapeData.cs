@@ -1,10 +1,4 @@
-﻿using Orobouros.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Orobouros.UniAssemblyInfo;
+﻿using static Orobouros.UniAssemblyInfo;
 
 namespace Orobouros.Bases
 {

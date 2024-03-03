@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Orobouros.Tools.Web
+﻿namespace Orobouros.Tools.Web
 {
     /// <summary>
     /// Generic post class that modules can freely use. This allows modules to return subposts

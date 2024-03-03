@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Orobouros.Managers
+﻿namespace Orobouros.Managers
 {
     /// <summary>
     /// Controls various aspects of differentiating and managing compiled .NET assemblies.
