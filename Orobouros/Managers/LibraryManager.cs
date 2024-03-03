@@ -32,7 +32,7 @@ namespace Orobouros.Managers
                 // Load dependencies
                 if (file.EndsWith(".dll") && NetAssemblyManager.IsDotNetAssembly(file))
                 {
-                    Assembly assembly = Assembly.Load(File.ReadAllBytes(file));
+                    Assembly assembly = Assembly.LoadFrom(file);
                     if (AppDomain.CurrentDomain.GetAssemblies().Any(x => x.GetName() == assembly.GetName()))
                     {
                         // Ensure we dont load dependencies twice.

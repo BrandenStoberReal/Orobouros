@@ -14,10 +14,12 @@ namespace Orobouros.Managers
     /// </summary>
     public static class HttpManager
     {
+        private static HttpClientHandler HttpClientHandler { get; set; } = new HttpClientHandler() { AllowAutoRedirect = true, AutomaticDecompression = DecompressionMethods.All, };
+
         /// <summary>
         /// HTTP Client used for all HTTP requests. A new client is created if a proxy is used however.
         /// </summary>
-        public static HttpClient MainClient = new HttpClient();
+        public static HttpClient MainClient = new HttpClient(HttpClientHandler);
 
         /// <summary>
         /// </summary>

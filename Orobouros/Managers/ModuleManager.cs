@@ -111,7 +111,7 @@ namespace Orobouros.Managers
                             }
 
                             // Initiate module
-                            Bases.Module module = new Bases.Module();
+                            Module module = new Module();
 
                             DebugManager.WriteToDebugLog($"Building ScraperModule...");
                             try
