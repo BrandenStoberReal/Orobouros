@@ -10,6 +10,7 @@ using Orobouros.Bases;
 using static Orobouros.UniAssemblyInfo;
 using Orobouros.Attributes;
 using Orobouros.Tools.Containers;
+using Module = Orobouros.Bases.Module;
 
 namespace Orobouros.Managers
 {
@@ -130,6 +131,14 @@ namespace Orobouros.Managers
                                 List<string> ModWebsites = (List<string>)ReflectionManager.GetValueOfProperty(moduleSupportedSites, psuedoClass);
                                 List<ModuleContent> ModContents = (List<ModuleContent>)ReflectionManager.GetValueOfProperty(moduleSupportedContent, psuedoClass);
 
+                                // Ensure module with same GUID isn't loaded already
+                                if (Container.Modules.Any(x => x.GUID == ModGuid))
+                                {
+                                    Module loadedMod = Container.Modules.First(x => x.GUID == ModGuid);
+                                    DebugManager.WriteToDebugLog($"Module with GUID \"{ModGuid}\" has already been loaded! This means there are duplicate modules. This one has been skipped. Existing Module: {loadedMod.Name}");
+                                    continue;
+                                }
+
                                 // Debug module importing
                                 DebugManager.WriteToDebugLog($"Name: {ModName}");
                                 DebugManager.WriteToDebugLog($"Description: {ModDesc}");
@@ -242,6 +251,16 @@ namespace Orobouros.Managers
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Fetches a module from the loaded list by its GUID.
+        /// </summary>
+        /// <param name="guid"></param>
+        /// <returns>Module found, or null if no such module exists</returns>
+        public static Module? FetchModuleFromGUID(string guid)
+        {
+            return Container.Modules.FirstOrDefault(x => x.GUID == guid);
         }
     }
 }
