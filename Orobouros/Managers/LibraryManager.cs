@@ -32,13 +32,13 @@ namespace Orobouros.Managers
                 // Load dependencies
                 if (file.EndsWith(".dll") && NetAssemblyManager.IsDotNetAssembly(file))
                 {
-                    Assembly assembly = Assembly.LoadFrom(file);
+                    Assembly assembly = RawAssemblyManager.LoadDLL(AssemblyLoadType.Direct, file);
                     if (AppDomain.CurrentDomain.GetAssemblies().Any(x => x.GetName() == assembly.GetName()))
                     {
                         // Ensure we dont load dependencies twice.
                         continue;
                     }
-                    AppDomain.CurrentDomain.Load(assembly.GetName());
+                    RawAssemblyManager.InsertAssemblyIntoMemory(assembly);
                     DebugManager.WriteToDebugLog($"[+] Assembly \"{assembly.GetName().Name}\" loaded into current appdomain!");
                 }
             }
@@ -53,7 +53,8 @@ namespace Orobouros.Managers
         {
             foreach (AssemblyName name in assembly.GetReferencedAssemblies())
             {
-                AppDomain.CurrentDomain.Load(name);
+                DebugManager.WriteToDebugLog($"Reference Loader Found Declared Dependency: {name.Name}");
+                RawAssemblyManager.InsertAssemblyNameIntoMemory(name);
             }
         }
     }

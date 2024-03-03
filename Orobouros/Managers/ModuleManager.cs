@@ -52,7 +52,7 @@ namespace Orobouros.Managers
                 if (mod.EndsWith(".dll") && NetAssemblyManager.IsDotNetAssembly(mod))
                 {
                     DebugManager.WriteToDebugLog($"DLL found: {Path.GetFileName(mod)}");
-                    Assembly DLL = Assembly.Load(File.ReadAllBytes(mod)); // Load DLL
+                    Assembly DLL = RawAssemblyManager.LoadDLL(AssemblyLoadType.ByteStream, mod); // Load DLL
                     Type[] types = DLL.GetTypes(); // Fetch types so we can parse them below
                     bool mainClassFound = false;
 
@@ -209,11 +209,7 @@ namespace Orobouros.Managers
                                 DebugManager.WriteToDebugLog($"Methods: Invoking initializer method of module \"{module.Name}\" in a new thread!");
 
                                 // Push module to appdomain
-                                if (!AppDomain.CurrentDomain.GetAssemblies().Any(x => x.GetName() == DLL.GetName()))
-                                {
-                                    // Load module into appdomain
-                                    AppDomain.CurrentDomain.Load(DLL.GetName());
-                                }
+                                RawAssemblyManager.InsertAssemblyIntoMemory(DLL);
 
                                 // Start module initializer thread
                                 new Thread(() =>
