@@ -1,5 +1,4 @@
-﻿using FlyingSubmarineDLL.Attributes;
-using Orobouros.Attributes;
+﻿using Orobouros.Attributes;
 using Orobouros.Bases;
 using Orobouros.Tools.Containers;
 using System.Reflection;

@@ -1,5 +1,4 @@
-﻿using FlyingSubmarineDLL.Attributes;
-using Orobouros.Attributes;
+﻿using Orobouros.Attributes;
 using Orobouros.Bases;
 using static Orobouros.UniAssemblyInfo;
 

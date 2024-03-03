@@ -1,4 +1,4 @@
-﻿namespace FlyingSubmarineDLL.Attributes
+﻿namespace Orobouros.Attributes
 {
     public class ModuleInit : Attribute
     {
