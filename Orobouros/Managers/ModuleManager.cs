@@ -45,7 +45,7 @@ namespace Orobouros.Managers
                 if (mod.EndsWith(".dll") && NetAssemblyManager.IsDotNetAssembly(mod))
                 {
                     DebugManager.WriteToDebugLog($"DLL found: {Path.GetFileName(mod)}");
-                    Assembly DLL = RawAssemblyManager.LoadDLL(AssemblyLoadType.ByteStream, mod); // Load DLL
+                    Assembly DLL = RawAssemblyManager.LoadDLL(AssemblyLoadType.Direct, mod); // Load DLL
                     Type[] types = DLL.GetTypes(); // Fetch types so we can parse them below
                     bool mainClassFound = false;
 
