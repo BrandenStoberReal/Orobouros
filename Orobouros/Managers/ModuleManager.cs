@@ -22,7 +22,7 @@ namespace Orobouros.Managers
         /// <summary>
         /// A list of all loaded modules, casted to a class
         /// </summary>
-        public static ModuleContainer Container = new ModuleContainer("ModuleManager Module Container", "Primary container for holding loaded Orobouros modules.");
+        public static ModuleContainer Container { get; private set; } = new ModuleContainer("ModuleManager Module Container", "Primary container for holding loaded Orobouros modules.");
 
         /// <summary>
         /// Ensures the modules folder exists. This acts as a default modules path.
@@ -52,7 +52,7 @@ namespace Orobouros.Managers
                 if (mod.EndsWith(".dll") && NetAssemblyManager.IsDotNetAssembly(mod))
                 {
                     DebugManager.WriteToDebugLog($"DLL found: {Path.GetFileName(mod)}");
-                    Assembly DLL = Assembly.LoadFrom(mod); // Load DLL
+                    Assembly DLL = Assembly.Load(File.ReadAllBytes(mod)); // Load DLL
                     Type[] types = DLL.GetTypes(); // Fetch types so we can parse them below
                     bool mainClassFound = false;
 
@@ -254,13 +254,32 @@ namespace Orobouros.Managers
         }
 
         /// <summary>
+        /// Unloads all loaded module assemblies. Note this keeps them loaded in the current appdomain.
+        /// </summary>
+        public static void UnloadAssemblies()
+        {
+            Container.Modules.Clear();
+        }
+
+        /// <summary>
         /// Fetches a module from the loaded list by its GUID.
         /// </summary>
         /// <param name="guid"></param>
         /// <returns>Module found, or null if no such module exists</returns>
-        public static Module? FetchModuleFromGUID(string guid)
+        public static Module? FetchModule(string guid)
         {
             return Container.Modules.FirstOrDefault(x => x.GUID == guid);
+        }
+
+        /// <summary>
+        /// Fetches a random loaded module.
+        /// </summary>
+        /// <returns></returns>
+        public static Module FetchRandomModule()
+        {
+            Random rng = new Random();
+            int index = rng.Next(0, Container.Modules.Count);
+            return Container.Modules[index];
         }
     }
 }
