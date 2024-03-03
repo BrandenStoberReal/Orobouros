@@ -9,7 +9,9 @@
     <PackageId>$(AssemblyName)</PackageId>
     <Title>Orobouros</Title>
     <Authors>Branden Stober</Authors>
-    <Description>A fully-featured and modular online scraper tool.</Description>
+    <Description>A fully-featured and modular online scraper tool.
+
+Icon Credit: Hyliian @ DeviantArt</Description>
     <PackageProjectUrl>https://github.com/BrandenStoberReal/Orobouros</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/BrandenStoberReal/Orobouros</RepositoryUrl>
@@ -17,6 +19,9 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <Copyright>Branden Stober</Copyright>
+    <PackageIcon>ouroboros_by_hyliian_d5hb8fm-fullview.jpg</PackageIcon>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -67,6 +72,13 @@
     <PackageReference Include="SQLite" Version="3.13.0" />
     <PackageReference Include="System.Drawing.Common" Version="8.0.2" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\ouroboros_by_hyliian_d5hb8fm-fullview.jpg">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
