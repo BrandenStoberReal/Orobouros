@@ -28,7 +28,6 @@ This repository holds no responsibility on any modules programmers develop for t
 - [x] SQLite support
 - [x] Dynamic database support
 - [ ] Website API support (separate from raw HTTP)
-- [ ] Selenium support
 - [ ] Cross-module support
 - [x] XML annotations
 - [ ] Module security checks
@@ -45,6 +44,7 @@ This repository holds no responsibility on any modules programmers develop for t
 - [ ] Logging overhaul
 - [x] Module developer web toolkit
 - [ ] Framework-level exception handling
+- [ ] Bulk data downloading functions (stored in RAM)
 
 # Credits
 - Branden Stober - Main Project Lead
