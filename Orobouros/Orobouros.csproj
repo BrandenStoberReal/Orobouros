@@ -24,6 +24,7 @@ Icon Credit: Hyliian @ DeviantArt</Description>
     <Copyright>Branden Stober</Copyright>
     <PackageIcon>orobouros.jpg</PackageIcon>
     <RepositoryType>git</RepositoryType>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
