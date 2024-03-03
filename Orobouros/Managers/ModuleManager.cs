@@ -124,14 +124,14 @@ namespace Orobouros.Managers
                                 }
 
                                 // Fetch initial values
-                                string ModName = (string)ReflectionManager.GetValueOfProperty(moduleName, psuedoAttribute);
-                                string ModDesc = (string)ReflectionManager.GetValueOfProperty(moduleDescription, psuedoAttribute);
-                                string ModVersion = (string)ReflectionManager.GetValueOfProperty(moduleVersion, psuedoAttribute);
-                                string ModGuid = (string)ReflectionManager.GetValueOfProperty(moduleGUID, psuedoAttribute);
-                                List<string> ModWebsites = (List<string>)ReflectionManager.GetValueOfProperty(moduleSupportedSites, psuedoClass);
-                                List<ModuleContent> ModContents = (List<ModuleContent>)ReflectionManager.GetValueOfProperty(moduleSupportedContent, psuedoClass);
+                                string? ModName = (string?)ReflectionManager.GetValueOfProperty(moduleName, psuedoAttribute);
+                                string? ModDesc = (string?)ReflectionManager.GetValueOfProperty(moduleDescription, psuedoAttribute);
+                                string? ModVersion = (string?)ReflectionManager.GetValueOfProperty(moduleVersion, psuedoAttribute);
+                                string? ModGuid = (string?)ReflectionManager.GetValueOfProperty(moduleGUID, psuedoAttribute);
+                                List<string>? ModWebsites = (List<string>?)ReflectionManager.GetValueOfProperty(moduleSupportedSites, psuedoClass);
+                                List<ModuleContent>? ModContents = (List<ModuleContent>?)ReflectionManager.GetValueOfProperty(moduleSupportedContent, psuedoClass);
 
-                                // Ensure module with same GUID isn't loaded already
+                                // Ensure modules with same GUID aren't loaded already
                                 if (Container.Modules.Any(x => x.GUID == ModGuid))
                                 {
                                     Module loadedMod = Container.Modules.First(x => x.GUID == ModGuid);
