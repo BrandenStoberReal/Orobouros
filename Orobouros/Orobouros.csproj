@@ -20,7 +20,7 @@ Icon Credit: Hyliian @ DeviantArt</Description>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Copyright>Branden Stober</Copyright>
-    <PackageIcon>ouroboros_by_hyliian_d5hb8fm-fullview.jpg</PackageIcon>
+    <PackageIcon>orobouros.jpg</PackageIcon>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
@@ -72,10 +72,26 @@ Icon Credit: Hyliian @ DeviantArt</Description>
     <PackageReference Include="SQLite" Version="3.13.0" />
     <PackageReference Include="System.Drawing.Common" Version="8.0.2" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Resources\ouroboros_by_hyliian_d5hb8fm-fullview.jpg">
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\orobouros.jpg">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
