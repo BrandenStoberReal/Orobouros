@@ -49,6 +49,7 @@ namespace Orobouros.Managers
             {
                 // Load module into appdomain
                 AppDomain.CurrentDomain.Load(assembly.GetName());
+                LoggingManager.WriteToDebugLog($"Loaded assembly \"{assembly.GetName().Name}\" into memory!");
             }
         }
 
@@ -62,6 +63,7 @@ namespace Orobouros.Managers
             {
                 // Load module into appdomain
                 AppDomain.CurrentDomain.Load(assembly);
+                LoggingManager.WriteToDebugLog($"Loaded assembly \"{assembly.Name}\" into memory!");
             }
         }
     }

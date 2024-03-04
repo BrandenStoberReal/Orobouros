@@ -12,6 +12,7 @@ namespace Orobouros.Managers
             if (!Directory.Exists("./libraries"))
             {
                 Directory.CreateDirectory("./libraries");
+                LoggingManager.LogInformation("Libraries folder didn't exist! It has been created automatically.");
             }
         }
 
@@ -21,6 +22,7 @@ namespace Orobouros.Managers
         /// <param name="folder"></param>
         public static void LoadLibraries(string folder = "./libraries")
         {
+            LoggingManager.LogInformation($"Loading module libraries from folder \"{folder}\"...");
             VerifyLibraryFolder();
             foreach (string file in Directory.GetFiles(folder))
             {
@@ -34,7 +36,7 @@ namespace Orobouros.Managers
                         continue;
                     }
                     RawAssemblyManager.InsertAssemblyIntoMemory(assembly);
-                    LoggingManager.WriteToDebugLog($"[+] Assembly \"{assembly.GetName().Name}\" loaded into current appdomain!");
+                    LoggingManager.WriteToDebugLog($"Assembly \"{assembly.GetName().Name}\" loaded into current appdomain!");
                 }
             }
         }
@@ -46,6 +48,7 @@ namespace Orobouros.Managers
         /// <param name="assembly"></param>
         public static void LoadReferencedAssemblies(Assembly assembly)
         {
+            LoggingManager.LogInformation($"Attempting to load referenced libraries from assembly \"{assembly.GetName().Name}\"...");
             foreach (AssemblyName name in assembly.GetReferencedAssemblies())
             {
                 LoggingManager.WriteToDebugLog($"Reference Loader Found Declared Dependency: {name.Name}");

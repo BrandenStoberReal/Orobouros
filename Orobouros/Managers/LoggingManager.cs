@@ -29,6 +29,7 @@ namespace Orobouros.Managers
             if (!Directory.Exists("./logs"))
             {
                 Directory.CreateDirectory("./logs");
+                LogWarning("Logging directory didn't exist! It has been created automatically.");
             }
         }
 
@@ -38,7 +39,7 @@ namespace Orobouros.Managers
         /// <param name="message"></param>
         public static void LogInformation(string message)
         {
-            PrimaryLogger.Information(message);
+            PrimaryLogger.Information($"[{Assembly.GetCallingAssembly().GetName().Name}] " + message);
         }
 
         /// <summary>
@@ -47,7 +48,7 @@ namespace Orobouros.Managers
         /// <param name="message"></param>
         public static void LogWarning(string message)
         {
-            PrimaryLogger.Warning(message);
+            PrimaryLogger.Warning($"[{Assembly.GetCallingAssembly().GetName().Name}] " + message);
         }
 
         /// <summary>
@@ -56,7 +57,7 @@ namespace Orobouros.Managers
         /// <param name="message"></param>
         public static void LogError(string message)
         {
-            PrimaryLogger.Error(message);
+            PrimaryLogger.Error($"[{Assembly.GetCallingAssembly().GetName().Name}] " + message);
         }
 
         /// <summary>

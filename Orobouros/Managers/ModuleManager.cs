@@ -26,6 +26,7 @@ namespace Orobouros.Managers
             if (!Directory.Exists("./modules"))
             {
                 Directory.CreateDirectory("./modules");
+                LoggingManager.LogWarning("Modules directory didn't exist! It has been created automatically.");
             }
         }
 
@@ -34,18 +35,19 @@ namespace Orobouros.Managers
         /// </summary>
         /// <param name="folder">Folder path that contains modules to load.</param>
         /// <param name="aggressive">Whether to aggressively delete non-module files in the directory.</param>
-        public static void LoadAssemblies(string? folder = null, bool aggressive = false)
+        public static void LoadAssemblies(string? folder = "./modules", bool aggressive = false)
         {
+            LoggingManager.LogInformation("Assembly load requested, starting...");
             UnloadAssemblies();
             VerifyModulesFolderIntegrity();
             LoggingManager.VerifyLogFolderIntegrity();
             LibraryManager.LoadLibraries();
-            foreach (var mod in Directory.GetFiles(folder != null ? folder : Path.GetFullPath("./modules")))
+            foreach (var mod in Directory.GetFiles(Path.GetFullPath(folder)))
             {
                 // Only attempt to load valid DLL files, obviously
                 if (mod.EndsWith(".dll") && NetAssemblyManager.IsDotNetAssembly(mod))
                 {
-                    LoggingManager.WriteToDebugLog($"DLL found: {Path.GetFileName(mod)}");
+                    LoggingManager.LogInformation($"Module found: {Path.GetFileName(mod)}");
                     Assembly DLL = RawAssemblyManager.LoadDLL(AssemblyLoadType.Direct, mod); // Load DLL
                     Type[] types = DLL.GetTypes(); // Fetch types so we can parse them below
                     bool mainClassFound = false;
@@ -107,17 +109,18 @@ namespace Orobouros.Managers
                             // Initiate module
                             Module module = new Module();
 
-                            LoggingManager.WriteToDebugLog($"Constructing module...");
+                            LoggingManager.LogInformation($"Assembling module...");
                             try
                             {
                                 // Prevent further processing if module does not contain proper information.
                                 if (moduleName == null || moduleGUID == null || moduleSupportedSites == null || moduleSupportedContent == null || moduleSupportedSites == null || moduleSupportedContent == null)
                                 {
-                                    LoggingManager.WriteToDebugLog($"WARNING: Module \"{Path.GetFileName(mod)}\" has malformed information and has been skipped. Please report this to the module's author.");
+                                    LoggingManager.LogError($"Module \"{Path.GetFileName(mod)}\" has malformed information and has been skipped. Please report this to the module's author.");
                                     continue;
                                 }
 
                                 // Fetch initial values
+                                LoggingManager.LogInformation($"Assembling module properties...");
                                 string? ModName = (string?)ReflectionManager.GetValueOfProperty(moduleName, psuedoAttribute);
                                 string? ModDesc = (string?)ReflectionManager.GetValueOfProperty(moduleDescription, psuedoAttribute);
                                 string? ModVersion = (string?)ReflectionManager.GetValueOfProperty(moduleVersion, psuedoAttribute);
@@ -129,7 +132,7 @@ namespace Orobouros.Managers
                                 if (Container.Modules.Any(x => x.GUID == ModGuid))
                                 {
                                     Module loadedMod = Container.Modules.First(x => x.GUID == ModGuid);
-                                    LoggingManager.WriteToDebugLog($"Module with GUID \"{ModGuid}\" has already been loaded! This means there are duplicate modules. This one has been skipped. Existing Module: {loadedMod.Name}");
+                                    LoggingManager.LogWarning($"Module with GUID \"{ModGuid}\" has already been loaded! This means there are duplicate modules. This one has been skipped. Existing Module: {loadedMod.Name}");
                                     continue;
                                 }
 
@@ -141,6 +144,7 @@ namespace Orobouros.Managers
                                 LoggingManager.WriteToDebugLog($"Supported Content Count: {ModContents.Count}");
 
                                 // Assign values
+                                LoggingManager.LogInformation($"Stitching module class...");
                                 module.ModuleAsm = DLL;
 
                                 // Assign attribute-based values
@@ -184,7 +188,7 @@ namespace Orobouros.Managers
                                 // Check for valid scrape method
                                 if (module.ScrapeMethod == null)
                                 {
-                                    LoggingManager.WriteToDebugLog($"ERROR: Module \"{module.Name}\" has no scrape method! This shouldn't happen. Please report this to the module's developer. This module will be skipped.");
+                                    LoggingManager.LogError($"Module \"{module.Name}\" has no scrape method! This shouldn't happen. Please report this to the module's developer. This module will be skipped.");
                                     continue;
                                 }
 
@@ -194,7 +198,7 @@ namespace Orobouros.Managers
                                 // Check for valid return type
                                 if (scrapeMethodReturnType != typeof(ModuleData))
                                 {
-                                    LoggingManager.WriteToDebugLog($"ERROR: Module \"{module.Name}\"'s scraper method does NOT return ModuleData! Please report this to the module's developer. This module will be skipped.");
+                                    LoggingManager.LogError($"Module \"{module.Name}\"'s scraper method does NOT return ModuleData! Please report this to the module's developer. This module will be skipped.");
                                     continue;
                                 }
 
@@ -203,6 +207,7 @@ namespace Orobouros.Managers
                                 LoggingManager.WriteToDebugLog($"Methods: Invoking initializer method of module \"{module.Name}\" in a new thread!");
 
                                 // Push module to appdomain
+                                LoggingManager.LogInformation($"Propagating module memory...");
                                 RawAssemblyManager.InsertAssemblyIntoMemory(DLL);
 
                                 // Start module initializer thread
@@ -216,20 +221,21 @@ namespace Orobouros.Managers
                                         module.InitMethod.Invoke(psuedoClass, null);
                                     }
                                 }).Start();
+                                LoggingManager.LogInformation($"Module \"{module.Name}\" loaded successfully!");
                             }
                             catch (Exception ex)
                             {
                                 // This means an error occurred loading module values and module
                                 // processing cannot continue.
-                                LoggingManager.WriteToDebugLog($"FATAL: {ex.Message}");
-                                LoggingManager.WriteToDebugLog($"Module \"{Path.GetFileName(mod)}\" encountered an exception loading and has been skipped. Please report this to the module developer.");
+                                LoggingManager.LogError($"FATAL: {ex.Message}");
+                                LoggingManager.LogError($"Module \"{Path.GetFileName(mod)}\" encountered an exception loading and has been skipped. Please report this to the module developer.");
                             }
                         }
                     }
 
                     if (!mainClassFound)
                     {
-                        LoggingManager.WriteToDebugLog($"WARNING: Module \"{Path.GetFileName(mod)}\" does not have a valid information class and has been skipped. Please report this to the module's author.");
+                        LoggingManager.LogError($"Module \"{Path.GetFileName(mod)}\" does not have a valid information class and has been skipped. Please report this to the module's author.");
                     }
                 }
                 else
@@ -238,6 +244,11 @@ namespace Orobouros.Managers
                     if (aggressive)
                     {
                         File.Delete(mod);
+                        LoggingManager.LogWarning($"Non-module file found in modules directory. File \"{mod}\" has been removed automatically.");
+                    }
+                    else
+                    {
+                        LoggingManager.LogWarning($"Non-module file found in modules directory. File \"{mod}\" should be removed.");
                     }
                 }
             }
