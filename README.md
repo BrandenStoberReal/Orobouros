@@ -45,7 +45,7 @@ This repository holds no responsibility on any modules programmers develop for t
 - [ ] Cross-language support (extremely advanced)
 - [ ] Data language translation toolkit
 - [ ] Overhaul download class & integrate better
-- [ ] Logging overhaul
+- [x] Logging overhaul
 - [x] Module developer web toolkit
 - [ ] Framework-level exception handling
 - [ ] Bulk data downloading functions (stored in RAM)
