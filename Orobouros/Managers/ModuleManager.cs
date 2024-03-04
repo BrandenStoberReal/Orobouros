@@ -107,7 +107,7 @@ namespace Orobouros.Managers
                             // Initiate module
                             Module module = new Module();
 
-                            LoggingManager.WriteToDebugLog($"Building ScraperModule...");
+                            LoggingManager.WriteToDebugLog($"Constructing module...");
                             try
                             {
                                 // Prevent further processing if module does not contain proper information.
