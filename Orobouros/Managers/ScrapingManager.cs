@@ -155,14 +155,14 @@ namespace Orobouros.Managers
                     LoggingManager.WriteToDebugLog($"Multiple modules for the same website supporting the same content found. A random one will be selected. Please avoid this behavior in the future.");
                     Random rng = new Random();
                     int randInt = rng.Next(foundModules.Modules.Count);
-                    LoggingManager.LogInformation($"Selected Module: {foundModules.Modules[randInt].Name} | {foundModules.Modules[randInt].GUID}");
+                    LoggingManager.LogInformation($"Selected Module: {foundModules.Modules[randInt].Name} | {foundModules.Modules[randInt].Version} | {foundModules.Modules[randInt].GUID}");
                     LoggingManager.LogInformation($"Invoking module scrape method...");
                     return (ModuleData?)ReflectionManager.InvokeReflectedMethod(foundModules.Modules[randInt].ScrapeMethod, foundModules.Modules[randInt].PsuedoClass, new object[] { parms });
                 }
                 else
                 {
                     // Only 1 module found, should be default behavior
-                    LoggingManager.LogInformation($"Selected Module: {foundModules.Modules.FirstOrDefault().Name} | {foundModules.Modules.FirstOrDefault().GUID}");
+                    LoggingManager.LogInformation($"Selected Module: {foundModules.Modules.FirstOrDefault().Name} | {foundModules.Modules.FirstOrDefault().Version} | {foundModules.Modules.FirstOrDefault().GUID}");
                     LoggingManager.LogInformation($"Invoking module scrape method...");
                     return (ModuleData?)ReflectionManager.InvokeReflectedMethod(foundModules.Modules.FirstOrDefault().ScrapeMethod, foundModules.Modules.FirstOrDefault().PsuedoClass, new object[] { parms });
                 }
