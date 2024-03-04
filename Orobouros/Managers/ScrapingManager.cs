@@ -27,6 +27,7 @@ namespace Orobouros.Managers
         /// folder to load</param>
         public static void InitializeModules(string modulesPath = "./modules")
         {
+            LoggingManager.WriteToDebugLog("Module initialization called, executing...");
             // Load assemblies
             ModuleManager.LoadAssemblies(modulesPath);
 
@@ -93,6 +94,7 @@ namespace Orobouros.Managers
         /// <returns></returns>
         public static ModuleData? ScrapeURL(string url, List<ModuleContent> contentToFetch, int numofinstances = -1, List<Post> posts = null)
         {
+            LoggingManager.LogInformation($"Processing scrape request for URL \"{url}\"...");
             // Placeholder for discovered module
             ModuleContainer foundModules = new ModuleContainer();
 
@@ -153,11 +155,15 @@ namespace Orobouros.Managers
                     LoggingManager.WriteToDebugLog($"Multiple modules for the same website supporting the same content found. A random one will be selected. Please avoid this behavior in the future.");
                     Random rng = new Random();
                     int randInt = rng.Next(foundModules.Modules.Count);
+                    LoggingManager.LogInformation($"Selected Module: {foundModules.Modules[randInt].Name} | {foundModules.Modules[randInt].GUID}");
+                    LoggingManager.LogInformation($"Invoking module scrape method...");
                     return (ModuleData?)ReflectionManager.InvokeReflectedMethod(foundModules.Modules[randInt].ScrapeMethod, foundModules.Modules[randInt].PsuedoClass, new object[] { parms });
                 }
                 else
                 {
                     // Only 1 module found, should be default behavior
+                    LoggingManager.LogInformation($"Selected Module: {foundModules.Modules.FirstOrDefault().Name} | {foundModules.Modules.FirstOrDefault().GUID}");
+                    LoggingManager.LogInformation($"Invoking module scrape method...");
                     return (ModuleData?)ReflectionManager.InvokeReflectedMethod(foundModules.Modules.FirstOrDefault().ScrapeMethod, foundModules.Modules.FirstOrDefault().PsuedoClass, new object[] { parms });
                 }
             }
