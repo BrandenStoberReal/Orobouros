@@ -38,6 +38,7 @@ namespace Orobouros.Managers
         {
             UnloadAssemblies();
             VerifyModulesFolderIntegrity();
+            LoggingManager.VerifyLogFolderIntegrity();
             LibraryManager.LoadLibraries();
             foreach (var mod in Directory.GetFiles(folder != null ? folder : Path.GetFullPath("./modules")))
             {
