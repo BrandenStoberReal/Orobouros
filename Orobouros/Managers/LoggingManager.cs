@@ -4,6 +4,7 @@ using Serilog.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -65,7 +66,7 @@ namespace Orobouros.Managers
         public static void WriteToDebugLog(string message)
         {
             System.Diagnostics.Trace.WriteLine(message);
-            PrimaryLogger.Debug(message);
+            PrimaryLogger.Debug($"[{Assembly.GetCallingAssembly().GetName().Name}] " + message);
         }
     }
 }
