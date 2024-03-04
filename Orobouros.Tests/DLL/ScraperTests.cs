@@ -32,7 +32,6 @@ namespace OrobourosTests.DLL
             Post fetchedPost = (Post)data.Content.First().Value;
             LoggingManager.WriteToDebugLog($"Post Author: {fetchedPost.Author.Username}");
             LoggingManager.WriteToDebugLog($"Post Title: {fetchedPost.Title}");
-            LoggingManager.WriteToDebugLog($"Post Description: {fetchedPost.Description}");
             LoggingManager.WriteToDebugLog($"Post Comments: {fetchedPost.Comments.Count}");
             foreach (Attachment attach in fetchedPost.Attachments)
             {
@@ -51,7 +50,6 @@ namespace OrobourosTests.DLL
             ScrapingManager.FlushSupplementaryMethods(); // Stop background methods
             Post fetchedPost = (Post)data.Content.First().Value;
             LoggingManager.WriteToDebugLog($"Post Author: {fetchedPost.Author.Username}");
-            LoggingManager.WriteToDebugLog($"Post Description: {fetchedPost.Description}");
             LoggingManager.WriteToDebugLog($"Post Comments: {fetchedPost.Comments.Count}");
             foreach (Attachment attach in fetchedPost.Attachments)
             {

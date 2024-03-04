@@ -17,7 +17,7 @@ namespace Orobouros.Managers
         /// <summary>
         /// Primary logs handler for all of Orobouros.
         /// </summary>
-        private static Logger PrimaryLogger = new LoggerConfiguration().WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information).WriteTo.File("./logs/log-.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: LogEventLevel.Debug).CreateLogger();
+        private static Logger PrimaryLogger = new LoggerConfiguration().MinimumLevel.Debug().WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information).WriteTo.File("./logs/log-.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: LogEventLevel.Debug).CreateLogger();
 
         /// <summary>
         /// Ensures the logging folder exists.
