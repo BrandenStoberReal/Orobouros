@@ -18,7 +18,7 @@ namespace OrobourosTests.DLL
             List<ModuleContent> requestedInfo = new List<ModuleContent> { ModuleContent.Text };
             ModuleData? data = ScrapingManager.ScrapeURL("https://www.test.com/posts/posthere", requestedInfo);
             ScrapingManager.FlushSupplementaryMethods(); // Stop background methods
-            DebugManager.WriteToDebugLog($"Data Length: {data.Content.Count}");
+            LoggingManager.WriteToDebugLog($"Data Length: {data.Content.Count}");
             Assert.IsNotNull(data);
         }
 
@@ -30,15 +30,15 @@ namespace OrobourosTests.DLL
             ModuleData? data = ScrapingManager.ScrapeURL(KemonoTestCreator, requestedInfo, 1);
             ScrapingManager.FlushSupplementaryMethods(); // Stop background methods
             Post fetchedPost = (Post)data.Content.First().Value;
-            DebugManager.WriteToDebugLog($"Post Author: {fetchedPost.Author.Username}");
-            DebugManager.WriteToDebugLog($"Post Title: {fetchedPost.Title}");
-            DebugManager.WriteToDebugLog($"Post Description: {fetchedPost.Description}");
-            DebugManager.WriteToDebugLog($"Post Comments: {fetchedPost.Comments.Count}");
+            LoggingManager.WriteToDebugLog($"Post Author: {fetchedPost.Author.Username}");
+            LoggingManager.WriteToDebugLog($"Post Title: {fetchedPost.Title}");
+            LoggingManager.WriteToDebugLog($"Post Description: {fetchedPost.Description}");
+            LoggingManager.WriteToDebugLog($"Post Comments: {fetchedPost.Comments.Count}");
             foreach (Attachment attach in fetchedPost.Attachments)
             {
-                DebugManager.WriteToDebugLog($"Post Attachment: {attach.AttachmentType} | {attach.Name}");
+                LoggingManager.WriteToDebugLog($"Post Attachment: {attach.AttachmentType} | {attach.Name}");
             }
-            DebugManager.WriteToDebugLog($"Upload Date: {fetchedPost.UploadDate.ToString()}");
+            LoggingManager.WriteToDebugLog($"Upload Date: {fetchedPost.UploadDate.ToString()}");
             Assert.IsTrue(data.Content.Count == 1);
         }
 
@@ -50,14 +50,14 @@ namespace OrobourosTests.DLL
             ModuleData? data = ScrapingManager.ScrapeURL(CoomerTestCreator, requestedInfo, 1);
             ScrapingManager.FlushSupplementaryMethods(); // Stop background methods
             Post fetchedPost = (Post)data.Content.First().Value;
-            DebugManager.WriteToDebugLog($"Post Author: {fetchedPost.Author.Username}");
-            DebugManager.WriteToDebugLog($"Post Description: {fetchedPost.Description}");
-            DebugManager.WriteToDebugLog($"Post Comments: {fetchedPost.Comments.Count}");
+            LoggingManager.WriteToDebugLog($"Post Author: {fetchedPost.Author.Username}");
+            LoggingManager.WriteToDebugLog($"Post Description: {fetchedPost.Description}");
+            LoggingManager.WriteToDebugLog($"Post Comments: {fetchedPost.Comments.Count}");
             foreach (Attachment attach in fetchedPost.Attachments)
             {
-                DebugManager.WriteToDebugLog($"Post Attachment: {attach.AttachmentType} | {attach.Name}");
+                LoggingManager.WriteToDebugLog($"Post Attachment: {attach.AttachmentType} | {attach.Name}");
             }
-            DebugManager.WriteToDebugLog($"Upload Date: {fetchedPost.UploadDate.ToString()}");
+            LoggingManager.WriteToDebugLog($"Upload Date: {fetchedPost.UploadDate.ToString()}");
             Assert.IsTrue(data.Content.Count == 1);
         }
 
@@ -68,7 +68,7 @@ namespace OrobourosTests.DLL
             List<ModuleContent> requestedInfo = new List<ModuleContent> { ModuleContent.Subposts };
             ModuleData? data = ScrapingManager.ScrapeURL(KemonoTestCreator, requestedInfo, 10);
             ScrapingManager.FlushSupplementaryMethods(); // Stop background methods
-            DebugManager.WriteToDebugLog($"Kemono Data Length: {data.Content.Count}");
+            LoggingManager.WriteToDebugLog($"Kemono Data Length: {data.Content.Count}");
             Assert.IsTrue(data.Content.Count == 10);
         }
 
@@ -79,7 +79,7 @@ namespace OrobourosTests.DLL
             List<ModuleContent> requestedInfo = new List<ModuleContent> { ModuleContent.Subposts };
             ModuleData? data = ScrapingManager.ScrapeURL(CoomerTestCreator, requestedInfo, 10);
             ScrapingManager.FlushSupplementaryMethods(); // Stop background methods
-            DebugManager.WriteToDebugLog($"Coomer Data Length: {data.Content.Count}");
+            LoggingManager.WriteToDebugLog($"Coomer Data Length: {data.Content.Count}");
             Assert.IsTrue(data.Content.Count == 10);
         }
 
@@ -90,7 +90,7 @@ namespace OrobourosTests.DLL
             List<ModuleContent> requestedInfo = new List<ModuleContent> { ModuleContent.Subposts };
             ModuleData? data = ScrapingManager.ScrapeURL(KemonoTestCreator, requestedInfo, 50);
             ScrapingManager.FlushSupplementaryMethods(); // Stop background methods
-            DebugManager.WriteToDebugLog($"Kemono Data Length: {data.Content.Count}");
+            LoggingManager.WriteToDebugLog($"Kemono Data Length: {data.Content.Count}");
             Assert.IsTrue(data.Content.Count == 50);
         }
 
@@ -101,7 +101,7 @@ namespace OrobourosTests.DLL
             List<ModuleContent> requestedInfo = new List<ModuleContent> { ModuleContent.Subposts };
             ModuleData? data = ScrapingManager.ScrapeURL(CoomerTestCreator, requestedInfo, 50);
             ScrapingManager.FlushSupplementaryMethods(); // Stop background methods
-            DebugManager.WriteToDebugLog($"Coomer Data Length: {data.Content.Count}");
+            LoggingManager.WriteToDebugLog($"Coomer Data Length: {data.Content.Count}");
             Assert.IsTrue(data.Content.Count == 50);
         }
 
@@ -112,7 +112,7 @@ namespace OrobourosTests.DLL
             List<ModuleContent> requestedInfo = new List<ModuleContent> { ModuleContent.Subposts };
             ModuleData? data = ScrapingManager.ScrapeURL(KemonoTestCreator, requestedInfo, 70);
             ScrapingManager.FlushSupplementaryMethods(); // Stop background methods
-            DebugManager.WriteToDebugLog($"Kemono Data Length: {data.Content.Count}");
+            LoggingManager.WriteToDebugLog($"Kemono Data Length: {data.Content.Count}");
             Assert.IsTrue(data.Content.Count == 70);
         }
 
@@ -123,7 +123,7 @@ namespace OrobourosTests.DLL
             List<ModuleContent> requestedInfo = new List<ModuleContent> { ModuleContent.Subposts };
             ModuleData? data = ScrapingManager.ScrapeURL(CoomerTestCreator, requestedInfo, 70);
             ScrapingManager.FlushSupplementaryMethods(); // Stop background methods
-            DebugManager.WriteToDebugLog($"Coomer Data Length: {data.Content.Count}");
+            LoggingManager.WriteToDebugLog($"Coomer Data Length: {data.Content.Count}");
             Assert.IsTrue(data.Content.Count == 70);
         }
     }

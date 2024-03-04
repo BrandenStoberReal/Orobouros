@@ -221,7 +221,7 @@ namespace Orobouros.Managers
             }
             catch (Exception ex)
             {
-                DebugManager.WriteToDebugLog("Exception \"" + ex + "\" occurred while downloading " + sanitizedFileName + "!");
+                LoggingManager.WriteToDebugLog("Exception \"" + ex + "\" occurred while downloading " + sanitizedFileName + "!");
                 status = DownloadStatus.Failed;
             }
 
@@ -231,7 +231,7 @@ namespace Orobouros.Managers
             }
             else
             {
-                DebugManager.WriteToDebugLog($"Download {fileName} failed! Skipping...");
+                LoggingManager.WriteToDebugLog($"Download {fileName} failed! Skipping...");
                 return false;
             }
         }

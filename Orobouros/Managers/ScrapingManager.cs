@@ -116,7 +116,7 @@ namespace Orobouros.Managers
             if (foundModules == null)
             {
                 // Compatible module not found
-                DebugManager.WriteToDebugLog($"No module found with URL \"{url}\"! Ensure you have a supported module installed.");
+                LoggingManager.WriteToDebugLog($"No module found with URL \"{url}\"! Ensure you have a supported module installed.");
                 return null;
             }
             else
@@ -136,7 +136,7 @@ namespace Orobouros.Managers
                 // Bad content was requested
                 if (foundModules.Modules.Count == 0)
                 {
-                    DebugManager.WriteToDebugLog($"Content has been requested that the discovered module(s) do not support! Please ensure you have the correct module(s) installed.");
+                    LoggingManager.WriteToDebugLog($"Content has been requested that the discovered module(s) do not support! Please ensure you have the correct module(s) installed.");
                     return null;
                 }
 
@@ -150,7 +150,7 @@ namespace Orobouros.Managers
                 if (foundModules.Modules.Count > 1)
                 {
                     // Multiple supported modules found
-                    DebugManager.WriteToDebugLog($"Multiple modules for the same website supporting the same content found. A random one will be selected. Please avoid this behavior in the future.");
+                    LoggingManager.WriteToDebugLog($"Multiple modules for the same website supporting the same content found. A random one will be selected. Please avoid this behavior in the future.");
                     Random rng = new Random();
                     int randInt = rng.Next(foundModules.Modules.Count);
                     return (ModuleData?)ReflectionManager.InvokeReflectedMethod(foundModules.Modules[randInt].ScrapeMethod, foundModules.Modules[randInt].PsuedoClass, new object[] { parms });

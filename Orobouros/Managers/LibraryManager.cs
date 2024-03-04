@@ -34,7 +34,7 @@ namespace Orobouros.Managers
                         continue;
                     }
                     RawAssemblyManager.InsertAssemblyIntoMemory(assembly);
-                    DebugManager.WriteToDebugLog($"[+] Assembly \"{assembly.GetName().Name}\" loaded into current appdomain!");
+                    LoggingManager.WriteToDebugLog($"[+] Assembly \"{assembly.GetName().Name}\" loaded into current appdomain!");
                 }
             }
         }
@@ -48,7 +48,7 @@ namespace Orobouros.Managers
         {
             foreach (AssemblyName name in assembly.GetReferencedAssemblies())
             {
-                DebugManager.WriteToDebugLog($"Reference Loader Found Declared Dependency: {name.Name}");
+                LoggingManager.WriteToDebugLog($"Reference Loader Found Declared Dependency: {name.Name}");
                 RawAssemblyManager.InsertAssemblyNameIntoMemory(name);
             }
         }

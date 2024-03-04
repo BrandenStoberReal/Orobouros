@@ -36,7 +36,7 @@ namespace Orobouros.Managers
         /// <param name="aggressive">Whether to aggressively delete non-module files in the directory.</param>
         public static void LoadAssemblies(string? folder = null, bool aggressive = false)
         {
-            Container.Modules.Clear();
+            UnloadAssemblies();
             VerifyModulesFolderIntegrity();
             LibraryManager.LoadLibraries();
             foreach (var mod in Directory.GetFiles(folder != null ? folder : Path.GetFullPath("./modules")))
@@ -44,7 +44,7 @@ namespace Orobouros.Managers
                 // Only attempt to load valid DLL files, obviously
                 if (mod.EndsWith(".dll") && NetAssemblyManager.IsDotNetAssembly(mod))
                 {
-                    DebugManager.WriteToDebugLog($"DLL found: {Path.GetFileName(mod)}");
+                    LoggingManager.WriteToDebugLog($"DLL found: {Path.GetFileName(mod)}");
                     Assembly DLL = RawAssemblyManager.LoadDLL(AssemblyLoadType.Direct, mod); // Load DLL
                     Type[] types = DLL.GetTypes(); // Fetch types so we can parse them below
                     bool mainClassFound = false;
@@ -53,7 +53,7 @@ namespace Orobouros.Managers
                     foreach (Type type in types)
                     {
                         // Fancy debug statement
-                        DebugManager.WriteToDebugLog($"Enumerating type \"{type.Name}\"...");
+                        LoggingManager.WriteToDebugLog($"Enumerating type \"{type.Name}\"...");
 
                         // Determine if class has the attribute we need
                         if (ReflectionManager.TypeHasAttribute(type, typeof(OrobourosModule)))
@@ -73,11 +73,11 @@ namespace Orobouros.Managers
                             object? psuedoAttribute = rawInfoAttribute;
 
                             // Fancy debugging statements
-                            DebugManager.WriteToDebugLog($"Main DLL class found: {type.Name} | {type.Namespace}");
-                            DebugManager.WriteToDebugLog($"Nested Types: {type.GetNestedTypes().Length}");
-                            DebugManager.WriteToDebugLog($"Fields: {type.GetFields().Length}");
-                            DebugManager.WriteToDebugLog($"Properties: {type.GetProperties().Length}");
-                            DebugManager.WriteToDebugLog($"Public Methods: {type.GetMethods(BindingFlags.Instance | BindingFlags.Public).Length}");
+                            LoggingManager.WriteToDebugLog($"Main DLL class found: {type.Name} | {type.Namespace}");
+                            LoggingManager.WriteToDebugLog($"Nested Types: {type.GetNestedTypes().Length}");
+                            LoggingManager.WriteToDebugLog($"Fields: {type.GetFields().Length}");
+                            LoggingManager.WriteToDebugLog($"Properties: {type.GetProperties().Length}");
+                            LoggingManager.WriteToDebugLog($"Public Methods: {type.GetMethods(BindingFlags.Instance | BindingFlags.Public).Length}");
 
                             // Fetch fields
                             PropertyInfo? moduleName = moduleInfoAttribute.GetProperty("ModuleName");
@@ -92,7 +92,7 @@ namespace Orobouros.Managers
                             // Fill placeholder fields
                             foreach (PropertyInfo prop in type.GetProperties(BindingFlags.Instance | BindingFlags.Public))
                             {
-                                DebugManager.WriteToDebugLog($"Scanning Property: " + prop.Name);
+                                LoggingManager.WriteToDebugLog($"Scanning Property: " + prop.Name);
                                 if (ReflectionManager.PropertyHasAttribute(prop, typeof(ModuleSites)))
                                 {
                                     moduleSupportedSites = prop;
@@ -106,13 +106,13 @@ namespace Orobouros.Managers
                             // Initiate module
                             Module module = new Module();
 
-                            DebugManager.WriteToDebugLog($"Building ScraperModule...");
+                            LoggingManager.WriteToDebugLog($"Building ScraperModule...");
                             try
                             {
                                 // Prevent further processing if module does not contain proper information.
                                 if (moduleName == null || moduleGUID == null || moduleSupportedSites == null || moduleSupportedContent == null || moduleSupportedSites == null || moduleSupportedContent == null)
                                 {
-                                    DebugManager.WriteToDebugLog($"WARNING: Module \"{Path.GetFileName(mod)}\" has malformed information and has been skipped. Please report this to the module's author.");
+                                    LoggingManager.WriteToDebugLog($"WARNING: Module \"{Path.GetFileName(mod)}\" has malformed information and has been skipped. Please report this to the module's author.");
                                     continue;
                                 }
 
@@ -128,16 +128,16 @@ namespace Orobouros.Managers
                                 if (Container.Modules.Any(x => x.GUID == ModGuid))
                                 {
                                     Module loadedMod = Container.Modules.First(x => x.GUID == ModGuid);
-                                    DebugManager.WriteToDebugLog($"Module with GUID \"{ModGuid}\" has already been loaded! This means there are duplicate modules. This one has been skipped. Existing Module: {loadedMod.Name}");
+                                    LoggingManager.WriteToDebugLog($"Module with GUID \"{ModGuid}\" has already been loaded! This means there are duplicate modules. This one has been skipped. Existing Module: {loadedMod.Name}");
                                     continue;
                                 }
 
                                 // Debug module importing
-                                DebugManager.WriteToDebugLog($"Name: {ModName}");
-                                DebugManager.WriteToDebugLog($"Description: {ModDesc}");
-                                DebugManager.WriteToDebugLog($"Version: {ModVersion}");
-                                DebugManager.WriteToDebugLog($"Supported Sites Count: {ModWebsites.Count}");
-                                DebugManager.WriteToDebugLog($"Supported Content Count: {ModContents.Count}");
+                                LoggingManager.WriteToDebugLog($"Name: {ModName}");
+                                LoggingManager.WriteToDebugLog($"Description: {ModDesc}");
+                                LoggingManager.WriteToDebugLog($"Version: {ModVersion}");
+                                LoggingManager.WriteToDebugLog($"Supported Sites Count: {ModWebsites.Count}");
+                                LoggingManager.WriteToDebugLog($"Supported Content Count: {ModContents.Count}");
 
                                 // Assign values
                                 module.ModuleAsm = DLL;
@@ -148,7 +148,7 @@ namespace Orobouros.Managers
                                 module.Version = ModVersion;
                                 module.GUID = ModGuid;
                                 module.DatabaseFile = DynamicDatabaseManager.FetchModuleDatabasePath(module);
-                                DebugManager.WriteToDebugLog($"Database File: {module.DatabaseFile}");
+                                LoggingManager.WriteToDebugLog($"Database File: {module.DatabaseFile}");
 
                                 // Assign statically-based values
                                 module.SupportedWebsites = ModWebsites;
@@ -159,7 +159,7 @@ namespace Orobouros.Managers
                                 // Method scrapings
                                 foreach (MethodInfo method in type.GetMethods(BindingFlags.Instance | BindingFlags.Public))
                                 {
-                                    DebugManager.WriteToDebugLog($"Scanning Method: {method.Name}");
+                                    LoggingManager.WriteToDebugLog($"Scanning Method: {method.Name}");
                                     if (ReflectionManager.MethodHasAttribute(method, typeof(ModuleInit)))
                                     {
                                         if (module.InitMethod == null)
@@ -183,7 +183,7 @@ namespace Orobouros.Managers
                                 // Check for valid scrape method
                                 if (module.ScrapeMethod == null)
                                 {
-                                    DebugManager.WriteToDebugLog($"ERROR: Module \"{module.Name}\" has no scrape method! This shouldn't happen. Please report this to the module's developer. This module will be skipped.");
+                                    LoggingManager.WriteToDebugLog($"ERROR: Module \"{module.Name}\" has no scrape method! This shouldn't happen. Please report this to the module's developer. This module will be skipped.");
                                     continue;
                                 }
 
@@ -193,13 +193,13 @@ namespace Orobouros.Managers
                                 // Check for valid return type
                                 if (scrapeMethodReturnType != typeof(ModuleData))
                                 {
-                                    DebugManager.WriteToDebugLog($"ERROR: Module \"{module.Name}\"'s scraper method does NOT return ModuleData! Please report this to the module's developer. This module will be skipped.");
+                                    LoggingManager.WriteToDebugLog($"ERROR: Module \"{module.Name}\"'s scraper method does NOT return ModuleData! Please report this to the module's developer. This module will be skipped.");
                                     continue;
                                 }
 
                                 // Push module to the array
                                 Container.Modules.Add(module);
-                                DebugManager.WriteToDebugLog($"Methods: Invoking initializer method of module \"{module.Name}\" in a new thread!");
+                                LoggingManager.WriteToDebugLog($"Methods: Invoking initializer method of module \"{module.Name}\" in a new thread!");
 
                                 // Push module to appdomain
                                 RawAssemblyManager.InsertAssemblyIntoMemory(DLL);
@@ -220,15 +220,15 @@ namespace Orobouros.Managers
                             {
                                 // This means an error occurred loading module values and module
                                 // processing cannot continue.
-                                DebugManager.WriteToDebugLog($"FATAL: {ex.Message}");
-                                DebugManager.WriteToDebugLog($"Module \"{Path.GetFileName(mod)}\" encountered an exception loading and has been skipped. Please report this to the module developer.");
+                                LoggingManager.WriteToDebugLog($"FATAL: {ex.Message}");
+                                LoggingManager.WriteToDebugLog($"Module \"{Path.GetFileName(mod)}\" encountered an exception loading and has been skipped. Please report this to the module developer.");
                             }
                         }
                     }
 
                     if (!mainClassFound)
                     {
-                        DebugManager.WriteToDebugLog($"WARNING: Module \"{Path.GetFileName(mod)}\" does not have a valid information class and has been skipped. Please report this to the module's author.");
+                        LoggingManager.WriteToDebugLog($"WARNING: Module \"{Path.GetFileName(mod)}\" does not have a valid information class and has been skipped. Please report this to the module's author.");
                     }
                 }
                 else
