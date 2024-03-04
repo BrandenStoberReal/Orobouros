@@ -2,7 +2,8 @@
 Orobouros is a C# framework for scraping the web. Many attempts to do this have been created in various languages, but a different approach is taken with Orobouros due to the patented OrobourosModule™ system that allows any person to write their own plugin for any website.
 
 # Installation
-Orobouros is available [as a NuGet package](https://www.nuget.org/packages/Orobouros) and from the ``Actions`` tab above. Keep in mind the pre-compiled builds on GitHub do not include dependencies.
+Orobouros is available [as a NuGet package](https://www.nuget.org/packages/Orobouros) and from the ``Actions`` tab above. Keep in mind the pre-compiled builds on GitHub do not include dependencies. If you prefer the .NET CLI, you can also simply run: 
+```dotnet add package Orobouros```
 
 # Building
 If you insist on compiling this yourself, all you need is ``.NET 8 Core``. I would not recommend taking advantage of the tests, as they require specific configurations I use in debugging.
