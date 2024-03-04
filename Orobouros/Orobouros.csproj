@@ -24,9 +24,12 @@ Icon Credit: Hyliian @ DeviantArt</Description>
     <Copyright>Branden Stober</Copyright>
     <PackageIcon>orobouros.jpg</PackageIcon>
     <RepositoryType>git</RepositoryType>
-	<AssemblyVersion>1.0.3</AssemblyVersion>
+	<AssemblyVersion>1.0.4</AssemblyVersion>
 	<FileVersion>$(AssemblyVersion)</FileVersion>
 	<Version>$(AssemblyVersion)</Version>
+	<PackageTags>scraping;scraper;framework;modular;</PackageTags>
+	<IncludeSymbols>False</IncludeSymbols>
+	<SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
