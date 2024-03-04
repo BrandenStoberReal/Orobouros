@@ -1,11 +1,15 @@
 # The Orobouros Framework
 Orobouros is a C# framework for scraping the web. Many attempts to do this have been created in various languages, but a different approach is taken with Orobouros due to the patented OrobourosModule™ system that allows any person to write their own plugin for any website.
 
-# Usage
-This is a ``.NET 8 Core`` library and can be freely imported into any project with the same .NET version. Please keep in mind Linux support is entirely unknown at this time due to SQLite binaries, but it should be compatible in theory.
+# Installation
+Orobouros is available [as a NuGet package](https://www.nuget.org/packages/Orobouros) and from the ``Github Actions`` page. Keep in mind the pre-compiled builds on GitHub do not include dependencies. If you prefer the .NET CLI, you can also simply run:
+
+```
+dotnet add package Orobouros
+```
 
 # Building
-Bleeding edge builds can be found in the ``Actions`` tab pre-compiled. If you insist on compiling this yourself, all you need is ``.NET 8 Core``. I would not recommend taking advantage of the tests, as they require specific configurations I use in debugging.
+If you insist on compiling this yourself, all you need is ``.NET 8 Core``. I would not recommend taking advantage of the tests, as they require specific configurations I use in debugging.
 
 # Development
 Take a look at the TestModule project included in this repo to get a general idea on how to use this framework. XML annotations are also provided. At some point I will create a wiki with relevant information, but for now the core functionality takes priority. Obfuscated code is allowed (as in the framework won't refuse to execute it) but incredibly discouraged due to malware concerns. If you really feel the need to keep your source code hidden, just don't share your module.
@@ -41,7 +45,7 @@ This repository holds no responsibility on any modules programmers develop for t
 - [ ] Cross-language support (extremely advanced)
 - [ ] Data language translation toolkit
 - [ ] Overhaul download class & integrate better
-- [ ] Logging overhaul
+- [x] Logging overhaul
 - [x] Module developer web toolkit
 - [ ] Framework-level exception handling
 - [ ] Bulk data downloading functions (stored in RAM)
