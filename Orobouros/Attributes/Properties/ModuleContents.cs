@@ -1,4 +1,4 @@
-﻿namespace Orobouros.Attributes
+﻿namespace Orobouros.Attributes.Properties
 {
     public class ModuleContents : Attribute
     {

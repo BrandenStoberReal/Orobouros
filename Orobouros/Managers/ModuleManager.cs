@@ -1,4 +1,6 @@
-﻿using Orobouros.Attributes;
+﻿using Orobouros.Attributes.Core;
+using Orobouros.Attributes.Methods;
+using Orobouros.Attributes.Properties;
 using Orobouros.Bases;
 using Orobouros.Tools.Containers;
 using System.Reflection;
