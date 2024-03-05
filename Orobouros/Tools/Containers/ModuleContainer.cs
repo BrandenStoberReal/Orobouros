@@ -1,4 +1,4 @@
-﻿using Orobouros.Bases.Modules;
+﻿using Orobouros.Bases;
 
 namespace Orobouros.Tools.Containers
 {

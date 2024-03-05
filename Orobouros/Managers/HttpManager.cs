@@ -1,4 +1,4 @@
-﻿using Orobouros.Bases.HTTP;
+﻿using Orobouros.Bases;
 using System.Net;
 
 namespace Orobouros.Managers
