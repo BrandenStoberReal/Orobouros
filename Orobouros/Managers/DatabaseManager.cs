@@ -1,5 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
-using Orobouros.Bases;
+using Orobouros.Bases.Database;
 using System.Data;
 
 namespace Orobouros.Managers

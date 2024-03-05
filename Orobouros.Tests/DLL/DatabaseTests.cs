@@ -1,5 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
-using Orobouros.Bases;
+using Orobouros.Bases.Modules;
 using Orobouros.Managers;
 
 namespace OrobourosTests.DLL

@@ -1,9 +1,9 @@
 ﻿using Orobouros.Attributes;
-using Orobouros.Bases;
+using Orobouros.Bases.Modules;
 using Orobouros.Tools.Containers;
 using System.Reflection;
 using static Orobouros.UniAssemblyInfo;
-using Module = Orobouros.Bases.Module;
+using Module = Orobouros.Bases.Modules.Module;
 
 namespace Orobouros.Managers
 {

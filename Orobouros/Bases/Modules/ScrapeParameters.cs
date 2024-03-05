@@ -1,7 +1,7 @@
 ﻿using Orobouros.Tools.Web;
 using static Orobouros.UniAssemblyInfo;
 
-namespace Orobouros.Bases
+namespace Orobouros
 {
     /// <summary>
     /// Parameters passed to each module's scrape method.

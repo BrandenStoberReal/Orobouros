@@ -1,5 +1,6 @@
 ﻿using Orobouros.Attributes;
 using Orobouros.Bases;
+using Orobouros.Bases.Modules;
 using static Orobouros.UniAssemblyInfo;
 
 namespace Orobouros.TestModule

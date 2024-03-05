@@ -1,4 +1,4 @@
-﻿using Orobouros.Bases;
+﻿using Orobouros.Bases.HTTP;
 using Orobouros.Managers;
 
 namespace OrobourosTests.DLL
