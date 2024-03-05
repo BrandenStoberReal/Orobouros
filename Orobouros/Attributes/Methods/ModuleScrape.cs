@@ -1,4 +1,4 @@
-﻿namespace Orobouros.Attributes.Methods
+﻿namespace Orobouros.Attributes
 {
     public class ModuleScrape : Attribute
     {
