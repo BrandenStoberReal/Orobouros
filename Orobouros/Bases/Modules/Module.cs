@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using static Orobouros.UniAssemblyInfo;
+using static Orobouros.OrobourosInformation;
 
 namespace Orobouros.Bases
 {

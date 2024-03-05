@@ -3,7 +3,7 @@ using Orobouros.Bases;
 using Orobouros.Tools.Containers;
 using Orobouros.Tools.Web;
 using System.Reflection;
-using static Orobouros.UniAssemblyInfo;
+using static Orobouros.OrobourosInformation;
 using Module = Orobouros.Bases.Module;
 
 namespace Orobouros.Managers
