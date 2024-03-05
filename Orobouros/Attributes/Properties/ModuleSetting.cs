@@ -43,11 +43,29 @@
         Unknown
     }
 
+    /// <summary>
+    /// Attached to a property designed to be used as a config value.
+    /// </summary>
     public class ModuleSetting : Attribute
     {
+        /// <summary>
+        /// Name of the property.
+        /// </summary>
         public string Name { get; private set; }
+
+        /// <summary>
+        /// (optional) Description of the property.
+        /// </summary>
         public string Description { get; private set; }
+
+        /// <summary>
+        /// Value type the property uses.
+        /// </summary>
         public SettingType Type { get; set; }
+
+        /// <summary>
+        /// Raw type name of the object the property uses.
+        /// </summary>
         public string RawTypeName { get; set; }
 
         public ModuleSetting(string name = "", string description = "", SettingType type = SettingType.Unknown)

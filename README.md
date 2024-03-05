@@ -8,14 +8,34 @@ Orobouros is available [as a NuGet package](https://www.nuget.org/packages/Orobo
 dotnet add package Orobouros
 ```
 
+A list of publically available modules for download is listed [on the GitHub repository](https://github.com/BrandenStoberReal/Orobouros-Public-Modules).
+
 # Building
 If you insist on compiling this yourself, all you need is ``.NET 8 Core``. I would not recommend taking advantage of the tests, as they require specific configurations I use in debugging.
 
 # Development
 Take a look at the TestModule project included in this repo to get a general idea on how to use this framework. XML annotations are also provided. At some point I will create a wiki with relevant information, but for now the core functionality takes priority. Obfuscated code is allowed (as in the framework won't refuse to execute it) but incredibly discouraged due to malware concerns. If you really feel the need to keep your source code hidden, just don't share your module.
 
-# DMCA
-This repository holds no responsibility on any modules programmers develop for this framework. No copywritten content is included in this repo and will never be. If someone has made a module for your website and you don't like it, I cannot help you. You must get in contact with them to resolve such matters. This also applies to potentially illicit/illegal content scraped with modules created by the community. 
+Example code to submit a scrape request to the loaded module stack:
+```csharp
+ScrapingManager.InitializeModules(); // Only call this once at the entry point of your application
+List<ModuleContent> requestedInfo = new List<ModuleContent> { ModuleContent.Text }; // Content you want to request from the modules. How this is handled is entirely dependent on the module's developer.
+ModuleData? data = ScrapingManager.ScrapeURL("https://www.test.com/posts/posthere", requestedInfo); // Perform scrape request and wait for the returned data.
+ScrapingManager.FlushSupplementaryMethods(); // Stop background methods. This should be called at least once when the application is exiting.
+```
+
+Example code to return a simple line of text from a module's scrape method:
+```csharp
+ModuleData data = new ModuleData();
+ProcessedScrapeData exampleInstance = new ProcessedScrapeData(ModuleContent.Text, parameters.URL, "Hello World!");
+data.Content.Add(exampleInstance);
+return data;
+```
+
+Please consult the XML documentation or the TestModule project for further code examples.
+
+# Copyright
+This repository holds no responsibility over any modules programmers develop for this framework. No copywritten content is included in this repo and will never be. If someone has made a module for your website and you don't like it, I cannot help you. You must get in contact with them to resolve such matters. This also applies to potentially illicit/illegal content scraped with modules created by the community. 
 
 # TODO:
 - [x] Dynamic module loading
@@ -26,9 +46,11 @@ This repository holds no responsibility on any modules programmers develop for t
 - [x] Module init method
 - [x] Module supplementary methods
 - [x] Module scrape method
-- [ ] Module options
+- [x] Module options
 - [x] Module return data
+- [x] Module GUIDs
 - [x] Custom library support
+- [x] Referenced library support
 - [x] SQLite support
 - [x] Dynamic database support
 - [ ] Website API support (separate from raw HTTP)
@@ -37,7 +59,7 @@ This repository holds no responsibility on any modules programmers develop for t
 - [ ] Module security checks
 - [x] Module sanity checks
 - [x] Multiple modules for same website support
-- [ ] Improved module error handling
+- [x] Improved module error handling
 - [x] SQlite module integration
 - [ ] Public module downloader tool
 - [ ] Better data sanitizing & JSON storage
@@ -48,7 +70,7 @@ This repository holds no responsibility on any modules programmers develop for t
 - [x] Logging overhaul
 - [x] Module developer web toolkit
 - [ ] Framework-level exception handling
-- [ ] Bulk data downloading functions (stored in RAM)
+- [x] Bulk data downloading functions (stored in RAM)
 
 # Credits
 - Branden Stober - Main Project Lead
