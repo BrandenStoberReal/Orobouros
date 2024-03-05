@@ -27,7 +27,7 @@ Icon Credit: Hyliian @ DeviantArt</Description>
 	<AssemblyVersion>1.0.9</AssemblyVersion>
 	<FileVersion>$(AssemblyVersion)</FileVersion>
 	<Version>$(AssemblyVersion)</Version>
-	<PackageTags>scraping;scraper;framework;modular;</PackageTags>
+	<PackageTags>scraping;scraper;framework;modular;api;</PackageTags>
 	<IncludeSymbols>False</IncludeSymbols>
 	<SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
