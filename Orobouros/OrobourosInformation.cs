@@ -77,6 +77,11 @@
             Video,
 
             /// <summary>
+            /// A piece of audio.
+            /// </summary>
+            Audio,
+
+            /// <summary>
             /// A link to another resource.
             /// </summary>
             Link,
@@ -84,7 +89,12 @@
             /// <summary>
             /// A compressed archive, such as a zip or rar file.
             /// </summary>
-            Archive
+            Archive,
+
+            /// <summary>
+            /// Other attachment type not listed.
+            /// </summary>
+            Other
         }
 
         /// <summary>
@@ -109,6 +119,13 @@
         };
 
         /// <summary>
+        /// Known archive extensions.
+        /// </summary>
+        private static string[] archiveExtensions = {
+            ".ZIP", ".RAR", ".7Z",  //etc
+        };
+
+        /// <summary>
         /// Determines whether a file is an image or not.
         /// </summary>
         /// <param name="path"></param>
@@ -129,13 +146,52 @@
         }
 
         /// <summary>
-        /// Determines whether a file is video or not.
+        /// Determines whether a file is a video or not.
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
         public static bool IsVideo(string path)
         {
             return videoExtensions.Contains(Path.GetExtension(path), StringComparer.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// Determines whether a file is an archive or not.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static bool IsArchive(string path)
+        {
+            return archiveExtensions.Contains(Path.GetExtension(path), StringComparer.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// Returns the attachment content type of the provided file.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static AttachmentContent FindAttachmentType(string path)
+        {
+            if (IsArchive(path))
+            {
+                return AttachmentContent.Archive;
+            }
+            else if (IsVideo(path))
+            {
+                return AttachmentContent.Video;
+            }
+            else if (IsImage(path))
+            {
+                return AttachmentContent.Image;
+            }
+            else if (IsAudio(path))
+            {
+                return AttachmentContent.Audio;
+            }
+            else
+            {
+                return AttachmentContent.Other;
+            }
         }
     }
 }
