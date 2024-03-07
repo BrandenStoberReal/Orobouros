@@ -28,8 +28,9 @@ namespace Orobouros.Tools.Web
         public AttachmentContent AttachmentType { get; set; }
 
         /// <summary>
-        /// Raw attachment data.
+        /// Raw attachment data. Memory-leaking mess and thus is deprecated.
         /// </summary>
+        [Obsolete]
         public Stream? Binary { get; set; }
     }
 }
