@@ -71,7 +71,7 @@ namespace Orobouros.Managers
         /// <param name="headers"></param>
         /// <param name="httpVersion"></param>
         /// <returns>The status of the download</returns>
-        private DownloadStatus RawDownloadBuilder(string url, string folder, string filename, bool cache = true, bool KeepAlive = true, int chunks = 1, int connections = 1, int retries = 5, WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_2)
+        private DownloadStatus RawDownloadBuilder(string url, string folder, string filename, bool cache = true, bool KeepAlive = true, int chunks = 1, int connections = 1, int retries = 5, WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_11)
         {
             // Random user agent
             string userAgent = UserAgentManager.RandomUserAgent;
