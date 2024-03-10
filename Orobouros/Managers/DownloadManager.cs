@@ -195,7 +195,7 @@ namespace Orobouros.Managers
         /// <param name="parentFolder"></param>
         /// <param name="fileName"></param>
         /// <returns>A boolean on whether the download was successful</returns>
-        public bool DownloadContent(string? url, string parentFolder, string? fileName)
+        public bool DownloadContent(string? url, string parentFolder, string? fileName, bool cache = true, bool KeepAlive = true, int chunks = 1, int connections = 3, int retries = 5, WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_11)
         {
             // Sanitize file name
             string sanitizedFileName = StringManager.SanitizeFile(fileName);
@@ -212,11 +212,11 @@ namespace Orobouros.Managers
                 // If file with same name exists, append random digits
                 if (File.Exists(parentFolder + "/" + sanitizedFileName))
                 {
-                    status = RawDownloadBuilder(url, parentFolder, new Random().Next(1, 999) + "-" + sanitizedFileName);
+                    status = RawDownloadBuilder(url, parentFolder, new Random().Next(1, 999) + "-" + sanitizedFileName, cache, KeepAlive, chunks, connections, retries, headers, httpVersion);
                 }
                 else
                 {
-                    status = RawDownloadBuilder(url, parentFolder, sanitizedFileName);
+                    status = RawDownloadBuilder(url, parentFolder, sanitizedFileName, cache, KeepAlive, chunks, connections, retries, headers, httpVersion);
                 }
             }
             catch (Exception ex)
@@ -231,7 +231,6 @@ namespace Orobouros.Managers
             }
             else
             {
-                LoggingManager.WriteToDebugLog($"Download {fileName} failed! Skipping...");
                 return false;
             }
         }
