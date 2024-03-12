@@ -18,19 +18,6 @@ namespace Orobouros.Managers
         public static ModuleContainer Container { get; private set; } = new ModuleContainer("ModuleManager Module Container", "Primary container for holding loaded Orobouros modules.");
 
         /// <summary>
-        /// Ensures the modules folder exists. This acts as a default modules path.
-        /// </summary>
-        public static void VerifyModulesFolderIntegrity()
-        {
-            // Create modules directory if non-existent
-            if (!Directory.Exists("./modules"))
-            {
-                Directory.CreateDirectory("./modules");
-                LoggingManager.LogWarning("Modules directory didn't exist! It has been created automatically.");
-            }
-        }
-
-        /// <summary>
         /// Loads module assemblies. Can optionally provide a custom folder to load modules from.
         /// </summary>
         /// <param name="folder">Folder path that contains modules to load.</param>
@@ -39,8 +26,8 @@ namespace Orobouros.Managers
         {
             LoggingManager.LogInformation("Module load requested, starting...");
             UnloadAssemblies();
-            VerifyModulesFolderIntegrity();
-            LoggingManager.VerifyLogFolderIntegrity();
+            FolderManager.VerifyFolder("./modules");
+            FolderManager.VerifyFolder("./logs");
             LibraryManager.LoadLibraries();
             foreach (var mod in Directory.GetFiles(Path.GetFullPath(folder)))
             {

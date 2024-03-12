@@ -34,10 +34,8 @@ namespace Orobouros.Managers
         /// <param name="outputFolder"></param>
         public VideoStreamDownloader(string outputFolder)
         {
-            if (!Directory.Exists("./binaries"))
-            {
-                Directory.CreateDirectory("./binaries");
-            }
+            FolderManager.VerifyFolder("./binaries");
+            FolderManager.VerifyFolder(outputFolder);
 
             OutputFolder = outputFolder;
 
@@ -64,7 +62,7 @@ namespace Orobouros.Managers
         /// Downloads the specified video stream.
         /// </summary>
         /// <param name="url"></param>
-        /// <returns></returns>
+        /// <returns>Path of the newly downloaded file</returns>
         public string DownloadVideo(string url)
         {
             CancellationTokenSource source = new CancellationTokenSource();
@@ -77,7 +75,7 @@ namespace Orobouros.Managers
         /// Downloads the specified video stream and parses the audio out of it, only keeping the audio.
         /// </summary>
         /// <param name="url"></param>
-        /// <returns></returns>
+        /// <returns>Path of the newly downloaded file</returns>
         public string DownloadAudio(string url)
         {
             CancellationTokenSource source = new CancellationTokenSource();

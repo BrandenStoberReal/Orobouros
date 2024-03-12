@@ -16,19 +16,6 @@ namespace Orobouros.Managers
         private static Logger PrimaryLogger = new LoggerConfiguration().MinimumLevel.Debug().WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information).WriteTo.File("./logs/log-.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: LogEventLevel.Debug).CreateLogger();
 
         /// <summary>
-        /// Ensures the logging folder exists.
-        /// </summary>
-        public static void VerifyLogFolderIntegrity()
-        {
-            // Create logs directory if non-existent
-            if (!Directory.Exists("./logs"))
-            {
-                Directory.CreateDirectory("./logs");
-                LogWarning("Logging directory didn't exist! It has been created automatically.");
-            }
-        }
-
-        /// <summary>
         /// Logs standard information to the logging stack.
         /// </summary>
         /// <param name="message"></param>
