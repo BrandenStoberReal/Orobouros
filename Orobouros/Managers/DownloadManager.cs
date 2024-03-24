@@ -70,11 +70,23 @@ namespace Orobouros.Managers
         /// <param name="retries"></param>
         /// <param name="headers"></param>
         /// <param name="httpVersion"></param>
+        /// <param name="UserAgent"></param>
         /// <returns>The status of the download</returns>
-        private DownloadStatus RawDownloadBuilder(string url, string folder, string filename, bool cache = true, bool KeepAlive = true, int chunks = 1, int connections = 3, int retries = 5, WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_11)
+        private DownloadStatus RawDownloadBuilder(string url, string folder, string filename, bool cache = true,
+            bool KeepAlive = true, int chunks = 1, int connections = 3, int retries = 5,
+            WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_11,
+            string UserAgent = "")
         {
+            string userAgent = "";
             // Random user agent
-            string userAgent = UserAgentManager.RandomUserAgent;
+            if (UserAgent == "")
+            {
+                userAgent = UserAgentManager.RandomUserAgent;   
+            }
+            else
+            {
+                userAgent = UserAgent;
+            }
 
             // Downloader options
             var downloadOpt = new DownloadConfiguration
@@ -195,7 +207,7 @@ namespace Orobouros.Managers
         /// <param name="parentFolder"></param>
         /// <param name="fileName"></param>
         /// <returns>A boolean on whether the download was successful</returns>
-        public bool DownloadContent(string? url, string parentFolder, string? fileName, bool cache = true, bool KeepAlive = true, int chunks = 1, int connections = 3, int retries = 5, WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_11)
+        public bool DownloadContent(string? url, string parentFolder, string? fileName, bool cache = true, bool KeepAlive = true, int chunks = 1, int connections = 3, int retries = 5, WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_11, string UserAgent = "")
         {
             // Sanitize file name
             string sanitizedFileName = StringManager.SanitizeFile(fileName);
@@ -212,11 +224,11 @@ namespace Orobouros.Managers
                 // If file with same name exists, append random digits
                 if (File.Exists(parentFolder + "/" + sanitizedFileName))
                 {
-                    status = RawDownloadBuilder(url, parentFolder, new Random().Next(1, 999) + "-" + sanitizedFileName, cache, KeepAlive, chunks, connections, retries, headers, httpVersion);
+                    status = RawDownloadBuilder(url, parentFolder, new Random().Next(1, 999) + "-" + sanitizedFileName, cache, KeepAlive, chunks, connections, retries, headers, httpVersion, UserAgent);
                 }
                 else
                 {
-                    status = RawDownloadBuilder(url, parentFolder, sanitizedFileName, cache, KeepAlive, chunks, connections, retries, headers, httpVersion);
+                    status = RawDownloadBuilder(url, parentFolder, sanitizedFileName, cache, KeepAlive, chunks, connections, retries, headers, httpVersion, UserAgent);
                 }
             }
             catch (Exception ex)
