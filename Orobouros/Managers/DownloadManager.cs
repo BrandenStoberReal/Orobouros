@@ -75,7 +75,7 @@ namespace Orobouros.Managers
         private DownloadStatus RawDownloadBuilder(string url, string folder, string filename, bool cache = true,
             bool KeepAlive = true, int chunks = 1, int connections = 3, int retries = 5,
             WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_11,
-            string UserAgent = "", string Accept = "")
+            string UserAgent = "", string Accept = "", CookieContainer? cookies = null, int Timeout = 1500)
         {
             string userAgent;
             string accept;
@@ -115,6 +115,16 @@ namespace Orobouros.Managers
                 UserAgent = userAgent,
             }
             };
+            downloadOpt.Timeout = Timeout;
+            downloadOpt.CheckDiskSizeBeforeDownload = true;
+            downloadOpt.RequestConfiguration.AllowAutoRedirect = true;
+            downloadOpt.RequestConfiguration.AutomaticDecompression = DecompressionMethods.All;
+
+            // Assign cookies
+            if (cookies != null)
+            {
+                downloadOpt.RequestConfiguration.CookieContainer = cookies;
+            }
 
             // Assign headers
             if (headers != null)
@@ -219,7 +229,7 @@ namespace Orobouros.Managers
         /// <param name="parentFolder"></param>
         /// <param name="fileName"></param>
         /// <returns>A boolean on whether the download was successful</returns>
-        public bool DownloadContent(string? url, string parentFolder, string? fileName, bool cache = true, bool KeepAlive = true, int chunks = 1, int connections = 3, int retries = 5, WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_11, string UserAgent = "", string Accept = "")
+        public bool DownloadContent(string? url, string parentFolder, string? fileName, bool cache = true, bool KeepAlive = true, int chunks = 1, int connections = 3, int retries = 5, WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_11, string UserAgent = "", string Accept = "", CookieContainer? cookies = null, int Timeout = 1500)
         {
             // Sanitize file name
             string sanitizedFileName = StringManager.SanitizeFile(fileName);
@@ -236,11 +246,11 @@ namespace Orobouros.Managers
                 // If file with same name exists, append random digits
                 if (File.Exists(parentFolder + "/" + sanitizedFileName))
                 {
-                    status = RawDownloadBuilder(url, parentFolder, new Random().Next(1, 999) + "-" + sanitizedFileName, cache, KeepAlive, chunks, connections, retries, headers, httpVersion, UserAgent, Accept);
+                    status = RawDownloadBuilder(url, parentFolder, new Random().Next(1, 999) + "-" + sanitizedFileName, cache, KeepAlive, chunks, connections, retries, headers, httpVersion, UserAgent, Accept, cookies, Timeout);
                 }
                 else
                 {
-                    status = RawDownloadBuilder(url, parentFolder, sanitizedFileName, cache, KeepAlive, chunks, connections, retries, headers, httpVersion, UserAgent, Accept);
+                    status = RawDownloadBuilder(url, parentFolder, sanitizedFileName, cache, KeepAlive, chunks, connections, retries, headers, httpVersion, UserAgent, Accept, cookies, Timeout);
                 }
             }
             catch (Exception ex)
