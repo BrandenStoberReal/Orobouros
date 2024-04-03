@@ -74,7 +74,7 @@ namespace Orobouros.Managers
         /// <returns>The status of the download</returns>
         private DownloadStatus RawDownloadBuilder(string url, string folder, string filename, bool cache = true,
             bool KeepAlive = true, int chunks = 1, int connections = 3, int retries = 5,
-            WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_11,
+            WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.Http11,
             string UserAgent = "", string Accept = "", CookieContainer? cookies = null, int Timeout = 1500)
         {
             string userAgent;
@@ -135,19 +135,19 @@ namespace Orobouros.Managers
             // Specify HTTP protocol version
             switch (httpVersion)
             {
-                case HttpVersionNumber.HTTP_1:
+                case HttpVersionNumber.Http1:
                     downloadOpt.RequestConfiguration.ProtocolVersion = HttpVersion.Version10;
                     break;
 
-                case HttpVersionNumber.HTTP_11:
+                case HttpVersionNumber.Http11:
                     downloadOpt.RequestConfiguration.ProtocolVersion = HttpVersion.Version11;
                     break;
 
-                case HttpVersionNumber.HTTP_2:
+                case HttpVersionNumber.Http2:
                     downloadOpt.RequestConfiguration.ProtocolVersion = HttpVersion.Version20;
                     break;
 
-                case HttpVersionNumber.HTTP_3:
+                case HttpVersionNumber.Http3:
                     downloadOpt.RequestConfiguration.ProtocolVersion = HttpVersion.Version30;
                     break;
             }
@@ -229,7 +229,7 @@ namespace Orobouros.Managers
         /// <param name="parentFolder"></param>
         /// <param name="fileName"></param>
         /// <returns>A boolean on whether the download was successful</returns>
-        public bool DownloadContent(string? url, string parentFolder, string? fileName, bool cache = true, bool KeepAlive = true, int chunks = 1, int connections = 3, int retries = 5, WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_11, string UserAgent = "", string Accept = "", CookieContainer? cookies = null, int Timeout = 1500)
+        public bool DownloadContent(string? url, string parentFolder, string? fileName, bool cache = true, bool KeepAlive = true, int chunks = 1, int connections = 3, int retries = 5, WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.Http11, string UserAgent = "", string Accept = "", CookieContainer? cookies = null, int Timeout = 1500)
         {
             // Sanitize file name
             string sanitizedFileName = StringManager.SanitizeFile(fileName);

@@ -1,5 +1,6 @@
 ﻿using Orobouros.Bases;
 using System.Net;
+using System.Security.Authentication;
 
 namespace Orobouros.Managers
 {
@@ -8,7 +9,7 @@ namespace Orobouros.Managers
     /// </summary>
     public static class HttpManager
     {
-        private static HttpClientHandler HttpClientHandler { get; set; } = new HttpClientHandler() { AllowAutoRedirect = true, AutomaticDecompression = DecompressionMethods.All, };
+        private static HttpClientHandler HttpClientHandler { get; set; } = new HttpClientHandler() { AllowAutoRedirect = true, AutomaticDecompression = DecompressionMethods.All, SslProtocols = SslProtocols.Tls13};
 
         /// <summary>
         /// HTTP Client used for all HTTP requests. A new client is created if a proxy is used however.
@@ -22,22 +23,22 @@ namespace Orobouros.Managers
             /// <summary>
             /// Specifies HTTP Version 1.0
             /// </summary>
-            HTTP_1,
+            Http1,
 
             /// <summary>
             /// Specifies HTTP Version 1.1
             /// </summary>
-            HTTP_11,
+            Http11,
 
             /// <summary>
             /// Specifies HTTP Version 2.0
             /// </summary>
-            HTTP_2,
+            Http2,
 
             /// <summary>
             /// Specifies HTTP Version 3.0 (tcp/udp dual support)
             /// </summary>
-            HTTP_3
+            Http3
         }
 
         /// <summary>
@@ -51,7 +52,7 @@ namespace Orobouros.Managers
         /// <param name="httpVersion"></param>
         /// <param name="httpPolicy"></param>
         /// <returns></returns>
-        private static HttpAPIAsset SimpleHttpRequest(HttpMethod method, string url, string? proxy = null, List<Tuple<string, string>>? cookies = null, bool useDefaultHeaders = true, WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_2, HttpVersionPolicy httpPolicy = HttpVersionPolicy.RequestVersionOrHigher)
+        private static HttpAPIAsset SimpleHttpRequest(HttpMethod method, string url, string? proxy = null, List<Tuple<string, string>>? cookies = null, bool useDefaultHeaders = true, WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.Http2, HttpVersionPolicy httpPolicy = HttpVersionPolicy.RequestVersionOrHigher)
         {
             using (var requestMessage = new HttpRequestMessage(method, url))
             {
@@ -109,19 +110,19 @@ namespace Orobouros.Managers
                 // Specify HTTP protocol version
                 switch (httpVersion)
                 {
-                    case HttpVersionNumber.HTTP_1:
+                    case HttpVersionNumber.Http1:
                         requestMessage.Version = HttpVersion.Version10;
                         break;
 
-                    case HttpVersionNumber.HTTP_11:
+                    case HttpVersionNumber.Http11:
                         requestMessage.Version = HttpVersion.Version11;
                         break;
 
-                    case HttpVersionNumber.HTTP_2:
+                    case HttpVersionNumber.Http2:
                         requestMessage.Version = HttpVersion.Version20;
                         break;
 
-                    case HttpVersionNumber.HTTP_3:
+                    case HttpVersionNumber.Http3:
                         requestMessage.Version = HttpVersion.Version30;
                         break;
                 }
@@ -176,7 +177,7 @@ namespace Orobouros.Managers
         /// <param name="httpVersion"></param>
         /// <param name="httpPolicy"></param>
         /// <returns></returns>
-        public static HttpAPIAsset GET(string url, string? proxy = null, List<Tuple<string, string>>? cookies = null, bool useDefaultHeaders = true, WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_2, HttpVersionPolicy httpPolicy = HttpVersionPolicy.RequestVersionOrHigher)
+        public static HttpAPIAsset GET(string url, string? proxy = null, List<Tuple<string, string>>? cookies = null, bool useDefaultHeaders = true, WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.Http2, HttpVersionPolicy httpPolicy = HttpVersionPolicy.RequestVersionOrHigher)
         {
             return SimpleHttpRequest(HttpMethod.Get, url, proxy, cookies, useDefaultHeaders, headers, httpVersion, httpPolicy);
         }
@@ -192,7 +193,7 @@ namespace Orobouros.Managers
         /// <param name="httpVersion"></param>
         /// <param name="httpPolicy"></param>
         /// <returns></returns>
-        public static HttpAPIAsset DELETE(string url, string? proxy = null, List<Tuple<string, string>>? cookies = null, bool useDefaultHeaders = true, WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.HTTP_2, HttpVersionPolicy httpPolicy = HttpVersionPolicy.RequestVersionOrHigher)
+        public static HttpAPIAsset DELETE(string url, string? proxy = null, List<Tuple<string, string>>? cookies = null, bool useDefaultHeaders = true, WebHeaderCollection? headers = null, HttpVersionNumber httpVersion = HttpVersionNumber.Http2, HttpVersionPolicy httpPolicy = HttpVersionPolicy.RequestVersionOrHigher)
         {
             return SimpleHttpRequest(HttpMethod.Delete, url, proxy, cookies, useDefaultHeaders, headers, httpVersion, httpPolicy);
         }
