@@ -14,7 +14,7 @@ public static class RemoteModuleManager
     /// Github manifest URL
     /// </summary>
     private static readonly string ManifestURL =
-        "https://raw.githubusercontent.com/BrandenStoberReal/Orobouros-Public-Modules/master/version.json";
+        "https://raw.githubusercontent.com/BrandenStoberReal/Orobouros-Public-Modules/master/manifest.json";
     
     /// <summary>
     /// Fetches the remote manifest and converts it into a manageable class.
