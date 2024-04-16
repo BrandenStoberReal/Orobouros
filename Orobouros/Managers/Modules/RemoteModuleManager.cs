@@ -11,13 +11,19 @@ namespace Orobouros.Managers.Modules;
 public static class RemoteModuleManager
 {
     /// <summary>
+    /// Github manifest URL
+    /// </summary>
+    private static readonly string ManifestURL =
+        "https://raw.githubusercontent.com/BrandenStoberReal/Orobouros-Public-Modules/master/version.json";
+    
+    /// <summary>
     /// Fetches the remote manifest and converts it into a manageable class.
     /// </summary>
     /// <returns></returns>
     public static RemoteModulesManifest? FetchRemoteManifest()
     {
         HttpContent? possibleJsonContent = HttpManager
-            .GET("https://raw.githubusercontent.com/BrandenStoberReal/Orobouros-Public-Modules/master/version.json")
+            .GET(ManifestURL)
             .Content;
         if (possibleJsonContent == null)
         {
@@ -31,10 +37,14 @@ public static class RemoteModuleManager
     /// Determines if a module is outdated by its GUID.
     /// </summary>
     /// <param name="module"></param>
-    /// <returns>True if the module needs an update, false if it is the latest version. Null means it does not exist in the manifest.</returns>
+    /// <returns>True if the module needs an update, false if it is the latest version. Returns null if it does not exist in the manifest, or manifest couldn't be found.</returns>
     public static bool? IsModuleOutdated(Module module)
     {
-        RemoteModulesManifest manifest = FetchRemoteManifest();
+        RemoteModulesManifest? manifest = FetchRemoteManifest();
+        if (manifest == null)
+        {
+            return null;
+        }
         RemoteModule? remoteModule = manifest.modules.FirstOrDefault(x => x.guid == module.GUID);
         if (remoteModule == null)
         {
