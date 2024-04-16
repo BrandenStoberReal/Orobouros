@@ -100,28 +100,28 @@
         /// <summary>
         /// Known image extensions.
         /// </summary>
-        private static string[] imageExtensions = {
+        private static readonly string[] imageExtensions = {
             ".PNG", ".JPG", ".JPEG", ".BMP", ".GIF", //etc
         };
 
         /// <summary>
         /// Known audio extensions.
         /// </summary>
-        private static string[] audioExtensions = {
+        private static readonly string[] audioExtensions = {
             ".WAV", ".MID", ".MIDI", ".WMA", ".MP3", ".OGG", ".RMA", //etc
         };
 
         /// <summary>
         /// Known video extensions.
         /// </summary>
-        private static string[] videoExtensions = {
+        private static readonly string[] videoExtensions = {
             ".AVI", ".MP4", ".DIVX", ".WMV", ".MKV", ".M4A", ".WEBM", //etc
         };
 
         /// <summary>
         /// Known archive extensions.
         /// </summary>
-        private static string[] archiveExtensions = {
+        private static readonly string[] archiveExtensions = {
             ".ZIP", ".RAR", ".7Z",  //etc
         };
 

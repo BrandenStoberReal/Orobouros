@@ -257,6 +257,7 @@ namespace Orobouros.Managers.Modules
         /// Fetches a random loaded module.
         /// </summary>
         /// <returns></returns>
+        [Obsolete]
         public static Module FetchRandomModule()
         {
             Random rng = new Random();
