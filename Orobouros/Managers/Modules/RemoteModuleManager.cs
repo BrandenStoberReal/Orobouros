@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Orobouros.Bases;
 using Orobouros.Bases.Modules;
 using Orobouros.Managers.Web;
 
@@ -9,11 +10,45 @@ namespace Orobouros.Managers.Modules;
 /// </summary>
 public static class RemoteModuleManager
 {
-    public static RemoteModulesList FetchRemoteManifest()
+    /// <summary>
+    /// Fetches the remote manifest and converts it into a manageable class.
+    /// </summary>
+    /// <returns></returns>
+    public static RemoteModulesManifest? FetchRemoteManifest()
     {
-        RemoteModulesList mods = JsonConvert.DeserializeObject<RemoteModulesList>(HttpManager
+        HttpContent? possibleJsonContent = HttpManager
             .GET("https://raw.githubusercontent.com/BrandenStoberReal/Orobouros-Public-Modules/master/version.json")
-            .Content.ReadAsStringAsync().Result);
-        return mods;
+            .Content;
+        if (possibleJsonContent == null)
+        {
+            return null;
+        }
+        string possibleJson = possibleJsonContent.ReadAsStringAsync().Result;
+        return JsonConvert.DeserializeObject<RemoteModulesManifest>(possibleJson);
+    }
+
+    /// <summary>
+    /// Determines if a module is outdated by its GUID.
+    /// </summary>
+    /// <param name="module"></param>
+    /// <returns>True if the module needs an update, false if it is the latest version. Null means it does not exist in the manifest.</returns>
+    public static bool? IsModuleOutdated(Module module)
+    {
+        RemoteModulesManifest manifest = FetchRemoteManifest();
+        RemoteModule? remoteModule = manifest.modules.FirstOrDefault(x => x.guid == module.GUID);
+        if (remoteModule == null)
+        {
+            return null;
+        }
+
+        Version remoteVersion = new Version(remoteModule.version);
+        Version localVersion = new Version(module.Version);
+        if (remoteVersion > localVersion)
+        {
+            // local module needs an update
+            return true;
+        }
+        // local module is latest version
+        return false;
     }
 }

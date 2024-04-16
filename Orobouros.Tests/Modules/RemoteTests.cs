@@ -8,13 +8,14 @@ public class RemoteTests
     [TestMethod(displayName: "Remote Module Tests - Fetch Manifest")]
     public void Test_Manifest()
     {
-        RemoteModuleManager.FetchRemoteManifest();
+        RemoteModulesManifest Mods = RemoteModuleManager.FetchRemoteManifest();
+        Assert.IsNotNull(Mods);
     }
     
     [TestMethod(displayName: "Remote Module Tests - Fetch PartyModule")]
     public void Test_Manifest_PartyMod()
     {
-        RemoteModulesList List = RemoteModuleManager.FetchRemoteManifest();
-        Assert.IsTrue(List.modules.Count > 0);
+        RemoteModulesManifest manifest = RemoteModuleManager.FetchRemoteManifest();
+        Assert.IsTrue(manifest.modules.Count > 0);
     }
 }

@@ -8,4 +8,5 @@ public class RemoteModule
     public string name { get; set; }
     public string version { get; set; }
     public string url { get; set; }
+    public string guid { get; set; }
 }
