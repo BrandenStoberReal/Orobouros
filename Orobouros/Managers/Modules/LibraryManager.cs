@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
+using Orobouros.Managers.IO;
+using Orobouros.Managers.Logging;
 
-namespace Orobouros.Managers
+namespace Orobouros.Managers.Modules
 {
     public static class LibraryManager
     {

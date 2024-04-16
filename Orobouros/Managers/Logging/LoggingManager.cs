@@ -3,7 +3,7 @@ using Serilog.Core;
 using Serilog.Events;
 using System.Reflection;
 
-namespace Orobouros.Managers
+namespace Orobouros.Managers.Logging
 {
     /// <summary>
     /// Primary class for handling logging operations.

@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Orobouros.Managers
+namespace Orobouros.Managers.Misc
 {
     /// <summary>
     /// Utility class that mainly provides string sanitization.

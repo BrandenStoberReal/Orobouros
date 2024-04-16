@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Orobouros.Managers
+namespace Orobouros.Managers.Internals
 {
     /// <summary>
     /// Manages any and all reflection tasks delegated by the framework. This is most used by the

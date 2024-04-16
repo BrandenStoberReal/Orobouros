@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Orobouros.Managers
+namespace Orobouros.Managers.IO
 {
     public static class FolderManager
     {

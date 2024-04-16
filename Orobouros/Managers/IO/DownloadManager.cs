@@ -2,14 +2,17 @@
 using System.ComponentModel;
 using System.Net;
 using System.Net.Cache;
-using static Orobouros.Managers.HttpManager;
+using Orobouros.Managers.Logging;
+using Orobouros.Managers.Misc;
+using static Orobouros.Managers.Web.HttpManager;
 using DownloadProgressChangedEventArgs = Downloader.DownloadProgressChangedEventArgs;
 
-namespace Orobouros.Managers
+namespace Orobouros.Managers.IO
 {
     /// <summary>
     /// Handles all of the framework's various downloading tasks, either from the web or other resources.
     /// </summary>
+    [Obsolete]
     public class DownloadManager
     {
         /// <summary>

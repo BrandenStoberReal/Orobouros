@@ -1,6 +1,7 @@
 ﻿using Orobouros.Bases;
+using Orobouros.Managers.Database;
 
-namespace Orobouros.Managers
+namespace Orobouros.Managers.Database
 {
     /// <summary>
     /// Manages an abstraction layer between the modules and the database manager.

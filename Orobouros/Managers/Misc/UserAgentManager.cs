@@ -1,4 +1,4 @@
-﻿namespace Orobouros.Managers
+﻿namespace Orobouros.Managers.Misc
 {
     /// <summary>
     /// Utility class that stores user agents to be used for HTTP requests.

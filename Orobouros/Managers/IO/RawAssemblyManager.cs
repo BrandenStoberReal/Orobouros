@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
+using Orobouros.Managers.Logging;
 
-namespace Orobouros.Managers
+namespace Orobouros.Managers.IO
 {
     /// <summary>
     /// Enum representing the method to load assemblies.

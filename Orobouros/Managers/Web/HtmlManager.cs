@@ -1,6 +1,6 @@
 ﻿using HtmlAgilityPack;
 
-namespace Orobouros.Managers
+namespace Orobouros.Managers.Web
 {
     /// <summary>
     /// Manages HTML parsing tasks for the framework and modules. Modules are highly encouraged to

@@ -1,4 +1,4 @@
-﻿namespace Orobouros.Managers
+﻿namespace Orobouros.Managers.IO
 {
     /// <summary>
     /// Controls various aspects of differentiating and managing compiled .NET assemblies.

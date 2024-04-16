@@ -4,10 +4,12 @@ using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Orobouros.Managers;
+using Orobouros.Managers.IO;
 using YoutubeDLSharp;
 using YoutubeDLSharp.Options;
 
-namespace Orobouros.Managers
+namespace Orobouros.Bases.IO
 {
     /// <summary>
     /// A class designed to download HLS video streams.

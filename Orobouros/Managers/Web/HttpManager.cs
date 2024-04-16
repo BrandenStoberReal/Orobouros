@@ -1,8 +1,9 @@
 ﻿using Orobouros.Bases;
 using System.Net;
 using System.Security.Authentication;
+using Orobouros.Managers.Misc;
 
-namespace Orobouros.Managers
+namespace Orobouros.Managers.Web
 {
     /// <summary>
     /// Manages all HTTP operations for the framework and essentially acts as the core of the entire project.

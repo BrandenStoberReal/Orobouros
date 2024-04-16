@@ -1,8 +1,8 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using System.Data;
+using Microsoft.Data.Sqlite;
 using Orobouros.Bases;
-using System.Data;
 
-namespace Orobouros.Managers
+namespace Orobouros.Managers.Database
 {
     /// <summary>
     /// Handles all of the framework's database operations.

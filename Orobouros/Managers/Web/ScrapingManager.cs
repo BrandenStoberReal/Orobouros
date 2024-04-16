@@ -2,10 +2,13 @@
 using Orobouros.Tools.Containers;
 using Orobouros.Tools.Web;
 using System.Reflection;
+using Orobouros.Managers.Internals;
+using Orobouros.Managers.Logging;
+using Orobouros.Managers.Modules;
 using static Orobouros.OrobourosInformation;
 using Module = Orobouros.Bases.Module;
 
-namespace Orobouros.Managers
+namespace Orobouros.Managers.Web
 {
     /// <summary>
     /// Handles all scraping-related tasks on behalf of the framework.

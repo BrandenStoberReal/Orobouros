@@ -2,10 +2,14 @@
 using Orobouros.Bases;
 using Orobouros.Tools.Containers;
 using System.Reflection;
+using Orobouros.Managers.Database;
+using Orobouros.Managers.Internals;
+using Orobouros.Managers.IO;
+using Orobouros.Managers.Logging;
 using static Orobouros.OrobourosInformation;
 using Module = Orobouros.Bases.Module;
 
-namespace Orobouros.Managers
+namespace Orobouros.Managers.Modules
 {
     /// <summary>
     /// Manages everything related to modules and allows the framework to interpret the module's data.

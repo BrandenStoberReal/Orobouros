@@ -1,5 +1,7 @@
 ﻿using Orobouros.Bases;
 using Orobouros.Managers;
+using Orobouros.Managers.Logging;
+using Orobouros.Managers.Modules;
 
 namespace OrobourosTests.DLL
 {

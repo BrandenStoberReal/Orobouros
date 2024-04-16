@@ -1,5 +1,6 @@
 ﻿using Orobouros.Bases;
 using Orobouros.Managers;
+using Orobouros.Managers.Web;
 
 namespace OrobourosTests.DLL
 {
