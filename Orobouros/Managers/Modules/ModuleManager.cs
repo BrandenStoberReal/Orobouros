@@ -17,9 +17,9 @@ namespace Orobouros.Managers.Modules
     public static class ModuleManager
     {
         /// <summary>
-        /// A list of all loaded modules, casted to a class
+        /// A list of all loaded modules, cast to a class
         /// </summary>
-        public static ModuleContainer Container { get; private set; } = new ModuleContainer("ModuleManager Module Container", "Primary container for holding loaded Orobouros modules.");
+        public static ModuleContainer Container { get; private set; } = new ModuleContainer("Orobouros Primary Module Container", "Primary container for holding loaded Orobouros modules.");
 
         /// <summary>
         /// Loads module assemblies. Can optionally provide a custom folder to load modules from.
