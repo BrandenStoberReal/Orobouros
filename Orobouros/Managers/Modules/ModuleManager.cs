@@ -25,7 +25,7 @@ namespace Orobouros.Managers.Modules
         /// Loads module assemblies. Can optionally provide a custom folder to load modules from.
         /// </summary>
         /// <param name="folder">Folder path that contains modules to load.</param>
-        /// <param name="aggressive">Whether to aggressively delete non-module files in the directory.</param>
+        /// <param name="aggressive">Whether to aggressively delete non-module files in the module directory.</param>
         public static void LoadAssemblies(string? folder = "./modules", bool aggressive = false)
         {
             LoggingManager.LogInformation("Module load requested, starting...");
