@@ -50,7 +50,7 @@ This repository holds no responsibility over any modules programmers develop for
 - [x] Module return data
 - [x] Module GUIDs
 - [x] Custom library support
-- [x] Referenced library support
+- ~~[x] Referenced library support~~ Deprecated
 - [x] SQLite support
 - [x] Dynamic database support
 - [ ] Website API support (separate from raw HTTP)
