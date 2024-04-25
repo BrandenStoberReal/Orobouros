@@ -18,8 +18,26 @@ namespace Orobouros.Tools.Containers
         public string Description { get; set; }
 
         /// <summary>
+        /// Exact date and time this container was instantiated.
+        /// </summary>
+        public DateTime CreationTime { get; set; }
+
+        /// <summary>
         /// Container's child posts.
         /// </summary>
         public List<Post> Posts { get; set; } = new List<Post>();
+
+        public PostContainer(string? name = null, string? description = null)
+        {
+            if (name != null)
+            {
+                Name = name;
+            }
+            if (description != null)
+            {
+                Description = description;
+            }
+            CreationTime = DateTime.Now;
+        }
     }
 }

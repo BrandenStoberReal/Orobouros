@@ -18,6 +18,11 @@ namespace Orobouros.Tools.Containers
         public string Description { get; set; }
 
         /// <summary>
+        /// Exact time and date this container was instantiated.
+        /// </summary>
+        public DateTime CreationTime { get; set; }
+
+        /// <summary>
         /// Container's child modules.
         /// </summary>
         public List<Module> Modules { get; set; } = new List<Module>();
@@ -37,6 +42,7 @@ namespace Orobouros.Tools.Containers
             {
                 Description = description;
             }
+            CreationTime = DateTime.Now;
         }
     }
 }
