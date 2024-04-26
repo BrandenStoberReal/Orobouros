@@ -61,8 +61,8 @@ This repository holds no responsibility over any modules programmers develop for
 - [x] Multiple modules for same website support
 - [x] Improved module error handling
 - [x] SQlite module integration
-- [ ] Public module downloader tool
-- [ ] Better data sanitizing & JSON storage
+- [x] Public module downloader tool
+- [ ] Switch to protobuf
 - [ ] General framework configuration class
 - [ ] Cross-language support (extremely advanced)
 - [ ] Data language translation toolkit
