@@ -62,7 +62,7 @@ This repository holds no responsibility over any modules programmers develop for
 - [x] Improved module error handling
 - [x] SQlite module integration
 - [x] Public module downloader tool
-- [ ] Switch to protobuf
+- [x] Switch to protobuf for caching
 - [ ] General framework configuration class
 - [ ] Cross-language support (extremely advanced)
 - [ ] Data language translation toolkit
