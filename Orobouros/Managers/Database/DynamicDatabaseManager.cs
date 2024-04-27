@@ -28,6 +28,10 @@ namespace Orobouros.Managers.Database
             {
                 DatabaseManager.CreateDatabase($"./moduledb/{mod.GUID}/", mod.GUID);
             }
+            if (!Directory.Exists($"./moduledb/{mod.GUID}/posts"))
+            {
+                Directory.CreateDirectory($"./moduledb/{mod.GUID}/posts");
+            }
         }
 
         /// <summary>

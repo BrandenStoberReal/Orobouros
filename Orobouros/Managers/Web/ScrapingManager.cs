@@ -7,6 +7,8 @@ using Orobouros.Managers.Logging;
 using Orobouros.Managers.Modules;
 using static Orobouros.Orobouros;
 using Module = Orobouros.Bases.Module;
+using Orobouros.Managers.Database;
+using Microsoft.Data.Sqlite;
 
 namespace Orobouros.Managers.Web
 {
@@ -158,16 +160,19 @@ namespace Orobouros.Managers.Web
                     LoggingManager.WriteToDebugLog($"Multiple modules for the same website supporting the same content found. A random one will be selected. Please avoid this behavior in the future.");
                     Random rng = new Random();
                     int randInt = rng.Next(foundModules.Modules.Count);
-                    LoggingManager.LogInformation($"Selected Module: {foundModules.Modules[randInt].Name} | {foundModules.Modules[randInt].Version} | {foundModules.Modules[randInt].GUID}");
+                    Module module = foundModules.Modules[randInt];
+                    LoggingManager.LogInformation($"Selected Module: {module.Name} | {module.Version} | {module.GUID}");
                     LoggingManager.LogInformation($"Invoking module scrape method...");
-                    return (ModuleData?)ReflectionManager.InvokeReflectedMethod(foundModules.Modules[randInt].ScrapeMethod, foundModules.Modules[randInt].PsuedoClass, new object[] { parms });
+                    ModuleData? returnedData = (ModuleData?)ReflectionManager.InvokeReflectedMethod(module.ScrapeMethod, module.PsuedoClass, new object[] { parms });
+                    return returnedData;
                 }
                 else
                 {
                     // Only 1 module found, should be default behavior
                     LoggingManager.LogInformation($"Selected Module: {foundModules.Modules.FirstOrDefault().Name} | {foundModules.Modules.FirstOrDefault().Version} | {foundModules.Modules.FirstOrDefault().GUID}");
                     LoggingManager.LogInformation($"Invoking module scrape method...");
-                    return (ModuleData?)ReflectionManager.InvokeReflectedMethod(foundModules.Modules.FirstOrDefault().ScrapeMethod, foundModules.Modules.FirstOrDefault().PsuedoClass, new object[] { parms });
+                    ModuleData? returnedData = (ModuleData?)ReflectionManager.InvokeReflectedMethod(foundModules.Modules.FirstOrDefault().ScrapeMethod, foundModules.Modules.FirstOrDefault().PsuedoClass, new object[] { parms });
+                    return returnedData;
                 }
             }
         }
