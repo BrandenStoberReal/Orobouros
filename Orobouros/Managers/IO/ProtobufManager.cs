@@ -92,5 +92,23 @@ namespace Orobouros.Managers.IO
                 return false;
             }
         }
+
+        /// <summary>
+        /// Obtains a cached post instance.
+        /// </summary>
+        /// <param name="mod"></param>
+        /// <param name="postURL"></param>
+        /// <returns>The cached post. Returns null if the post is not cached/not found.</returns>
+        public static Post? FetchCachedPost(Module mod, string postURL)
+        {
+            if (mod.CachedPosts.Any(x => x.URL == postURL))
+            {
+                return mod.CachedPosts.First(x => x.URL == postURL);
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }
