@@ -5,7 +5,7 @@ using System.Reflection;
 using Orobouros.Managers.Internals;
 using Orobouros.Managers.Logging;
 using Orobouros.Managers.Modules;
-using static Orobouros.OrobourosInformation;
+using static Orobouros.Orobouros;
 using Module = Orobouros.Bases.Module;
 
 namespace Orobouros.Managers.Web

@@ -3,7 +3,7 @@
     /// <summary>
     /// Holds various misc information about Orobouros.
     /// </summary>
-    public static class OrobourosInformation
+    public static class Orobouros
     {
         /// <summary>
         /// Represents web content from/for a module.

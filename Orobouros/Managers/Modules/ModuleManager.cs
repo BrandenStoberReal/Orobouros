@@ -6,7 +6,7 @@ using Orobouros.Managers.Database;
 using Orobouros.Managers.Internals;
 using Orobouros.Managers.IO;
 using Orobouros.Managers.Logging;
-using static Orobouros.OrobourosInformation;
+using static Orobouros.Orobouros;
 using Module = Orobouros.Bases.Module;
 
 namespace Orobouros.Managers.Modules

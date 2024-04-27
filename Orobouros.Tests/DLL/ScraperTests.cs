@@ -3,7 +3,7 @@ using Orobouros.Managers;
 using Orobouros.Managers.Logging;
 using Orobouros.Managers.Web;
 using Orobouros.Tools.Web;
-using static Orobouros.OrobourosInformation;
+using static Orobouros.Orobouros;
 
 namespace OrobourosTests.DLL
 {
