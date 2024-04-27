@@ -114,7 +114,7 @@ namespace Orobouros.Managers.Modules
                         string? ModVersion = (string?)ReflectionManager.GetValueOfProperty(moduleVersion, psuedoAttribute);
                         string? ModGuid = (string?)ReflectionManager.GetValueOfProperty(moduleGUID, psuedoAttribute);
                         List<string>? ModWebsites = (List<string>?)ReflectionManager.GetValueOfProperty(moduleSupportedSites, psuedoClass);
-                        List<ModuleContent>? ModContents = (List<ModuleContent>?)ReflectionManager.GetValueOfProperty(moduleSupportedContent, psuedoClass);
+                        List<ContentType>? ModContents = (List<ContentType>?)ReflectionManager.GetValueOfProperty(moduleSupportedContent, psuedoClass);
 
                         // Ensure modules with same GUID aren't loaded already
                         if (Container.Modules.Any(x => x.GUID == ModGuid))

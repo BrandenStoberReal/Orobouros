@@ -24,9 +24,9 @@ namespace Orobouros.TestModule
         // Returned content supported by this module. Anything not explicitly listed should be
         // classified as "Other" enum type.
         [ModuleContents]
-        public List<ModuleContent> SupportedContent { get; set; } = new List<ModuleContent>
+        public List<ContentType> SupportedContent { get; set; } = new List<ContentType>
         {
-            ModuleContent.Text
+            ContentType.Text
         };
 
         // Module methods.
@@ -44,7 +44,7 @@ namespace Orobouros.TestModule
         public ModuleData? Scrape(ScrapeParameters parameters)
         {
             ModuleData data = new ModuleData();
-            ProcessedScrapeData exampleInstance = new ProcessedScrapeData(ModuleContent.Text, parameters.URL, "Hello World!");
+            ProcessedScrapeData exampleInstance = new ProcessedScrapeData(ContentType.Text, parameters.URL, "Hello World!");
             data.Content.Add(exampleInstance);
             return data;
         }

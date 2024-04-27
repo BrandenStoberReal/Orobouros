@@ -8,7 +8,7 @@
         /// <summary>
         /// Represents web content from/for a module.
         /// </summary>
-        public enum ModuleContent
+        public enum ContentType
         {
             /// <summary>
             /// Generic text.
@@ -59,7 +59,7 @@
         /// <summary>
         /// Enum type representing the possible attachment content types that can be returned by modules.
         /// </summary>
-        public enum AttachmentContent
+        public enum AttachmentType
         {
             /// <summary>
             /// A generic file type. Example: test.json
@@ -98,31 +98,31 @@
         }
 
         /// <summary>
-        /// Known image extensions.
+        /// Known image extensions. Case insensitive.
         /// </summary>
         private static readonly string[] imageExtensions = {
-            ".PNG", ".JPG", ".JPEG", ".BMP", ".GIF", //etc
+            ".PNG", ".JPG", ".JPEG", ".BMP", ".GIF",
         };
 
         /// <summary>
-        /// Known audio extensions.
+        /// Known audio extensions. Case insensitive.
         /// </summary>
         private static readonly string[] audioExtensions = {
-            ".WAV", ".MID", ".MIDI", ".WMA", ".MP3", ".OGG", ".RMA", //etc
+            ".WAV", ".MID", ".MIDI", ".WMA", ".MP3", ".OGG", ".RMA",
         };
 
         /// <summary>
-        /// Known video extensions.
+        /// Known video extensions. Case insensitive.
         /// </summary>
         private static readonly string[] videoExtensions = {
-            ".AVI", ".MP4", ".DIVX", ".WMV", ".MKV", ".M4A", ".WEBM", //etc
+            ".AVI", ".MP4", ".DIVX", ".WMV", ".MKV", ".M4A", ".WEBM",
         };
 
         /// <summary>
-        /// Known archive extensions.
+        /// Known archive extensions. Case insensitive.
         /// </summary>
         private static readonly string[] archiveExtensions = {
-            ".ZIP", ".RAR", ".7Z",  //etc
+            ".ZIP", ".RAR", ".7Z",
         };
 
         /// <summary>
@@ -170,27 +170,27 @@
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static AttachmentContent FindAttachmentType(string path)
+        public static AttachmentType FindAttachmentType(string path)
         {
             if (IsArchive(path))
             {
-                return AttachmentContent.Archive;
+                return AttachmentType.Archive;
             }
             else if (IsVideo(path))
             {
-                return AttachmentContent.Video;
+                return AttachmentType.Video;
             }
             else if (IsImage(path))
             {
-                return AttachmentContent.Image;
+                return AttachmentType.Image;
             }
             else if (IsAudio(path))
             {
-                return AttachmentContent.Audio;
+                return AttachmentType.Audio;
             }
             else
             {
-                return AttachmentContent.Other;
+                return AttachmentType.Other;
             }
         }
     }

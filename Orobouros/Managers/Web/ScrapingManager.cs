@@ -95,7 +95,7 @@ namespace Orobouros.Managers.Web
         /// (Optional) Number of instances to scrape. Defaults to 1 and is rarely changed.
         /// </param>
         /// <returns></returns>
-        public static ModuleData? ScrapeURL(string url, List<ModuleContent> contentToFetch, int numofinstances = -1, List<Post> posts = null)
+        public static ModuleData? ScrapeURL(string url, List<ContentType> contentToFetch, int numofinstances = -1, List<Post> posts = null)
         {
             LoggingManager.LogInformation($"Processing scrape request for URL \"{url}\"...");
             // Placeholder for discovered module
@@ -127,7 +127,7 @@ namespace Orobouros.Managers.Web
             else
             {
                 // Check if module supports content we want
-                foreach (ModuleContent content in contentToFetch)
+                foreach (ContentType content in contentToFetch)
                 {
                     foreach (Module mod in foundModules.Modules)
                     {

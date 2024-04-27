@@ -10,7 +10,7 @@ namespace Orobouros.Bases
         /// <summary>
         /// Assigned content type of the returned data payload.
         /// </summary>
-        public ModuleContent ContentType { get; private set; }
+        public ContentType ContentType { get; private set; }
 
         /// <summary>
         /// Exact time and date this resource was created.
@@ -41,7 +41,7 @@ namespace Orobouros.Bases
         /// <param name="type"></param>
         /// <param name="url"></param>
         /// <param name="value"></param>
-        public ProcessedScrapeData(ModuleContent type, string url, object value)
+        public ProcessedScrapeData(ContentType type, string url, object value)
         {
             ContentType = type;
             URL = url;

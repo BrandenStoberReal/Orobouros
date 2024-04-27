@@ -48,7 +48,7 @@ namespace Orobouros.Bases
         /// <summary>
         /// List of content supported by the module.
         /// </summary>
-        public List<ModuleContent> SupportedContent { get; set; } = new List<ModuleContent>();
+        public List<ContentType> SupportedContent { get; set; } = new List<ContentType>();
 
         /// <summary>
         /// List of websites supported by the module.

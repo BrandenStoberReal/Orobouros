@@ -25,7 +25,7 @@ namespace Orobouros.Tools.Web
         /// <summary>
         /// Type of content this attachment encapsulates.
         /// </summary>
-        public AttachmentContent AttachmentType { get; set; }
+        public AttachmentType AttachmentType { get; set; }
 
         /// <summary>
         /// Raw attachment data. Memory-leaking mess and thus is deprecated.

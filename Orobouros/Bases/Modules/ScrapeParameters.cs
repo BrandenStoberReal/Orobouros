@@ -16,7 +16,7 @@ namespace Orobouros
         /// <summary>
         /// Types of data to scrape from URL
         /// </summary>
-        public List<ModuleContent> RequestedContent { get; set; } = new List<ModuleContent>();
+        public List<ContentType> RequestedContent { get; set; } = new List<ContentType>();
 
         /// <summary>
         /// How many instances of the specified scraping data to scrape. This is only really used by
