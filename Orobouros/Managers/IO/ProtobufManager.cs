@@ -1,4 +1,5 @@
-﻿using Orobouros.Bases;
+﻿using Microsoft.EntityFrameworkCore.Infrastructure;
+using Orobouros.Bases;
 using Orobouros.Tools.Web;
 using ProtoBuf;
 using System;
@@ -42,6 +43,13 @@ namespace Orobouros.Managers.IO
                     using (var file = File.Create(mod.ProtobufDirectory + $"/posts/{post.CacheID}.bin"))
                     {
                         Serializer.Serialize(file, post);
+
+                        // Purge old cached post if it was stale
+                        if (mod.CachedPosts.Any(x => x.URL == post.URL))
+                        {
+                            mod.CachedPosts.Remove(mod.CachedPosts.First(x => x.URL == post.URL));
+                        }
+                        mod.CachedPosts.Add(post);
                     }
                 }
             }
