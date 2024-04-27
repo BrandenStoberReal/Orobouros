@@ -15,12 +15,12 @@ public static class RemoteModuleManager
     /// </summary>
     private static readonly string ManifestURL =
         "https://raw.githubusercontent.com/BrandenStoberReal/Orobouros-Public-Modules/master/manifest.json";
-    
+
     /// <summary>
     /// Fetches the remote manifest and converts it into a manageable class.
     /// </summary>
     /// <returns></returns>
-    public static RemoteModulesManifest? FetchRemoteManifest()
+    private static RemoteModulesManifest? FetchRemoteManifest()
     {
         HttpContent? possibleJsonContent = HttpManager
             .GET(ManifestURL)
@@ -31,6 +31,20 @@ public static class RemoteModuleManager
         }
         string possibleJson = possibleJsonContent.ReadAsStringAsync().Result;
         return JsonConvert.DeserializeObject<RemoteModulesManifest>(possibleJson);
+    }
+
+    /// <summary>
+    /// Fetches a list of remote module definitions.
+    /// </summary>
+    /// <returns></returns>
+    public static List<RemoteModule>? FetchRemoteModules()
+    {
+        RemoteModulesManifest? manifest = FetchRemoteManifest();
+        if (manifest == null)
+        {
+            return null;
+        }
+        return manifest.modules.ToList();
     }
 
     /// <summary>

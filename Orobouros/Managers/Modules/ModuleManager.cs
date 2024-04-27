@@ -29,7 +29,9 @@ namespace Orobouros.Managers.Modules
         public static void LoadAssemblies(string? folder = "./modules", bool aggressive = false)
         {
             LoggingManager.LogInformation("Module load requested, starting...");
-            UnloadAssemblies();
+            UnloadAssemblies(); // Unload previous assemblies if they were loaded before
+
+            // Verify folders actually exist
             FolderManager.VerifyFolder("./modules");
             FolderManager.VerifyFolder("./logs");
             LibraryManager.LoadLibraries();
@@ -38,9 +40,10 @@ namespace Orobouros.Managers.Modules
                 // Only attempt to load valid DLL files, obviously
                 if (mod.EndsWith(".dll") && NetAssemblyManager.IsDotNetAssembly(mod))
                 {
+                    // Begin module parsing logic
                     LoggingManager.LogInformation($"Module found: {Path.GetFileName(mod)}");
-                    Assembly DLL = RawAssemblyManager.LoadDLL(AssemblyLoadType.Direct, mod); // Load DLL
-                    Type[] types = DLL.GetTypes(); // Fetch types so we can parse them below
+                    Assembly DLL = RawAssemblyManager.LoadDLL(AssemblyLoadType.Direct, mod);
+                    Type[] types = DLL.GetTypes(); // Fetch types so we can use reflection magic on them
 
                     // Enumerate through all types in the imported assembly
                     Type? mainClassType = types.FirstOrDefault(x => ReflectionManager.TypeHasAttribute(x, typeof(OrobourosModule)));
@@ -48,7 +51,7 @@ namespace Orobouros.Managers.Modules
                     // Ensure we actually have a main class
                     if (mainClassType == null)
                     {
-                        LoggingManager.LogError($"Module \"{Path.GetFileName(mod)}\" does not have a valid information class and has been skipped. Please report this to the module's author.");
+                        LoggingManager.LogError($"Module \"{Path.GetFileName(mod)}\" does not have a valid manifest class and has been removed from the load process. Please report this to the module's author.");
                         continue;
                     }
 
@@ -56,12 +59,12 @@ namespace Orobouros.Managers.Modules
                     LibraryManager.LoadReferencedAssemblies(DLL);
 
                     // Fetch the attribute type for the main module class
-                    object? rawInfoAttribute = ReflectionManager.FetchAttributeFromType(mainClassType, typeof(OrobourosModule));
-                    Type moduleInfoAttribute = rawInfoAttribute.GetType();
+                    object? rawManifestAttribute = ReflectionManager.FetchAttributeFromType(mainClassType, typeof(OrobourosModule));
+                    Type moduleInfoAttribute = rawManifestAttribute.GetType();
 
                     // Cast to a psuedo-class for property fetching
                     object? psuedoClass = ReflectionManager.CreateSkeletonClass(mainClassType);
-                    object? psuedoAttribute = rawInfoAttribute;
+                    object? psuedoAttribute = rawManifestAttribute;
 
                     // Fancy debugging statements
                     LoggingManager.WriteToDebugLog($"Main DLL class found: {mainClassType.Name} | {mainClassType.Namespace}");
