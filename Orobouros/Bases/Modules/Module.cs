@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using Orobouros.Tools.Web;
+using System.Reflection;
 using static Orobouros.Orobouros;
 
 namespace Orobouros.Bases
@@ -34,6 +35,11 @@ namespace Orobouros.Bases
         public string DatabaseFile { get; set; }
 
         /// <summary>
+        /// Module protobuf cache path.
+        /// </summary>
+        public string ProtobufDirectory { get; set; }
+
+        /// <summary>
         /// Instantiated primary module class. This class represents the module's exported
         /// information class and contains all exported methods and code.
         /// </summary>
@@ -54,6 +60,11 @@ namespace Orobouros.Bases
         /// List of websites supported by the module.
         /// </summary>
         public List<string> SupportedWebsites { get; set; } = new List<string>();
+
+        /// <summary>
+        /// List of posts fetched from the protobuf cache.
+        /// </summary>
+        public List<Post> CachedPosts { get; set; } = new List<Post>();
 
         /// <summary>
         /// Raw assembly of the module.

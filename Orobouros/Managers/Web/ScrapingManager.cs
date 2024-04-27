@@ -9,6 +9,9 @@ using static Orobouros.Orobouros;
 using Module = Orobouros.Bases.Module;
 using Orobouros.Managers.Database;
 using Microsoft.Data.Sqlite;
+using ProtoBuf;
+using System;
+using Orobouros.Managers.IO;
 
 namespace Orobouros.Managers.Web
 {
@@ -35,6 +38,21 @@ namespace Orobouros.Managers.Web
             LoggingManager.WriteToDebugLog("Module initialization called, executing...");
             // Load assemblies
             ModuleManager.LoadAssemblies(modulesPath);
+
+            // Load protobuf cache
+            foreach (Module mod in ModuleManager.Container.Modules)
+            {
+                if (Directory.GetFiles(mod.ProtobufDirectory + "/posts").Length > 0)
+                {
+                    foreach (string file in Directory.GetFiles(mod.ProtobufDirectory + "/posts"))
+                    {
+                        using (var fileHandle = File.OpenRead(file))
+                        {
+                            mod.CachedPosts.Add(Serializer.Deserialize<Post>(fileHandle));
+                        }
+                    }
+                }
+            }
 
             // Start supplementary methods
             Thread thready = new Thread(() =>
@@ -97,7 +115,7 @@ namespace Orobouros.Managers.Web
         /// (Optional) Number of instances to scrape. Defaults to 1 and is rarely changed.
         /// </param>
         /// <returns></returns>
-        public static ModuleData? ScrapeURL(string url, List<ContentType> contentToFetch, int numofinstances = -1, List<Post> posts = null)
+        public static ModuleData? ScrapeURL(string url, List<ContentType> contentToFetch, int numofinstances = -1, List<Post> posts = null, bool useCache = true)
         {
             LoggingManager.LogInformation($"Processing scrape request for URL \"{url}\"...");
             // Placeholder for discovered module
@@ -163,7 +181,12 @@ namespace Orobouros.Managers.Web
                     Module module = foundModules.Modules[randInt];
                     LoggingManager.LogInformation($"Selected Module: {module.Name} | {module.Version} | {module.GUID}");
                     LoggingManager.LogInformation($"Invoking module scrape method...");
+
                     ModuleData? returnedData = (ModuleData?)ReflectionManager.InvokeReflectedMethod(module.ScrapeMethod, module.PsuedoClass, new object[] { parms });
+                    if (useCache)
+                    {
+                        ProtobufManager.AddPostsToCache(module, returnedData.Content);
+                    }
                     return returnedData;
                 }
                 else
@@ -171,7 +194,12 @@ namespace Orobouros.Managers.Web
                     // Only 1 module found, should be default behavior
                     LoggingManager.LogInformation($"Selected Module: {foundModules.Modules.FirstOrDefault().Name} | {foundModules.Modules.FirstOrDefault().Version} | {foundModules.Modules.FirstOrDefault().GUID}");
                     LoggingManager.LogInformation($"Invoking module scrape method...");
-                    ModuleData? returnedData = (ModuleData?)ReflectionManager.InvokeReflectedMethod(foundModules.Modules.FirstOrDefault().ScrapeMethod, foundModules.Modules.FirstOrDefault().PsuedoClass, new object[] { parms });
+                    Module module = foundModules.Modules.FirstOrDefault();
+                    ModuleData? returnedData = (ModuleData?)ReflectionManager.InvokeReflectedMethod(module.ScrapeMethod, module.PsuedoClass, new object[] { parms });
+                    if (useCache)
+                    {
+                        ProtobufManager.AddPostsToCache(module, returnedData.Content);
+                    }
                     return returnedData;
                 }
             }

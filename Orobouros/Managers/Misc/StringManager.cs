@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 
 namespace Orobouros.Managers.Misc
 {
@@ -7,6 +8,8 @@ namespace Orobouros.Managers.Misc
     /// </summary>
     public static class StringManager
     {
+        private static Random random = new Random();
+
         /// <summary>
         /// Sanitizes text for usage in folder names. Has very specialized usage.
         /// </summary>
@@ -28,6 +31,13 @@ namespace Orobouros.Managers.Misc
         {
             string nonUnicodeFilename = Regex.Replace(filename, @"[^\u0000-\u007F]+", string.Empty);
             return nonUnicodeFilename.Replace("\t", "").Replace("\r", "").Replace("\n", "").Replace("|", "").Replace("/", "").Replace("\\", "").Replace("~", "").Replace(" ", "_").Trim();
+        }
+
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@-+";
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }

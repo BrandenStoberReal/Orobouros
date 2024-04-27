@@ -1,5 +1,4 @@
 ﻿using Orobouros.Bases;
-using Orobouros.Managers.Database;
 
 namespace Orobouros.Managers.Database
 {
@@ -28,9 +27,13 @@ namespace Orobouros.Managers.Database
             {
                 DatabaseManager.CreateDatabase($"./moduledb/{mod.GUID}/", mod.GUID);
             }
-            if (!Directory.Exists($"./moduledb/{mod.GUID}/posts"))
+            if (!Directory.Exists($"./moduledb/{mod.GUID}/protobuf"))
             {
-                Directory.CreateDirectory($"./moduledb/{mod.GUID}/posts");
+                Directory.CreateDirectory($"./moduledb/{mod.GUID}/protobuf");
+            }
+            if (!Directory.Exists($"./moduledb/{mod.GUID}/protobuf/posts"))
+            {
+                Directory.CreateDirectory($"./moduledb/{mod.GUID}/protobuf/posts");
             }
         }
 
@@ -43,6 +46,17 @@ namespace Orobouros.Managers.Database
         {
             VerifyStorageLocation(mod);
             return Path.GetFullPath($"./moduledb/{mod.GUID}/{mod.GUID}.sqlite");
+        }
+
+        /// <summary>
+        /// Fetches the absolute path for a module's protobuf storage directory.
+        /// </summary>
+        /// <param name="mod"></param>
+        /// <returns></returns>
+        public static string FetchModuleProtobufStorage(Module mod)
+        {
+            VerifyStorageLocation(mod);
+            return Path.GetFullPath($"./moduledb/{mod.GUID}/protobuf");
         }
     }
 }

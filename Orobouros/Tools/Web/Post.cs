@@ -1,4 +1,5 @@
-﻿using ProtoBuf;
+﻿using Orobouros.Managers.Misc;
+using ProtoBuf;
 
 namespace Orobouros.Tools.Web
 {
@@ -62,5 +63,17 @@ namespace Orobouros.Tools.Web
         /// </summary>
         [ProtoMember(9)]
         public List<Comment>? Comments { get; set; } = new List<Comment>();
+
+        /// <summary>
+        /// Internal ID for protobuf caching.
+        /// </summary>
+        [ProtoMember(10)]
+        public string CacheID { get; set; } = StringManager.RandomString(32);
+
+        /// <summary>
+        /// Time this post was scraped. Used for cache cycling.
+        /// </summary>
+        [ProtoMember(11)]
+        public DateTime ScrapeDate { get; set; } = DateTime.Now;
     }
 }
