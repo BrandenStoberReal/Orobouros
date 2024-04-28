@@ -22,35 +22,19 @@ namespace Orobouros.Managers.IO
         /// Adds newly-scraped post instances to a module's caching directory.
         /// </summary>
         /// <param name="mod"></param>
-        /// <param name="newData"></param>
-        public static void AddPostsToCache(Module mod, List<ProcessedScrapeData> newData)
+        /// <param name="newData">Returned scraper output data</param>
+        public static void AddPostDataToCache(Module mod, List<ProcessedScrapeData> newData)
         {
-            // Add new posts to cache
+            // Enumerate through posts embedded in the scraper output
             if (newData.Any(x => x.ContentType == ContentType.Subposts))
             {
                 // For each new bundle of data
                 foreach (ProcessedScrapeData data in newData.Where(x => x.ContentType == ContentType.Subposts))
                 {
+                    // Instantiate the bundled data value
                     Post post = (Post)data.Value;
 
-                    // See if cached post exists before remaking it
-                    if (IsPostInCache(mod, post.URL))
-                    {
-                        continue;
-                    }
-
-                    // Create cache file
-                    using (var file = File.Create(mod.ProtobufDirectory + $"/posts/{post.CacheID}.bin"))
-                    {
-                        Serializer.Serialize(file, post);
-
-                        // Purge old cached post if it was stale
-                        if (mod.CachedPosts.Any(x => x.URL == post.URL))
-                        {
-                            mod.CachedPosts.Remove(mod.CachedPosts.First(x => x.URL == post.URL));
-                        }
-                        mod.CachedPosts.Add(post);
-                    }
+                    CachePost(mod, post);
                 }
             }
         }
@@ -64,6 +48,7 @@ namespace Orobouros.Managers.IO
         /// <returns></returns>
         public static bool IsPostInCache(Module mod, string postURL, bool respectStale = true)
         {
+            // Enumerate through cached posts
             if (mod.CachedPosts.Any(x => x.URL == postURL))
             {
                 // Post exists in cache
@@ -72,6 +57,7 @@ namespace Orobouros.Managers.IO
                     if ((DateTime.Now - mod.CachedPosts.First(x => x.URL == postURL).ScrapeDate).Days > CacheCycleInterval)
                     {
                         // Post exists in cache, but is stale
+                        mod.CachedPosts.Remove(mod.CachedPosts.First(x => x.URL == postURL)); // Remove stale cache from memory
                         return false;
                     }
                     else
@@ -108,6 +94,27 @@ namespace Orobouros.Managers.IO
             else
             {
                 return null;
+            }
+        }
+
+        /// <summary>
+        /// Adds a single post to the module cache. Used internally for caching operations, but can be used publically aswell.
+        /// </summary>
+        /// <param name="mod"></param>
+        /// <param name="post"></param>
+        public static void CachePost(Module mod, Post post)
+        {
+            // See if cached post exists already
+            if (IsPostInCache(mod, post.URL))
+            {
+                return;
+            }
+
+            // Create cache file
+            using (var file = File.Create(mod.ProtobufDirectory + $"/posts/{post.CacheID}.bin"))
+            {
+                Serializer.Serialize(file, post);
+                mod.CachedPosts.Add(post);
             }
         }
     }

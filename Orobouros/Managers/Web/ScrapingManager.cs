@@ -185,7 +185,7 @@ namespace Orobouros.Managers.Web
                     ModuleData? returnedData = (ModuleData?)ReflectionManager.InvokeReflectedMethod(module.ScrapeMethod, module.PsuedoClass, new object[] { parms });
                     if (useCache)
                     {
-                        ProtobufManager.AddPostsToCache(module, returnedData.Content);
+                        ProtobufManager.AddPostDataToCache(module, returnedData.Content);
                     }
                     return returnedData;
                 }
@@ -198,7 +198,7 @@ namespace Orobouros.Managers.Web
                     ModuleData? returnedData = (ModuleData?)ReflectionManager.InvokeReflectedMethod(module.ScrapeMethod, module.PsuedoClass, new object[] { parms });
                     if (useCache)
                     {
-                        ProtobufManager.AddPostsToCache(module, returnedData.Content);
+                        ProtobufManager.AddPostDataToCache(module, returnedData.Content);
                     }
                     return returnedData;
                 }
