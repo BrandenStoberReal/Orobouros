@@ -28,7 +28,7 @@ namespace Orobouros.Managers.IO
             // Enumerate through posts embedded in the scraper output
             if (newData.Any(x => x.ContentType == ContentType.Subposts))
             {
-                // For each new bundle of data
+                // For each new bundle of post data
                 foreach (ProcessedScrapeData data in newData.Where(x => x.ContentType == ContentType.Subposts))
                 {
                     // Instantiate the bundled data value
