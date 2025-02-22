@@ -8,7 +8,7 @@ Orobouros is available [as a NuGet package](https://www.nuget.org/packages/Orobo
 dotnet add package Orobouros
 ```
 
-On its own, Orobouros does nothing and needs modules to function. A list of publically available modules for download is listed [on the GitHub repository](https://github.com/BrandenStoberReal/Orobouros-Public-Modules).
+On its own, Orobouros does nothing and needs modules to function.
 
 # Building
 If you insist on compiling this yourself, all you need is ``.NET 8 Core``. I would not recommend taking advantage of the tests, as they require specific configurations I use in debugging.
