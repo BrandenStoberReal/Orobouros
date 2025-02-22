@@ -4,11 +4,11 @@ using static Orobouros.Orobouros;
 
 namespace Orobouros.TestModule
 {
-    // Module must inherit ScraperInfo.
     [OrobourosModule("Test Module", "8ff30f03-3446-493c-800f-67b47c83e216", "1.0.0.0", "A simple test module.")]
     public class MainModule
     {
-        // Module information. You can either override these or create your own, although override
+        // <-- Module information -->
+        // You can either override these or create your own, although override
         // is strongly encouraged.
 
         // Websites supported by this module. You can either use loose domains ("google.com") or
@@ -29,7 +29,7 @@ namespace Orobouros.TestModule
             ContentType.Text
         };
 
-        // Module methods.
+        // <-- Module methods -->
 
         // Initializer method. Used to run code when the module loads. Always run on a new thread.
         [ModuleInit]
